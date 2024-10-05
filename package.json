@@ -1,0 +1,67 @@
+{
+  "name": "obsidian-forms",
+  "version": "0.1.0",
+  "description": "A powerful block-based form builder for WordPress.",
+  "author": {
+    "name": "Obsidian Forms",
+    "url": "https://obsidianforms.com/"
+  },
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "forms",
+    "form builder"
+  ],
+  "homepage": "https://obsidianforms.com",
+  "repository": "https://github.com/obsidian-forms/obsidian-forms",
+  "bugs": "https://github.com/obsidian-forms/obsidian-forms/issues",
+  "engines": {
+    "node": ">=20.0",
+    "npm": ">=10.0"
+  },
+  "devDependencies": {
+    "@csstools/postcss-sass": "^5.1.1",
+    "@wordpress/browserslist-config": "^6.9.0",
+    "@wordpress/postcss-plugins-preset": "^5.9.0",
+    "@wordpress/scripts": "^30.1.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^11.0.0",
+    "rtlcss": "^4.3.0"
+  },
+  "rtlcssConfig": {
+    "options": {
+      "autoRename": false,
+      "autoRenameStrict": false,
+      "blacklist": {},
+      "clean": true,
+      "greedy": false,
+      "processUrls": false,
+      "stringMap": []
+    },
+    "plugins": [],
+    "map": false
+  },
+  "browserslist": [
+    "extends @wordpress/browserslist-config"
+  ],
+  "scripts": {
+    "build": "npm-run-all --sequential build:**",
+    "build:blocks": "wp-scripts build --webpack-src-dir=blocks/src --output-path=blocks/build",
+    "build:assets:scripts": "wp-scripts build assets/js/src/*.js --output-path=assets/js/build",
+    "format": "npm-run-all --sequential format:**",
+    "format:scripts": "wp-scripts format blocks assets/js --no-error-on-unmatched-pattern",
+    "format:styles": "npm run lint:styles -- --fix",
+    "lint": "npm-run-all --sequential lint:**",
+    "lint:scripts": "wp-scripts lint-js blocks assets/js --no-error-on-unmatched-pattern",
+    "lint:styles": "wp-scripts lint-style blocks/**/*.{css,sass,scss} assets/css/**/*.{css,sass,scss} --allow-empty-input --report-descriptionless-disables --report-invalid-scope-disables --report-needless-disables",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "lint:readme-md": "wp-scripts lint-md-docs README.md",
+    "packages-update": "wp-scripts packages-update --dist-tag=wp-6.5",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "start": "npm-run-all --parallel start:**",
+    "start:blocks": "wp-scripts start --webpack-src-dir=blocks/src --output-path=blocks/build",
+    "start:assets:scripts": "wp-scripts start assets/js/src/*.js --output-path=assets/js/build"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "obsidian-form/form",
+  "version": "0.1.0",
+  "title": "Obsidian Form",
+  "category": "widgets",
+  "icon": "feedback",
+  "description": "An Obsidian Form block.",
+  "supports": {
+    "html": false,
+    "align": true
+  },
+  "attributes": {
+    "formId": {
+      "type": "string",
+      "default": ""
+    },
+    "formName": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "script": "file:./view.js",
+  "style": "file:./style-index.css",
+  "allowedBlocks": [ "obsidian-form/field" ],
+  "providesContext": {
+    "obsidian-form/formId": "formId",
+    "obsidian-form/formName": "formName"
+  },
+  "usesContext": []
+}
