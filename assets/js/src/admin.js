@@ -1,1 +1,2 @@
-console.log('Obsidian!');
+// eslint-disable-next-line no-console
+console.log( 'Obsidian!' );

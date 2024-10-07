@@ -1,0 +1,1 @@
+{"version":3,"file":"form/view.js","mappings":";;;;AAAAA,OAAO,CAACC,GAAG,CAAC,iBAAiB,CAAC,C","sources":["webpack://obsidian-forms/./blocks/src/form/view.js"],"sourcesContent":["console.log('form block view');\n"],"names":["console","log"],"sourceRoot":""}

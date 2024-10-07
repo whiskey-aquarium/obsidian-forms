@@ -1,0 +1,1 @@
+{"version":3,"file":"form/style-index.css","mappings":";;;AACA;EACC;EACA;AAAD,C","sources":["webpack://obsidian-forms/./blocks/src/form/style.scss"],"sourcesContent":["// Just an example of how to style the form block on the front end\nform {\n\tmargin: 0;\n\tpadding: 0;\n}\n"],"names":[],"sourceRoot":""}

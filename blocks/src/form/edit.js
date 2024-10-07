@@ -1,28 +1,46 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import {
+	useBlockProps,
+	InnerBlocks,
+	InspectorControls,
+} from '@wordpress/block-editor';
+import { PanelBody } from '@wordpress/components';
+import ObsidianFormSettings from './components/ObsidianFormSettings';
 
 const ALLOWED_BLOCKS = [ 'obsidian-form/field', 'obsidian-form/field-group' ];
 
-const Edit = ( { attributes, setAttributes } ) => {
-	const { formId, formName } = attributes;
+/**
+ * Edit function for the form block.
+ *
+ * @param {Object} props Props passed to the edit component.
+ * @return {Object} The rendered edit component.
+ */
+const Edit = ( props ) => {
+	const { attributes, setAttributes } = props;
+	const { formSettings } = attributes;
 	const blockProps = useBlockProps();
+
+	const handleSettingChange = ( key, value ) => {
+		const newSettings = {
+			...formSettings,
+			[ key ]: {
+				...formSettings[ key ],
+				value,
+			},
+		};
+		setAttributes( { formSettings: newSettings } );
+	};
 
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Form Settings', 'obsidian-forms' ) } initialOpen={ true }>
-					<TextControl
-						label={ __( 'Form ID', 'obsidian-forms' ) }
-						value={ formId }
-						onChange={ ( value ) => setAttributes( { formId: value } ) }
-						help={ __( 'Unique ID for the form.', 'obsidian-forms' ) }
-					/>
-					<TextControl
-						label={ __( 'Form Name', 'obsidian-forms' ) }
-						value={ formName }
-						onChange={ ( value ) => setAttributes( { formName: value } ) }
-						help={ __( 'Name of the form, used for internal reference.', 'obsidian-forms' ) }
+				<PanelBody
+					title={ __( 'Form Settings', 'obsidian-forms' ) }
+					initialOpen={ true }
+				>
+					<ObsidianFormSettings
+						formSettings={ formSettings }
+						handleSettingChange={ handleSettingChange }
 					/>
 				</PanelBody>
 			</InspectorControls>
