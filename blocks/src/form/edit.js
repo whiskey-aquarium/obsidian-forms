@@ -1,24 +1,37 @@
 import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
+	useInnerBlocksProps,
 	InnerBlocks,
+	RichText,
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import ObsidianFormSettings from './components/ObsidianFormSettings';
 
-const ALLOWED_BLOCKS = [ 'obsidian-form/field', 'obsidian-form/field-group' ];
-
 /**
- * Edit function for the form block.
+ * Edit function for the obsidian form block. Returns markup for the editor.
  *
- * @param {Object} props Props passed to the edit component.
- * @return {Object} The rendered edit component.
+ * @param {Object}   props               Properties passed to the function.
+ * @param {Object}   props.attributes    Available block attributes.
+ * @param {Function} props.setAttributes Function that updates individual attributes.
+ *
+ * @return {Element} Element to render.
  */
-const Edit = ( props ) => {
+export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
 	const { formSettings } = attributes;
-	const blockProps = useBlockProps();
+
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: [ 'obsidian-form/field-group' ],
+			template: [
+				[ 'obsidian-form/field-group', [ 'obsidian-form/field' ] ],
+			],
+			renderAppender: () => <InnerBlocks.ButtonBlockAppender />,
+		}
+	);
 
 	const handleSettingChange = ( key, value ) => {
 		const newSettings = {
@@ -32,23 +45,30 @@ const Edit = ( props ) => {
 	};
 
 	return (
-		<div { ...blockProps }>
+		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Form Settings', 'obsidian-forms' ) }
-					initialOpen={ true }
-				>
+				<PanelBody header="Obsidian Form Settings">
 					<ObsidianFormSettings
 						formSettings={ formSettings }
 						handleSettingChange={ handleSettingChange }
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<form>
-				<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } />
-			</form>
-		</div>
-	);
-};
 
-export default Edit;
+			<form { ...useBlockProps() }>
+				<RichText
+					value={ formSettings.title.value }
+					onChange={ ( value ) =>
+						handleSettingChange( 'title', value )
+					}
+					placeholder={ __( 'Enter Form Title', 'obsidian-forms' ) }
+					tagName="h2"
+				/>
+
+				<div className="wp-block-obsidian-form-fields">
+					<div { ...innerBlocksProps }></div>
+				</div>
+			</form>
+		</>
+	);
+}

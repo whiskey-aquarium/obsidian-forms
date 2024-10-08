@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "obsidian-form/field-group",
+  "version": "0.1.0",
+  "title": "Obsidian Field Group",
+  "category": "widgets",
+  "icon": "feedback",
+  "description": "An Obsidian Field Group block.",
+  "supports": {
+    "html": false,
+    "align": true
+  },
+  "attributes": {},
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "parent": [
+    "obsidian-form/form"
+  ],
+  "allowedBlocks": [
+    "obsidian-form/field"
+  ]
+}

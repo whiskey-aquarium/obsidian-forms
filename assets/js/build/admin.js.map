@@ -1,1 +1,0 @@
-{"version":3,"file":"admin.js","mappings":";;;;AAAAA,OAAO,CAACC,GAAG,CAAC,WAAW,CAAC,C","sources":["webpack://obsidian-forms/./assets/js/src/admin.js"],"sourcesContent":["console.log('Obsidian!');\n"],"names":["console","log"],"sourceRoot":""}
