@@ -1,5 +1,8 @@
-import { __ } from '@wordpress/i18n';
-import { RichText } from '@wordpress/block-editor';
+// Import external dependencies.
+import { useState } from '@wordpress/element';
+
+// Import internal dependencies.
+import ObsidianFieldLabel from '../components/ObsidianFieldLabel';
 
 /**
  * Component for rendering form settings.
@@ -18,29 +21,24 @@ const ObsidianFieldTextarea = ( {
 	requiredIndicator,
 	handleLabelChange,
 } ) => {
-	const { fieldLabel, fieldName, fieldPlaceholder, isRequired } = attributes;
+	const { fieldName, fieldPlaceholder } = attributes;
+
+	const [ fieldValue, setFieldValue ] = useState( '' );
 
 	return (
 		<>
-			<label
-				className="wp-block-obsidian-form-field__label"
-				htmlFor={ fieldName }
-			>
-				<RichText
-					value={ fieldLabel }
-					onChange={ handleLabelChange }
-					placeholder={ __( 'Enter Field Label', 'obsidian-forms' ) }
-					tag="label"
-					className="wp-block-obsidian-form-field__label"
-				/>
-				{ isRequired && <span>{ requiredIndicator }</span> }
-			</label>
+			<ObsidianFieldLabel
+				attributes={ attributes }
+				requiredIndicator={ requiredIndicator }
+				handleLabelChange={ handleLabelChange }
+			/>
 
 			<textarea
-				value=""
+				value={ fieldValue }
 				name={ fieldName }
 				className="wp-block-obsidian-form-field__textarea"
 				placeholder={ globalHasPlaceholder && fieldPlaceholder }
+				onChange={ ( event ) => setFieldValue( event.target.value ) }
 			/>
 		</>
 	);

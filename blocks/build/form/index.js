@@ -1,1 +1,446 @@
-(()=>{"use strict";var e,t={175:()=>{const e=window.wp.blocks,t=window.wp.blockEditor,o=window.wp.i18n,l=window.wp.components,a=window.ReactJSXRuntime,n=e=>{const{formSettings:t,handleSettingChange:o}=e;return(0,a.jsx)(a.Fragment,{children:t&&Object.entries(t).map((([e,t])=>"select"===t.type?(0,a.jsx)(l.SelectControl,{label:t.label,value:t.value,options:t.options,onChange:t=>o(e,t)},e):"radio"===t.type?(0,a.jsx)(l.RadioControl,{label:t.label,selected:t.value,options:t.options,onChange:t=>o(e,t)},e):"toggle"===t.type?(0,a.jsx)(l.ToggleControl,{label:t.label,checked:t.value,onChange:t=>o(e,t)},e):(0,a.jsx)(l.TextControl,{label:t.label,value:t.value,onChange:t=>o(e,t)},e)))})},i=JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"obsidian-form/form","version":"0.1.0","title":"Obsidian Form","category":"widgets","icon":"feedback","description":"An Obsidian Form block.","supports":{"html":false,"align":true,"color":{"background":true,"text":true},"anchor":true},"attributes":{"anchor":{"type":"string","default":""},"formSettings":{"type":"object","default":{"id":{"label":"Form ID","type":"string","value":""},"title":{"label":"Form Title","type":"string","value":""},"className":{"label":"Form Class","type":"string","value":""},"description":{"label":"Form Description","type":"string","value":""},"labelPlacement":{"label":"Field Label Placement","type":"select","value":"top","options":[{"label":"Top","value":"top"},{"label":"Left","value":"left"},{"label":"Bottom","value":"bottom"}]},"descriptionPlacement":{"label":"Field Description Placement","type":"radio","value":"bottom","options":[{"label":"Top","value":"top"},{"label":"Bottom","value":"bottom"}]},"globalHasPlaceholder":{"label":"Fields Have Placeholders","type":"toggle","value":true},"validationPlacement":{"label":"Validation Placement","type":"radio","value":"bottom","options":[{"label":"Top","value":"top"},{"label":"Bottom","value":"bottom"}]},"requiredIndicator":{"label":"Required Indicator","type":"string","value":"*"}}}},"editorScript":"file:./index.js","editorStyle":"file:./index.css","script":"file:./view.js","style":"file:./style-index.css","allowedBlocks":["obsidian-form/field"],"providesContext":{"obsidian-form/formSettings":"formSettings"}}');(0,e.registerBlockType)(i.name,{...i,edit:function(e){const{attributes:i,setAttributes:r}=e,{formSettings:s}=i,d=(0,t.useInnerBlocksProps)({},{allowedBlocks:["obsidian-form/field-group"],template:[["obsidian-form/field-group",["obsidian-form/field"]]],renderAppender:()=>(0,a.jsx)(t.InnerBlocks.ButtonBlockAppender,{})}),c=(e,t)=>{const o={...s,[e]:{...s[e],value:t}};r({formSettings:o})};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.InspectorControls,{children:(0,a.jsx)(l.PanelBody,{header:"Obsidian Form Settings",children:(0,a.jsx)(n,{formSettings:s,handleSettingChange:c})})}),(0,a.jsxs)("form",{...(0,t.useBlockProps)(),children:[(0,a.jsx)(t.RichText,{value:s.title.value,onChange:e=>c("title",e),placeholder:(0,o.__)("Enter Form Title","obsidian-forms"),tagName:"h2"}),(0,a.jsx)("div",{className:"wp-block-obsidian-form-fields",children:(0,a.jsx)("div",{...d})})]})]})},save:()=>(0,a.jsx)(t.InnerBlocks.Content,{})})}},o={};function l(e){var a=o[e];if(void 0!==a)return a.exports;var n=o[e]={exports:{}};return t[e](n,n.exports,l),n.exports}l.m=t,e=[],l.O=(t,o,a,n)=>{if(!o){var i=1/0;for(c=0;c<e.length;c++){o=e[c][0],a=e[c][1],n=e[c][2];for(var r=!0,s=0;s<o.length;s++)(!1&n||i>=n)&&Object.keys(l.O).every((e=>l.O[e](o[s])))?o.splice(s--,1):(r=!1,n<i&&(i=n));if(r){e.splice(c--,1);var d=a();void 0!==d&&(t=d)}}return t}n=n||0;for(var c=e.length;c>0&&e[c-1][2]>n;c--)e[c]=e[c-1];e[c]=[o,a,n]},l.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{var e={884:0,36:0};l.O.j=t=>0===e[t];var t=(t,o)=>{var a,n,i=o[0],r=o[1],s=o[2],d=0;if(i.some((t=>0!==e[t]))){for(a in r)l.o(r,a)&&(l.m[a]=r[a]);if(s)var c=s(l)}for(t&&t(o);d<i.length;d++)n=i[d],l.o(e,n)&&e[n]&&e[n][0](),e[n]=0;return l.O(c)},o=self.webpackChunkobsidian_forms=self.webpackChunkobsidian_forms||[];o.forEach(t.bind(null,0)),o.push=t.bind(null,o.push.bind(o))})();var a=l.O(void 0,[36],(()=>l(175)));a=l.O(a)})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./blocks/src/form/components/ObsidianFormSettings.js":
+/*!************************************************************!*\
+  !*** ./blocks/src/form/components/ObsidianFormSettings.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * Component for rendering form settings.
+ *
+ * @param {Object} props Props passed to the component.
+ * @return {Object} The rendered component.
+ */
+
+const ObsidianFormSettings = props => {
+  const {
+    formSettings,
+    handleSettingChange
+  } = props;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: formSettings &&
+    // Loop through the formSettings object
+    Object.entries(formSettings).map(([key, settings]) => {
+      // Depending on the 'type', render different controls
+      if (settings.type === 'select') {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.SelectControl, {
+          label: settings.label,
+          value: settings.value,
+          options: settings.options,
+          onChange: value => handleSettingChange(key, value)
+        }, key);
+      }
+      if (settings.type === 'radio') {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.RadioControl, {
+          label: settings.label,
+          selected: settings.value,
+          options: settings.options,
+          onChange: value => handleSettingChange(key, value)
+        }, key);
+      }
+      if (settings.type === 'toggle') {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.ToggleControl, {
+          label: settings.label,
+          checked: settings.value,
+          onChange: value => handleSettingChange(key, value)
+        }, key);
+      }
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+        label: settings.label,
+        value: settings.value,
+        onChange: value => handleSettingChange(key, value)
+      }, key);
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObsidianFormSettings);
+
+/***/ }),
+
+/***/ "./blocks/src/form/edit.js":
+/*!*********************************!*\
+  !*** ./blocks/src/form/edit.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Edit)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_ObsidianFormSettings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ObsidianFormSettings */ "./blocks/src/form/components/ObsidianFormSettings.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+/**
+ * Edit function for the obsidian form block. Returns markup for the editor.
+ *
+ * @param {Object}   props               Properties passed to the function.
+ * @param {Object}   props.attributes    Available block attributes.
+ * @param {Function} props.setAttributes Function that updates individual attributes.
+ *
+ * @return {Element} Element to render.
+ */
+
+function Edit(props) {
+  const {
+    attributes,
+    setAttributes
+  } = props;
+  const {
+    formSettings
+  } = attributes;
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)({}, {
+    allowedBlocks: ['obsidian-form/field-group'],
+    template: [['obsidian-form/field-group', ['obsidian-form/field']]],
+    renderAppender: () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.ButtonBlockAppender, {})
+  });
+  const handleSettingChange = (key, value) => {
+    const newSettings = {
+      ...formSettings,
+      [key]: {
+        ...formSettings[key],
+        value
+      }
+    };
+    setAttributes({
+      formSettings: newSettings
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        header: "Obsidian Form Settings",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_ObsidianFormSettings__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          formSettings: formSettings,
+          handleSettingChange: handleSettingChange
+        })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+      ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+        value: formSettings.title.value,
+        onChange: value => handleSettingChange('title', value),
+        placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter Form Title', 'obsidian-forms'),
+        tagName: "h2"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "wp-block-obsidian-form-fields",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          ...innerBlocksProps
+        })
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./blocks/src/form/index.js":
+/*!**********************************!*\
+  !*** ./blocks/src/form/index.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./blocks/src/form/edit.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./blocks/src/form/style.scss");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./blocks/src/form/editor.scss");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block.json */ "./blocks/src/form/block.json");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
+
+
+
+
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_5__.name, {
+  ..._block_json__WEBPACK_IMPORTED_MODULE_5__,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+  save: () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, {})
+});
+
+/***/ }),
+
+/***/ "./blocks/src/form/editor.scss":
+/*!*************************************!*\
+  !*** ./blocks/src/form/editor.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./blocks/src/form/style.scss":
+/*!************************************!*\
+  !*** ./blocks/src/form/style.scss ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "react/jsx-runtime":
+/*!**********************************!*\
+  !*** external "ReactJSXRuntime" ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = window["ReactJSXRuntime"];
+
+/***/ }),
+
+/***/ "@wordpress/block-editor":
+/*!*************************************!*\
+  !*** external ["wp","blockEditor"] ***!
+  \*************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blockEditor"];
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "./blocks/src/form/block.json":
+/*!************************************!*\
+  !*** ./blocks/src/form/block.json ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"obsidian-form/form","version":"0.1.0","title":"Obsidian Form","category":"widgets","icon":"feedback","description":"An Obsidian Form block.","supports":{"html":false,"align":true,"color":{"background":true,"text":true},"anchor":true},"attributes":{"anchor":{"type":"string","default":""},"formSettings":{"type":"object","default":{"id":{"label":"Form ID","type":"string","value":""},"title":{"label":"Form Title","type":"string","value":""},"className":{"label":"Form Class","type":"string","value":""},"description":{"label":"Form Description","type":"string","value":""},"labelPlacement":{"label":"Field Label Placement","type":"select","value":"top","options":[{"label":"Top","value":"top"},{"label":"Left","value":"left"},{"label":"Bottom","value":"bottom"}]},"descriptionPlacement":{"label":"Field Description Placement","type":"radio","value":"bottom","options":[{"label":"Top","value":"top"},{"label":"Bottom","value":"bottom"}]},"globalHasPlaceholder":{"label":"Fields Have Placeholders","type":"toggle","value":true},"validationPlacement":{"label":"Validation Placement","type":"radio","value":"bottom","options":[{"label":"Top","value":"top"},{"label":"Bottom","value":"bottom"}]},"requiredIndicator":{"label":"Required Indicator","type":"string","value":"*"}}}},"editorScript":"file:./index.js","editorStyle":"file:./index.css","script":"file:./view.js","style":"file:./style-index.css","allowedBlocks":["obsidian-form/field"],"providesContext":{"obsidian-form/formSettings":"formSettings"}}');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"form/index": 0,
+/******/ 			"form/style-index": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunkobsidian_forms"] = self["webpackChunkobsidian_forms"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["form/style-index"], () => (__webpack_require__("./blocks/src/form/index.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=index.js.map

@@ -1,1 +1,22 @@
-.obsidian-admin-row{display:flex;align-items:flex-end;gap:5px}.obsidian-admin-row+.obsidian-admin-row{margin-top:5px}.obsidian-admin-column{flex:1 1 auto}.obsidian-admin-column--icon{flex:0 0 50px}.obsidian-admin-column--icon>*{margin-bottom:8px}
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./blocks/src/field/editor.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+.obsidian-admin-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+.obsidian-admin-row + .obsidian-admin-row {
+  margin-top: 5px;
+}
+
+.obsidian-admin-column {
+  flex: 1 1 auto;
+}
+
+.obsidian-admin-column--icon {
+  flex: 0 0 50px;
+}
+.obsidian-admin-column--icon > * {
+  margin-bottom: 8px;
+}

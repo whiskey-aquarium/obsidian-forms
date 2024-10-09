@@ -1,63 +1,62 @@
-import {
-	TextControl,
-	SelectControl,
-	RadioControl,
-} from '@wordpress/components';
+// Import external dependencies.
+import { __ } from '@wordpress/i18n';
+import { SelectControl, TextControl } from '@wordpress/components';
+
+// Import internal dependencies.
+import { fieldTypeOptions } from '../data/FieldTypeOptions';
 
 /**
  * Component for rendering form settings.
  *
- * @param {Object} props Props passed to the component.
+ * @param {Object}   props                       Props passed to the component.
+ * @param {Object}   props.attributes            Attributes passed to the component.
+ * @param {Function} props.handleLabelChange     Function to handle label change.
+ * @param {Function} props.handleAttributeChange Function to handle attribute change.
+ *
  * @return {Object} The rendered component.
  */
-const ObsidianFieldSettings = ( props ) => {
-	const { fieldSettings, handleSettingChange } = props;
+const ObsidianFieldSettings = ( {
+	attributes,
+	handleLabelChange,
+	handleAttributeChange,
+} ) => {
+	const { fieldType, fieldLabel, fieldName, fieldPlaceholder } = attributes;
 
 	return (
 		<>
-			{ fieldSettings &&
-				// Loop through the fieldSettings object
-				Object.entries( fieldSettings ).map( ( [ key, settings ] ) => {
-					// Depending on the 'type', render different controls
-					if ( settings.type === 'select' ) {
-						return (
-							<SelectControl
-								key={ key }
-								label={ settings.label }
-								value={ settings.value }
-								options={ settings.options }
-								onChange={ ( value ) =>
-									handleSettingChange( key, value )
-								}
-							/>
-						);
-					}
+			<SelectControl
+				label={ __( 'Field Type', 'obsidian-forms' ) }
+				value={ fieldType }
+				options={ fieldTypeOptions.map( ( option ) => ( {
+					label: option.label,
+					value: option.value,
+				} ) ) }
+				onChange={ ( value ) =>
+					handleAttributeChange( value, 'fieldType' )
+				}
+			/>
 
-					if ( settings.type === 'radio' ) {
-						return (
-							<RadioControl
-								key={ key }
-								label={ settings.label }
-								selected={ settings.value }
-								options={ settings.options }
-								onChange={ ( value ) =>
-									handleSettingChange( key, value )
-								}
-							/>
-						);
-					}
+			<TextControl
+				label={ __( 'Field Label', 'obsidian-forms' ) }
+				value={ fieldLabel }
+				onChange={ handleLabelChange }
+			/>
 
-					return (
-						<TextControl
-							key={ key }
-							label={ settings.label }
-							value={ settings.value }
-							onChange={ ( value ) =>
-								handleSettingChange( key, value )
-							}
-						/>
-					);
-				} ) }
+			<TextControl
+				label={ __( 'Field Name', 'obsidian-forms' ) }
+				value={ fieldName }
+				onChange={ ( value ) =>
+					handleAttributeChange( value, 'fieldName' )
+				}
+			/>
+
+			<TextControl
+				label={ __( 'Field Placeholder', 'obsidian-forms' ) }
+				value={ fieldPlaceholder }
+				onChange={ ( value ) =>
+					handleAttributeChange( value, 'fieldPlaceholder' )
+				}
+			/>
 		</>
 	);
 };

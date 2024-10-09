@@ -1,0 +1,41 @@
+.wp-block-obsidian-form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	flex: 1 1 auto;
+	min-width: 50px;
+
+	&__label {
+		display: flex;
+		gap: 5px;
+	}
+
+	&__input {
+		display: flex;
+		gap: 5px;
+		padding: 6px 10px;
+		min-width: 0;
+
+		svg {
+			width: 20px;
+		}
+	}
+}
+
+.wp-block-obsidian-form-field__checkboxes,
+.wp-block-obsidian-form-field__radios {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+	&--row {
+		flex-direction: row;
+		gap: 10px;
+	}
+}
+
+.wp-block-obsidian-form-field__checkbox,
+.wp-block-obsidian-form-field__radio {
+	display: flex;
+	gap: 2px;
+}
