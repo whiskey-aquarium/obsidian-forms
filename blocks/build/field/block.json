@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "obsidian-form/field",
   "version": "0.1.0",
-  "title": "Obsidian Field",
+  "title": "Field",
   "category": "widgets",
   "icon": "feedback",
   "description": "An Obsidian Field block.",
@@ -35,6 +35,10 @@
     "isRequired": {
       "type": "boolean",
       "default": false
+    },
+    "fieldOptions": {
+      "type": "array",
+      "default": []
     }
   },
   "parent": [

@@ -63,11 +63,11 @@
 						{ "label": "Bottom", "value": "bottom" }
 					]
 				},
-        "globalHasPlaceholder": {
-          "label": "Fields Have Placeholders",
-          "type": "toggle",
-          "value": true
-        },
+				"globalHasPlaceholder": {
+					"label": "Fields Have Placeholders",
+					"type": "toggle",
+					"value": true
+				},
 				"validationPlacement": {
 					"label": "Validation Placement",
 					"type": "radio",

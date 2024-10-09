@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "obsidian-form/field-group",
 	"version": "0.1.0",
-	"title": "Obsidian Field Group",
+	"title": "Field Group",
 	"category": "widgets",
 	"icon": "feedback",
 	"description": "An Obsidian Field Group block.",

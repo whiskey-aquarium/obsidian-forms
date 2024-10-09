@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "obsidian-form/field",
 	"version": "0.1.0",
-	"title": "Obsidian Field",
+	"title": "Field",
 	"category": "widgets",
 	"icon": "feedback",
 	"description": "An Obsidian Field block.",
@@ -16,25 +16,29 @@
 			"type": "string",
 			"default": ""
 		},
-    "fieldName": {
-      "type": "string",
-      "default": ""
-    },
+		"fieldName": {
+			"type": "string",
+			"default": ""
+		},
 		"fieldType": {
 			"type": "string",
 			"default": "text"
 		},
-    "fieldPlaceholder": {
-      "type": "string",
-      "default": ""
-    },
-    "fieldWidth": {
-      "type": "string",
-      "default": ""
-    },
+		"fieldPlaceholder": {
+			"type": "string",
+			"default": ""
+		},
+		"fieldWidth": {
+			"type": "string",
+			"default": ""
+		},
 		"isRequired": {
 			"type": "boolean",
 			"default": false
+		},
+		"fieldOptions": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"parent": [ "obsidian-form/field-group" ],
