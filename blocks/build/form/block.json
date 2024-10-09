@@ -9,16 +9,101 @@
   "description": "An Obsidian Form block.",
   "supports": {
     "html": false,
-    "align": true
+    "align": true,
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "anchor": true
   },
   "attributes": {
-    "formId": {
+    "anchor": {
       "type": "string",
       "default": ""
     },
-    "formName": {
-      "type": "string",
-      "default": ""
+    "formSettings": {
+      "type": "object",
+      "default": {
+        "id": {
+          "label": "Form ID",
+          "type": "string",
+          "value": ""
+        },
+        "title": {
+          "label": "Form Title",
+          "type": "string",
+          "value": ""
+        },
+        "className": {
+          "label": "Form Class",
+          "type": "string",
+          "value": ""
+        },
+        "description": {
+          "label": "Form Description",
+          "type": "string",
+          "value": ""
+        },
+        "labelPlacement": {
+          "label": "Field Label Placement",
+          "type": "select",
+          "value": "top",
+          "options": [
+            {
+              "label": "Top",
+              "value": "top"
+            },
+            {
+              "label": "Left",
+              "value": "left"
+            },
+            {
+              "label": "Bottom",
+              "value": "bottom"
+            }
+          ]
+        },
+        "descriptionPlacement": {
+          "label": "Field Description Placement",
+          "type": "radio",
+          "value": "bottom",
+          "options": [
+            {
+              "label": "Top",
+              "value": "top"
+            },
+            {
+              "label": "Bottom",
+              "value": "bottom"
+            }
+          ]
+        },
+        "globalHasPlaceholder": {
+          "label": "Fields Have Placeholders",
+          "type": "toggle",
+          "value": true
+        },
+        "validationPlacement": {
+          "label": "Validation Placement",
+          "type": "radio",
+          "value": "bottom",
+          "options": [
+            {
+              "label": "Top",
+              "value": "top"
+            },
+            {
+              "label": "Bottom",
+              "value": "bottom"
+            }
+          ]
+        },
+        "requiredIndicator": {
+          "label": "Required Indicator",
+          "type": "string",
+          "value": "*"
+        }
+      }
     }
   },
   "editorScript": "file:./index.js",
@@ -29,8 +114,6 @@
     "obsidian-form/field"
   ],
   "providesContext": {
-    "obsidian-form/formId": "formId",
-    "obsidian-form/formName": "formName"
-  },
-  "usesContext": []
+    "obsidian-form/formSettings": "formSettings"
+  }
 }
