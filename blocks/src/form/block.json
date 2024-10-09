@@ -1,34 +1,96 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "obsidian-form/form",
-  "version": "0.1.0",
-  "title": "Obsidian Form",
-  "category": "widgets",
-  "icon": "feedback",
-  "description": "An Obsidian Form block.",
-  "supports": {
-    "html": false,
-    "align": true
-  },
-  "attributes": {
-    "formId": {
-      "type": "string",
-      "default": ""
-    },
-    "formName": {
-      "type": "string",
-      "default": ""
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "script": "file:./view.js",
-  "style": "file:./style-index.css",
-  "allowedBlocks": [ "obsidian-form/field" ],
-  "providesContext": {
-    "obsidian-form/formId": "formId",
-    "obsidian-form/formName": "formName"
-  },
-  "usesContext": []
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "obsidian-form/form",
+	"version": "0.1.0",
+	"title": "Obsidian Form",
+	"category": "widgets",
+	"icon": "feedback",
+	"description": "An Obsidian Form block.",
+	"supports": {
+		"html": false,
+		"align": true,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"anchor": true
+	},
+	"attributes": {
+		"anchor": {
+			"type": "string",
+			"default": ""
+		},
+		"formSettings": {
+			"type": "object",
+			"default": {
+				"id": {
+					"label": "Form ID",
+					"type": "string",
+					"value": ""
+				},
+				"title": {
+					"label": "Form Title",
+					"type": "string",
+					"value": ""
+				},
+				"className": {
+					"label": "Form Class",
+					"type": "string",
+					"value": ""
+				},
+				"description": {
+					"label": "Form Description",
+					"type": "string",
+					"value": ""
+				},
+				"labelPlacement": {
+					"label": "Field Label Placement",
+					"type": "select",
+					"value": "top",
+					"options": [
+						{ "label": "Top", "value": "top" },
+						{ "label": "Left", "value": "left" },
+						{ "label": "Bottom", "value": "bottom" }
+					]
+				},
+				"descriptionPlacement": {
+					"label": "Field Description Placement",
+					"type": "radio",
+					"value": "bottom",
+					"options": [
+						{ "label": "Top", "value": "top" },
+						{ "label": "Bottom", "value": "bottom" }
+					]
+				},
+				"globalHasPlaceholder": {
+					"label": "Fields Have Placeholders",
+					"type": "toggle",
+					"value": true
+				},
+				"validationPlacement": {
+					"label": "Validation Placement",
+					"type": "radio",
+					"value": "bottom",
+					"options": [
+						{ "label": "Top", "value": "top" },
+						{ "label": "Bottom", "value": "bottom" }
+					]
+				},
+				"requiredIndicator": {
+					"label": "Required Indicator",
+					"type": "string",
+					"value": "*"
+				}
+			}
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"script": "file:./view.js",
+	"style": "file:./style-index.css",
+	"allowedBlocks": [ "obsidian-form/field" ],
+	"providesContext": {
+		"obsidian-form/formSettings": "formSettings"
+	}
 }

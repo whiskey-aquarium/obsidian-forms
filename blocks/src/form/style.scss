@@ -1,5 +1,19 @@
-// Just an example of how to style the form block on the front end
-form {
-	margin: 0;
-	padding: 0;
+.wp-block-obsidian-form-form {
+	padding: 20px;
+	background-color: #f9f9f9;
+	border: 1px solid #eaeaea;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	&-title {
+		font-size: 1.5em;
+		margin-top: 0;
+	}
+}
+
+.obsidian-form-setting {
+	display: flex;
+	flex-direction: column;
 }

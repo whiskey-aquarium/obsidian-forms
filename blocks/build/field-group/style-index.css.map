@@ -1,0 +1,1 @@
+{"version":3,"file":"field-group/style-index.css","mappings":";;;AAAA;EACC;EACA;EACA;AACD,C","sources":["webpack://obsidian-forms/./blocks/src/field-group/style.scss"],"sourcesContent":[".wp-block-obsidian-form-field-group {\n\tdisplay: flex;\n\tgap: 10px;\n\twidth: 100%;\n}\n"],"names":[],"sourceRoot":""}

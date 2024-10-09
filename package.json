@@ -63,5 +63,8 @@
     "start": "npm-run-all --parallel start:**",
     "start:blocks": "wp-scripts start --webpack-src-dir=blocks/src --output-path=blocks/build",
     "start:assets:scripts": "wp-scripts start assets/js/src/*.js --output-path=assets/js/build"
+  },
+  "dependencies": {
+    "@wordpress/icons": "^10.9.0"
   }
 }

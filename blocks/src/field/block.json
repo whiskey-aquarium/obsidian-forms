@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "obsidian-form/field",
+	"version": "0.1.0",
+	"title": "Field",
+	"category": "widgets",
+	"icon": "feedback",
+	"description": "An Obsidian Field block.",
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"attributes": {
+		"fieldLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"fieldName": {
+			"type": "string",
+			"default": ""
+		},
+		"fieldType": {
+			"type": "string",
+			"default": "text"
+		},
+		"fieldPlaceholder": {
+			"type": "string",
+			"default": ""
+		},
+		"fieldWidth": {
+			"type": "string",
+			"default": ""
+		},
+		"isRequired": {
+			"type": "boolean",
+			"default": false
+		},
+		"fieldOptions": {
+			"type": "array",
+			"default": []
+		},
+		"extraProps": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"parent": [ "obsidian-form/field-group" ],
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"usesContext": [ "obsidian-form/formSettings" ]
+}
