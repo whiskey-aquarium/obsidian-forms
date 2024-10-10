@@ -371,11 +371,10 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {boolean}  props.globalHasPlaceholder Whether the form has a placeholder.
- * @param {string}   props.requiredIndicator    The required indicator.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                   Props passed to the component.
+ * @param {Object}   props.attributes        Attributes passed to the component.
+ * @param {string}   props.requiredIndicator The required indicator.
+ * @param {Function} props.handleLabelChange Function to handle label change.
  *
  * @return {Object} The rendered component.
  */
@@ -431,14 +430,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 // Import internal dependencies.
 
 
 /**
  * Component for rendering form settings.
  *
- * @param {Object} props Props passed to the component.
+ * @param {Object}   props                       Props passed to the component.
+ * @param {Object}   props.attributes            Attributes passed to the component.
+ * @param {Function} props.handleLabelChange     Function to handle label change.
+ * @param {Function} props.handleAttributeChange Function to handle attribute change.
+ *
  * @return {Object} The rendered component.
  */
 
@@ -510,11 +512,9 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {boolean}  props.globalHasPlaceholder Whether the form has a placeholder.
- * @param {string}   props.requiredIndicator    The required indicator.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                       Props passed to the component.
+ * @param {Object}   props.attributes            Attributes passed to the component.
+ * @param {Function} props.handleAttributeChange Function to handle label change.
  *
  * @return {Object} The rendered component.
  */
@@ -648,9 +648,9 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                         Props passed to the component.
+ * @param {Object}   props.attributes              Attributes passed to the component.
+ * @param {Function} props.handleFieldOptionChange Function to handle label change.
  *
  * @return {Object} The rendered component.
  */
@@ -670,12 +670,12 @@ const ObsidianFieldControlsFieldOptions = ({
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "obsidian-admin-column",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Value",
-            value: option.value,
+            label: "Label",
+            value: option.label,
             onChange: value => {
               const newFieldOptions = fieldOptions.map(_option => _option.id === option.id ? {
                 ..._option,
-                value
+                label: value
               } : _option);
               handleFieldOptionChange(newFieldOptions);
             }
@@ -683,12 +683,12 @@ const ObsidianFieldControlsFieldOptions = ({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "obsidian-admin-column",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Label",
-            value: option.label,
+            label: "Value",
+            value: option.value,
             onChange: value => {
               const newFieldOptions = fieldOptions.map(_option => _option.id === option.id ? {
                 ..._option,
-                label: value
+                value
               } : _option);
               handleFieldOptionChange(newFieldOptions);
             }
@@ -779,7 +779,7 @@ __webpack_require__.r(__webpack_exports__);
  * @return {Object} The rendered component.
  */
 
-const ObsidianFieldControlsCheckbox = ({
+const ObsidianFieldControlsRadio = ({
   attributes,
   handleExtraPropsChange,
   handleFieldOptionChange
@@ -812,7 +812,7 @@ const ObsidianFieldControlsCheckbox = ({
     })
   });
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObsidianFieldControlsCheckbox);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObsidianFieldControlsRadio);
 
 /***/ }),
 
@@ -848,7 +848,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @param {Object}   props                         Props passed to the component.
  * @param {Object}   props.attributes              Attributes passed to the component.
- * @param {Function} props.handleExtraPropsChange  Function to handle extra props change.
  * @param {Function} props.handleFieldOptionChange Function to handle field option
  *
  * @return {Object} The rendered component.
@@ -986,24 +985,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Edit)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_ObsidianFieldToolbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ObsidianFieldToolbar */ "./blocks/src/field/components/ObsidianFieldToolbar.js");
-/* harmony import */ var _components_ObsidianFieldSettings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/ObsidianFieldSettings */ "./blocks/src/field/components/ObsidianFieldSettings.js");
-/* harmony import */ var _fields_Checkbox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields/Checkbox */ "./blocks/src/field/fields/Checkbox.js");
-/* harmony import */ var _fields_Input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/Input */ "./blocks/src/field/fields/Input.js");
-/* harmony import */ var _fields_Radio__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./fields/Radio */ "./blocks/src/field/fields/Radio.js");
-/* harmony import */ var _fields_Select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./fields/Select */ "./blocks/src/field/fields/Select.js");
-/* harmony import */ var _fields_Textarea__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./fields/Textarea */ "./blocks/src/field/fields/Textarea.js");
-/* harmony import */ var _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./data/FieldTypeOptions */ "./blocks/src/field/data/FieldTypeOptions.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_ObsidianFieldToolbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ObsidianFieldToolbar */ "./blocks/src/field/components/ObsidianFieldToolbar.js");
+/* harmony import */ var _components_ObsidianFieldSettings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ObsidianFieldSettings */ "./blocks/src/field/components/ObsidianFieldSettings.js");
+/* harmony import */ var _fields_Checkbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields/Checkbox */ "./blocks/src/field/fields/Checkbox.js");
+/* harmony import */ var _fields_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fields/Input */ "./blocks/src/field/fields/Input.js");
+/* harmony import */ var _fields_Radio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fields/Radio */ "./blocks/src/field/fields/Radio.js");
+/* harmony import */ var _fields_Select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./fields/Select */ "./blocks/src/field/fields/Select.js");
+/* harmony import */ var _fields_Textarea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./fields/Textarea */ "./blocks/src/field/fields/Textarea.js");
+/* harmony import */ var _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./data/FieldTypeOptions */ "./blocks/src/field/data/FieldTypeOptions.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
 // Import WordPress dependencies.
-
 
 
 
@@ -1114,30 +1110,30 @@ function Edit(props) {
   const flexProperty = fieldWidth !== '' ? `0 0 ${fieldWidth}` : '1 1 auto';
 
   // Set the block props.
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)({
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
     style: {
       flex: flexProperty
     }
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_ObsidianFieldToolbar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.BlockControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_ObsidianFieldToolbar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         attributes: attributes,
         handleAttributeChange: handleAttributeChange
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_ObsidianFieldSettings__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_ObsidianFieldSettings__WEBPACK_IMPORTED_MODULE_3__["default"], {
           attributes: attributes,
           handleLabelChange: handleLabelChange,
           handleAttributeChange: handleAttributeChange,
           handleFieldOptionChange: handleFieldOptionChange
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
       group: "styles",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.__experimentalUnitControl, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalUnitControl, {
           label: "Field Width",
           value: fieldWidth,
           onChange: value => setAttributes({
@@ -1145,31 +1141,31 @@ function Edit(props) {
           })
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
       ...blockProps,
-      children: [_data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_10__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'input' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_fields_Input__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      children: [_data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_9__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'input' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_fields_Input__WEBPACK_IMPORTED_MODULE_5__["default"], {
         attributes: attributes,
         globalHasPlaceholder: globalHasPlaceholder,
         requiredIndicator: requiredIndicator,
         handleLabelChange: handleLabelChange
-      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_10__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'textarea' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_fields_Textarea__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_9__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'textarea' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_fields_Textarea__WEBPACK_IMPORTED_MODULE_8__["default"], {
         attributes: attributes,
         globalHasPlaceholder: globalHasPlaceholder,
         requiredIndicator: requiredIndicator,
         handleLabelChange: handleLabelChange
-      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_10__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'select' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_fields_Select__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_9__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'select' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_fields_Select__WEBPACK_IMPORTED_MODULE_7__["default"], {
         attributes: attributes,
         globalHasPlaceholder: globalHasPlaceholder,
         requiredIndicator: requiredIndicator,
         handleLabelChange: handleLabelChange,
         handleFieldOptionChange: handleFieldOptionChange
-      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_10__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'checkbox' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_fields_Checkbox__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_9__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'checkbox' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_fields_Checkbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
         attributes: attributes,
         requiredIndicator: requiredIndicator,
         handleLabelChange: handleLabelChange,
         handleExtraPropsChange: handleExtraPropsChange,
         handleFieldOptionChange: handleFieldOptionChange
-      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_10__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'radio' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_fields_Radio__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), _data_FieldTypeOptions__WEBPACK_IMPORTED_MODULE_9__.fieldTypeOptions.filter(option => option.value === fieldType)[0].component === 'radio' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_fields_Radio__WEBPACK_IMPORTED_MODULE_6__["default"], {
         attributes: attributes,
         requiredIndicator: requiredIndicator,
         handleLabelChange: handleLabelChange,
@@ -1192,15 +1188,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
-/* harmony import */ var _controls_Checkbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controls/Checkbox */ "./blocks/src/field/controls/Checkbox.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-// Import external dependencies.
-
-
+/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
+/* harmony import */ var _controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controls/Checkbox */ "./blocks/src/field/controls/Checkbox.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 // Import internal dependencies.
 
 
@@ -1208,10 +1199,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {string}   props.requiredIndicator    The required indicator.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                         Props passed to the component.
+ * @param {Object}   props.attributes              Attributes passed to the component.
+ * @param {string}   props.requiredIndicator       The required indicator.
+ * @param {Function} props.handleLabelChange       Function to handle label change.
+ * @param {Function} props.handleExtraPropsChange  Function to handle extra props change.
+ * @param {Function} props.handleFieldOptionChange Function to handle field option change.
  *
  * @return {Object} The rendered component.
  */
@@ -1229,26 +1222,29 @@ const ObsidianFieldCheckbox = ({
     fieldOptions,
     extraProps
   } = attributes;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_controls_Checkbox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_controls_Checkbox__WEBPACK_IMPORTED_MODULE_1__["default"], {
       attributes: attributes,
       handleExtraPropsChange: handleExtraPropsChange,
       handleFieldOptionChange: handleFieldOptionChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_0__["default"], {
       attributes: attributes,
       requiredIndicator: requiredIndicator,
       handleLabelChange: handleLabelChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: `wp-block-obsidian-form-field__checkboxes wp-block-obsidian-form-field__checkboxes--${extraProps.checkboxesLayout}`,
-      children: fieldOptions.map((option, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "wp-block-obsidian-form-field__checkbox",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-          value: option.value,
-          name: fieldName,
-          type: fieldType,
-          className: `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${fieldType}`
-        }), ' ', option.label]
-      }, index))
+      children: fieldOptions.map((option, index) => {
+        const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "wp-block-obsidian-form-field__checkbox",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            value: maybeLabelAsValue,
+            name: fieldName,
+            type: fieldType,
+            className: `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${fieldType}`
+          }), ' ', option.label]
+        }, index);
+      })
     })]
   });
 };
@@ -1266,15 +1262,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 // Import external dependencies.
-
 
 
 // Import internal dependencies.
@@ -1303,13 +1296,13 @@ const ObsidianFieldInput = ({
     fieldType,
     fieldPlaceholder
   } = attributes;
-  const [fieldValue, setFieldValue] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  const [fieldValue, setFieldValue] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__["default"], {
       attributes: attributes,
       requiredIndicator: requiredIndicator,
       handleLabelChange: handleLabelChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
       type: fieldType,
       value: fieldValue,
       name: fieldName,
@@ -1333,15 +1326,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
-/* harmony import */ var _controls_Radio__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controls/Radio */ "./blocks/src/field/controls/Radio.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-// Import external dependencies.
-
-
+/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
+/* harmony import */ var _controls_Radio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controls/Radio */ "./blocks/src/field/controls/Radio.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 // Import internal dependencies.
 
 
@@ -1349,10 +1337,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {string}   props.requiredIndicator    The required indicator.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                         Props passed to the component.
+ * @param {Object}   props.attributes              Attributes passed to the component.
+ * @param {string}   props.requiredIndicator       The required indicator.
+ * @param {Function} props.handleLabelChange       Function to handle label change.
+ * @param {Function} props.handleExtraPropsChange  Function to handle extra props change.
+ * @param {Function} props.handleFieldOptionChange Function to handle field option change.
  *
  * @return {Object} The rendered component.
  */
@@ -1370,26 +1360,30 @@ const ObsidianFieldRadio = ({
     fieldOptions,
     extraProps
   } = attributes;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_controls_Radio__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_controls_Radio__WEBPACK_IMPORTED_MODULE_1__["default"], {
       attributes: attributes,
       handleExtraPropsChange: handleExtraPropsChange,
       handleFieldOptionChange: handleFieldOptionChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_0__["default"], {
       attributes: attributes,
       requiredIndicator: requiredIndicator,
       handleLabelChange: handleLabelChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: `wp-block-obsidian-form-field__radios wp-block-obsidian-form-field__radios--${extraProps.radioLayout}`,
-      children: fieldOptions.map((option, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "wp-block-obsidian-form-field__radio",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-          value: option.value,
-          name: fieldName,
-          type: fieldType,
-          className: `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${fieldType}`
-        }), ' ', option.label]
-      }, index))
+      children: fieldOptions.map((option, index) => {
+        // Set to sanitized label if the value is blank
+        const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "wp-block-obsidian-form-field__radio",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            value: maybeLabelAsValue,
+            name: fieldName,
+            type: fieldType,
+            className: `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${fieldType}`
+          }), ' ', option.label]
+        }, index);
+      })
     })]
   });
 };
@@ -1407,16 +1401,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
-/* harmony import */ var _controls_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controls/Select */ "./blocks/src/field/controls/Select.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
+/* harmony import */ var _controls_Select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controls/Select */ "./blocks/src/field/controls/Select.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 // Import external dependencies.
-
 
 
 // Import internal dependencies.
@@ -1426,11 +1417,12 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {boolean}  props.globalHasPlaceholder Whether the form has a placeholder.
- * @param {string}   props.requiredIndicator    The required indicator.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                         Props passed to the component.
+ * @param {Object}   props.attributes              Attributes passed to the component.
+ * @param {boolean}  props.globalHasPlaceholder    Whether the form has a placeholder.
+ * @param {string}   props.requiredIndicator       The required indicator.
+ * @param {Function} props.handleLabelChange       Function to handle label change.
+ * @param {Function} props.handleFieldOptionChange Function to handle field option change.
  *
  * @return {Object} The rendered component.
  */
@@ -1448,25 +1440,29 @@ const ObsidianFieldSelect = ({
     fieldPlaceholder,
     fieldOptions
   } = attributes;
-  const [selectedOption, setSelectedOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_controls_Select__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  const [selectedOption, setSelectedOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_controls_Select__WEBPACK_IMPORTED_MODULE_2__["default"], {
       attributes: attributes,
       handleFieldOptionChange: handleFieldOptionChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__["default"], {
       attributes: attributes,
       requiredIndicator: requiredIndicator,
       handleLabelChange: handleLabelChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("select", {
       value: selectedOption,
       name: fieldName,
       className: `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${fieldType}`,
       placeholder: globalHasPlaceholder && fieldPlaceholder,
       onChange: event => setSelectedOption(event.target.value),
-      children: fieldOptions.map((option, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-        value: option.value,
-        children: option.label
-      }, index))
+      children: fieldOptions.map((option, index) => {
+        // Set to sanitized label if the value is blank
+        const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+          value: maybeLabelAsValue,
+          children: option.label
+        }, index);
+      })
     })]
   });
 };
@@ -1484,15 +1480,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ObsidianFieldLabel */ "./blocks/src/field/components/ObsidianFieldLabel.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 // Import external dependencies.
-
 
 
 // Import internal dependencies.
@@ -1520,13 +1513,13 @@ const ObsidianFieldTextarea = ({
     fieldName,
     fieldPlaceholder
   } = attributes;
-  const [fieldValue, setFieldValue] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  const [fieldValue, setFieldValue] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ObsidianFieldLabel__WEBPACK_IMPORTED_MODULE_1__["default"], {
       attributes: attributes,
       requiredIndicator: requiredIndicator,
       handleLabelChange: handleLabelChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
       value: fieldValue,
       name: fieldName,
       className: "wp-block-obsidian-form-field__textarea",
