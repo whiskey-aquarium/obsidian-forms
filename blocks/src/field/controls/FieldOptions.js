@@ -24,23 +24,6 @@ const ObsidianFieldControlsFieldOptions = ( {
 				<div className="obsidian-admin-row">
 					<div className="obsidian-admin-column">
 						<TextControl
-							label="Value"
-							value={ option.value }
-							onChange={ ( value ) => {
-								const newFieldOptions = fieldOptions.map(
-									( _option ) =>
-										_option.id === option.id
-											? { ..._option, value }
-											: _option
-								);
-
-								handleFieldOptionChange( newFieldOptions );
-							} }
-						/>
-					</div>
-
-					<div className="obsidian-admin-column">
-						<TextControl
 							label="Label"
 							value={ option.label }
 							onChange={ ( value ) => {
@@ -48,6 +31,22 @@ const ObsidianFieldControlsFieldOptions = ( {
 									( _option ) =>
 										_option.id === option.id
 											? { ..._option, label: value }
+											: _option
+								);
+
+								handleFieldOptionChange( newFieldOptions );
+							} }
+						/>
+					</div>
+					<div className="obsidian-admin-column">
+						<TextControl
+							label="Value"
+							value={ option.value }
+							onChange={ ( value ) => {
+								const newFieldOptions = fieldOptions.map(
+									( _option ) =>
+										_option.id === option.id
+											? { ..._option, value }
 											: _option
 								);
 
