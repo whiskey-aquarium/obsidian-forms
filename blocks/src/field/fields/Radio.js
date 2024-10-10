@@ -41,9 +41,10 @@ const ObsidianFieldRadio = ( {
 				className={ `wp-block-obsidian-form-field__radios wp-block-obsidian-form-field__radios--${ extraProps.radioLayout }` }
 			>
 				{ fieldOptions.map( ( option, index ) => {
-
 					// Set to sanitized label if the value is blank
-					const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+					const maybeLabelAsValue = option.value
+						? option.value
+						: option.label.replace( /[^a-zA-Z0-9-_]/g, '' );
 
 					return (
 						<div
@@ -58,8 +59,8 @@ const ObsidianFieldRadio = ( {
 							/>{ ' ' }
 							{ option.label }
 						</div>
-					)
- 				} ) }
+					);
+				} ) }
 			</div>
 		</>
 	);

@@ -2,6 +2,7 @@
 import { __ } from '@wordpress/i18n';
 import { PanelRow, Button, TextControl } from '@wordpress/components';
 import { trash } from '@wordpress/icons';
+import { ReactSortable } from 'react-sortablejs';
 
 /**
  * Component for rendering form settings.
@@ -84,11 +85,24 @@ const ObsidianFieldControlsFieldOptions = ( {
 						<strong>Field options</strong>
 					</div>
 
-					{ fieldOptions.map( ( option ) => (
+					<ReactSortable
+						list={ fieldOptions }
+						setList={ ( newState ) =>
+							handleFieldOptionChange( newState )
+						}
+					>
+						{ fieldOptions.map( ( option ) => (
+							<div className="alignfull" key={ option.id }>
+								{ fieldOptionsList( option ) }
+							</div>
+						) ) }
+					</ReactSortable>
+
+					{ /* fieldOptions.map( ( option ) => (
 						<div className="alignfull" key={ option.id }>
 							{ fieldOptionsList( option ) }
 						</div>
-					) ) }
+					) ) */ }
 
 					<hr />
 
