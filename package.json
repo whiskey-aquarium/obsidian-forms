@@ -20,8 +20,14 @@
     "node": ">=20.0",
     "npm": ">=10.0"
   },
+  "dependencies": {
+    "@wordpress/icons": "^10.9.0",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.3"
+  },
   "devDependencies": {
     "@csstools/postcss-sass": "^5.1.1",
+    "@types/sortablejs": "^1.15.8",
     "@wordpress/browserslist-config": "^6.9.0",
     "@wordpress/postcss-plugins-preset": "^5.9.0",
     "@wordpress/scripts": "^30.1.0",
@@ -63,8 +69,5 @@
     "start": "npm-run-all --parallel start:**",
     "start:blocks": "wp-scripts start --webpack-src-dir=blocks/src --output-path=blocks/build",
     "start:assets:scripts": "wp-scripts start assets/js/src/*.js --output-path=assets/js/build"
-  },
-  "dependencies": {
-    "@wordpress/icons": "^10.9.0"
   }
 }
