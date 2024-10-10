@@ -40,20 +40,26 @@ const ObsidianFieldRadio = ( {
 			<div
 				className={ `wp-block-obsidian-form-field__radios wp-block-obsidian-form-field__radios--${ extraProps.radioLayout }` }
 			>
-				{ fieldOptions.map( ( option, index ) => (
-					<div
-						key={ index }
-						className="wp-block-obsidian-form-field__radio"
-					>
-						<input
-							value={ option.value }
-							name={ fieldName }
-							type={ fieldType }
-							className={ `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${ fieldType }` }
-						/>{ ' ' }
-						{ option.label }
-					</div>
-				) ) }
+				{ fieldOptions.map( ( option, index ) => {
+
+					// Set to sanitized label if the value is blank
+					const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+
+					return (
+						<div
+							key={ index }
+							className="wp-block-obsidian-form-field__radio"
+						>
+							<input
+								value={ maybeLabelAsValue }
+								name={ fieldName }
+								type={ fieldType }
+								className={ `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${ fieldType }` }
+							/>{ ' ' }
+							{ option.label }
+						</div>
+					)
+ 				} ) }
 			</div>
 		</>
 	);
