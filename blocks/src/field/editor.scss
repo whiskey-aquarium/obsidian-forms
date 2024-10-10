@@ -19,3 +19,18 @@
 		margin-bottom: 8px;
 	}
 }
+
+.obsidian-admin-column--drag-handle {
+	flex: 0 0 24px;
+
+	> * {
+		margin-bottom: 8px;
+		margin-right: 0 !important;
+		min-width: 24px !important;
+		padding: 0 !important;
+	}
+}
+
+.option--ghost {
+	background: #f0f0f0;
+}
