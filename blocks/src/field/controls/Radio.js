@@ -16,7 +16,7 @@ import ObsidianFieldControlsFieldOptions from './FieldOptions';
  *
  * @return {Object} The rendered component.
  */
-const ObsidianFieldControlsCheckbox = ( {
+const ObsidianFieldControlsRadio = ( {
 	attributes,
 	handleExtraPropsChange,
 	handleFieldOptionChange,
@@ -59,4 +59,4 @@ const ObsidianFieldControlsCheckbox = ( {
 	);
 };
 
-export default ObsidianFieldControlsCheckbox;
+export default ObsidianFieldControlsRadio;
