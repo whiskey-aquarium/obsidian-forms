@@ -1,1 +1,0 @@
-{"version":3,"file":"admin.js","mappings":";;;;AAAA;AACAA,OAAO,CAACC,GAAG,CAAE,WAAY,CAAC,C","sources":["webpack://obsidian-forms/./assets/js/src/admin.js"],"sourcesContent":["// eslint-disable-next-line no-console\nconsole.log( 'Obsidian!' );\n"],"names":["console","log"],"sourceRoot":""}
