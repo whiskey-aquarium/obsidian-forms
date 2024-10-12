@@ -43,6 +43,10 @@
     "extraProps": {
       "type": "object",
       "default": {}
+    },
+    "formId": {
+      "type": "string",
+      "default": ""
     }
   },
   "parent": [
@@ -53,5 +57,6 @@
   "style": "file:./style-index.css",
   "usesContext": [
     "obsidian-form/formSettings"
-  ]
+  ],
+  "render": "file:./index.php"
 }

@@ -1,1 +1,0 @@
-{"version":3,"file":"field-group/index.css","mappings":";;;AAAA;EACC;EACA;EACA;AACD,C","sources":["webpack://obsidian-forms/./blocks/src/field-group/editor.scss"],"sourcesContent":[".wp-block-obsidian-form-field-group > .block-editor-block-list__layout > .block-list-appender {\n\tright: auto;\n\tleft: 100%;\n\tmargin-bottom: 4px;\n}\n"],"names":[],"sourceRoot":""}

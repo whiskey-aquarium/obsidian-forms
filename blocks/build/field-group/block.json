@@ -20,5 +20,6 @@
   ],
   "allowedBlocks": [
     "obsidian-form/field"
-  ]
+  ],
+  "render": "file:./index.php"
 }

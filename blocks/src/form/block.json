@@ -92,5 +92,6 @@
 	"allowedBlocks": [ "obsidian-form/field" ],
 	"providesContext": {
 		"obsidian-form/formSettings": "formSettings"
-	}
+	},
+	"render": "file:./index.php"
 }
