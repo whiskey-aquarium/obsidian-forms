@@ -41,8 +41,9 @@ const ObsidianFieldCheckbox = ( {
 				className={ `wp-block-obsidian-form-field__checkboxes wp-block-obsidian-form-field__checkboxes--${ extraProps.checkboxesLayout }` }
 			>
 				{ fieldOptions.map( ( option, index ) => {
-
-					const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+					const maybeLabelAsValue = option.value
+						? option.value
+						: option.label.replace( /[^a-zA-Z0-9-_]/g, '' );
 
 					return (
 						<div
@@ -57,8 +58,8 @@ const ObsidianFieldCheckbox = ( {
 							/>{ ' ' }
 							{ option.label }
 						</div>
-					)
- 				} ) }
+					);
+				} ) }
 			</div>
 		</>
 	);

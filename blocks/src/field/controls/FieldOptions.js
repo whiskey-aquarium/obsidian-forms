@@ -1,7 +1,8 @@
 // Import external dependencies.
 import { __ } from '@wordpress/i18n';
 import { PanelRow, Button, TextControl } from '@wordpress/components';
-import { trash } from '@wordpress/icons';
+import { trash, dragHandle } from '@wordpress/icons';
+import { ReactSortable } from 'react-sortablejs';
 
 /**
  * Component for rendering form settings.
@@ -22,6 +23,13 @@ const ObsidianFieldControlsFieldOptions = ( {
 		return (
 			<>
 				<div className="obsidian-admin-row">
+					<div className="obsidian-admin-column obsidian-admin-column--drag-handle">
+						<Button
+							style={ { marginRight: '10px' } }
+							icon={ dragHandle }
+						/>
+					</div>
+
 					<div className="obsidian-admin-column">
 						<TextControl
 							label="Label"
@@ -84,11 +92,21 @@ const ObsidianFieldControlsFieldOptions = ( {
 						<strong>Field options</strong>
 					</div>
 
-					{ fieldOptions.map( ( option ) => (
-						<div className="alignfull" key={ option.id }>
-							{ fieldOptionsList( option ) }
-						</div>
-					) ) }
+					<ReactSortable
+						ghostClass="option--ghost"
+						handle=".obsidian-admin-column--drag-handle"
+						animation={ 200 }
+						list={ fieldOptions }
+						setList={ ( newState ) =>
+							handleFieldOptionChange( newState )
+						}
+					>
+						{ fieldOptions.map( ( option ) => (
+							<div className="alignfull" key={ option.id }>
+								{ fieldOptionsList( option ) }
+							</div>
+						) ) }
+					</ReactSortable>
 
 					<hr />
 

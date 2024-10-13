@@ -51,16 +51,17 @@ const ObsidianFieldSelect = ( {
 				}
 			>
 				{ fieldOptions.map( ( option, index ) => {
-
 					// Set to sanitized label if the value is blank
-					const maybeLabelAsValue = option.value ? option.value : option.label.replace(/[^a-zA-Z0-9-_]/g, '');
+					const maybeLabelAsValue = option.value
+						? option.value
+						: option.label.replace( /[^a-zA-Z0-9-_]/g, '' );
 
 					return (
 						<option key={ index } value={ maybeLabelAsValue }>
 							{ option.label }
 						</option>
-					)
- 				} ) }
+					);
+				} ) }
 			</select>
 		</>
 	);
