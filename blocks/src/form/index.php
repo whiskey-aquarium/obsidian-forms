@@ -22,5 +22,9 @@ if ( ! $content ) {
 ?>
 
 <form <?php echo wp_kses_data( $obsidian_forms_form_args['block_attributes'] ); ?>>
+	<?php if ( ! empty( $obsidian_forms_form_args['form_settings']['title'] ) ) : ?>
+		<h2 class="obsidian-form-title"><?php echo esc_html( $obsidian_forms_form_args['form_settings']['title']['value'] ); ?></h2>
+	<?php endif; ?>
+
 	<?php echo $content; ?>
 </form>

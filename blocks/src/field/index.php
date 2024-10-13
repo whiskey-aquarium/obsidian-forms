@@ -24,6 +24,14 @@ if ( $attributes['fieldName'] ) {
 	$obsidian_forms_field_class[] = 'obsidian-forms-field__name-' . $attributes['fieldName'];
 }
 
+$obsidian_forms_field_block_wrapper_attributes = [
+	'class' => implode( ' ', $obsidian_forms_field_class ),
+];
+
+if ( $attributes['fieldWidth'] ) {
+	$obsidian_forms_field_block_wrapper_attributes['style'] = '--of-field-flex: 0 0 ' . $attributes['fieldWidth'];
+}
+
 $obsidian_forms_field_args = apply_filters(
 	'obsidian_forms_field_args_' . $attributes['formId'],
 	[
@@ -37,17 +45,16 @@ $obsidian_forms_field_args = apply_filters(
 		'field_options'     => $attributes['fieldOptions'] ?? [],
 		'field_extra_props' => $attributes['extraProps'] ?? [],
 		'field_class'       => $obsidian_forms_field_class,
-		'block_attributes'  => get_block_wrapper_attributes(
-			[
-				'class' => implode( ' ', $obsidian_forms_field_class ),
-			]
-		),
+		'block_attributes'  => get_block_wrapper_attributes( $obsidian_forms_field_block_wrapper_attributes ),
 	],
 );
 ?>
 
 <div <?php echo wp_kses_data( $obsidian_forms_field_args['block_attributes'] ); ?>>
-	<label for="<?php echo esc_attr( $obsidian_forms_field_args['field_name'] ); ?>">
+	<label
+		for="<?php echo esc_attr( $obsidian_forms_field_args['field_name'] ); ?>"
+		class="wp-block-obsidian-form-field__label"
+	>
 		<?php echo esc_html( $obsidian_forms_field_args['field_label'] ); ?>
 
 		<?php if ( $obsidian_forms_field_args['field_required'] ) : ?>
@@ -60,6 +67,7 @@ $obsidian_forms_field_args = apply_filters(
 			id="<?php echo esc_attr( $obsidian_forms_field_args['field_name'] ); ?>"
 			name="<?php echo esc_attr( $obsidian_forms_field_args['field_name'] ); ?>"
 			placeholder="<?php echo esc_attr( $obsidian_forms_field_args['field_placeholder'] ); ?>"
+			row="5"
 		></textarea>
 	<?php elseif ( 'select' === $obsidian_forms_field_args['field_type'] ) : ?>
 		<select
@@ -101,6 +109,7 @@ $obsidian_forms_field_args = apply_filters(
 			id="<?php echo esc_attr( $obsidian_forms_field_args['field_name'] ); ?>"
 			name="<?php echo esc_attr( $obsidian_forms_field_args['field_name'] ); ?>"
 			placeholder="<?php echo esc_attr( $obsidian_forms_field_args['field_placeholder'] ); ?>"
+			class="wp-block-obsidian-form-field__input"
 		>
 	<?php endif; ?>
 </div>
