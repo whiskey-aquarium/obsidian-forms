@@ -1,5 +1,9 @@
+:root {
+	--of-field-group-gap: 10px;
+}
+
 .wp-block-obsidian-form-field-group {
 	display: flex;
-	gap: 10px;
+	gap: var(--of-field-group-gap);
 	width: 100%;
 }
