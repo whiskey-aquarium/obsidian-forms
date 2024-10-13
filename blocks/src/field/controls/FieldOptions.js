@@ -108,12 +108,6 @@ const ObsidianFieldControlsFieldOptions = ( {
 						) ) }
 					</ReactSortable>
 
-					{ /* fieldOptions.map( ( option ) => (
-						<div className="alignfull" key={ option.id }>
-							{ fieldOptionsList( option ) }
-						</div>
-					) ) */ }
-
 					<hr />
 
 					<PanelRow>
