@@ -65,6 +65,7 @@
     "start:assets:scripts": "wp-scripts start assets/js/src/*.js --output-path=assets/js/build"
   },
   "dependencies": {
-    "@wordpress/icons": "^10.9.0"
+    "@wordpress/icons": "^10.9.0",
+    "tom-select": "^2.3.1"
   }
 }

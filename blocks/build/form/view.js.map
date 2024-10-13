@@ -1,1 +1,0 @@
-{"version":3,"file":"form/view.js","mappings":";;;;AAAA;AACAA,OAAO,CAACC,GAAG,CAAE,iBAAkB,CAAC,C","sources":["webpack://obsidian-forms/./blocks/src/form/view.js"],"sourcesContent":["// eslint-disable-next-line no-console\nconsole.log( 'form block view' );\n"],"names":["console","log"],"sourceRoot":""}
