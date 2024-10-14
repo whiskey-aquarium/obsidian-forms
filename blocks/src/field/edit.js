@@ -113,6 +113,10 @@ export default function Edit( props ) {
 		},
 	} );
 
+	setAttributes( {
+		formId: context[ 'obsidian-form/formSettings' ].id.value,
+	} );
+
 	return (
 		<>
 			<BlockControls>

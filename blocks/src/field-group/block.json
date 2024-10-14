@@ -16,5 +16,6 @@
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"parent": [ "obsidian-form/form" ],
-	"allowedBlocks": [ "obsidian-form/field" ]
+	"allowedBlocks": [ "obsidian-form/field" ],
+	"render": "file:./index.php"
 }

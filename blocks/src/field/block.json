@@ -43,11 +43,16 @@
 		"extraProps": {
 			"type": "object",
 			"default": {}
+		},
+		"formId": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"parent": [ "obsidian-form/field-group" ],
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"usesContext": [ "obsidian-form/formSettings" ]
+	"usesContext": [ "obsidian-form/formSettings" ],
+	"render": "file:./index.php"
 }
