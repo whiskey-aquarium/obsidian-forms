@@ -40,6 +40,7 @@ $obsidian_forms_field_args = apply_filters(
 		'field_name'        => $attributes['fieldName'] ?? '',
 		'field_type'        => $attributes['fieldType'] ?? 'text',
 		'field_placeholder' => $attributes['fieldPlaceholder'] ?? '',
+		'field_description' => $attributes['fieldDescription'] ?? '',
 		'field_width'       => $attributes['fieldWidth'] ?? '',
 		'field_required'    => $attributes['isRequired'] ?? false,
 		'field_options'     => $attributes['fieldOptions'] ?? [],
@@ -48,6 +49,10 @@ $obsidian_forms_field_args = apply_filters(
 		'block_attributes'  => get_block_wrapper_attributes( $obsidian_forms_field_block_wrapper_attributes ),
 	],
 );
+
+$obsidian_forms_form_settings = $block->context['obsidian-form/formSettings'] ?? false;
+$description_placement = $obsidian_forms_form_settings['descriptionPlacement']['value'] ?? 'top';
+
 ?>
 
 <div <?php echo wp_kses_data( $obsidian_forms_field_args['block_attributes'] ); ?>>
@@ -61,6 +66,15 @@ $obsidian_forms_field_args = apply_filters(
 			<span>*</span>
 		<?php endif; ?>
 	</label>
+
+
+	<?php if ( $description_placement === 'top' ) : ?>
+		<div class="wp-block-obsidian-form-field__description">
+			<small>
+				<?php echo esc_html( $obsidian_forms_field_args['field_description'] ); ?>
+			</small>
+		</div>
+	<?php endif; ?>
 
 	<?php if ( 'textarea' === $obsidian_forms_field_args['field_type'] ) : ?>
 		<textarea
@@ -111,5 +125,13 @@ $obsidian_forms_field_args = apply_filters(
 			placeholder="<?php echo esc_attr( $obsidian_forms_field_args['field_placeholder'] ); ?>"
 			class="wp-block-obsidian-form-field__input"
 		>
+	<?php endif; ?>
+
+	<?php if ( $description_placement === 'bottom' ) : ?>
+		<div class="wp-block-obsidian-form-field__description">
+			<small>
+				<?php echo esc_html( $obsidian_forms_field_args['field_description'] ); ?>
+			</small>
+		</div>
 	<?php endif; ?>
 </div>
