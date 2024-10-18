@@ -41,6 +41,8 @@ export default function Edit( props ) {
 		context[ 'obsidian-form/formSettings' ].requiredIndicator.value;
 	const globalHasPlaceholder =
 		context[ 'obsidian-form/formSettings' ].globalHasPlaceholder.value;
+	const globalDescriptionPlacement =
+		context[ 'obsidian-form/formSettings' ].descriptionPlacement.value;
 
 	/**
 	 * Handle label change.
@@ -73,6 +75,17 @@ export default function Edit( props ) {
 	 */
 	const handleAttributeChange = ( value, attribute ) => {
 		setAttributes( { [ attribute ]: value } );
+	};
+
+	/**
+	 * Handle description change.
+	 *
+	 * @param {string} value     The new value.
+	 *
+	 * @return {void}
+	 */
+	const handleDescriptionChange = ( value ) => {
+		setAttributes( { fieldDescription: value } );
 	};
 
 	/**
@@ -131,6 +144,7 @@ export default function Edit( props ) {
 					<ObsidianFieldSettings
 						attributes={ attributes }
 						handleLabelChange={ handleLabelChange }
+						handleDescriptionChange={ handleDescriptionChange }
 						handleAttributeChange={ handleAttributeChange }
 						handleFieldOptionChange={ handleFieldOptionChange }
 					/>
@@ -158,6 +172,8 @@ export default function Edit( props ) {
 						globalHasPlaceholder={ globalHasPlaceholder }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
+						globalDescriptionPlacement={ globalDescriptionPlacement }
+						handleDescriptionChange={ handleDescriptionChange }
 					/>
 				) }
 
@@ -169,6 +185,8 @@ export default function Edit( props ) {
 						globalHasPlaceholder={ globalHasPlaceholder }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
+						globalDescriptionPlacement={ globalDescriptionPlacement }
+						handleDescriptionChange={ handleDescriptionChange }
 					/>
 				) }
 
@@ -180,6 +198,8 @@ export default function Edit( props ) {
 						globalHasPlaceholder={ globalHasPlaceholder }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
+						globalDescriptionPlacement={ globalDescriptionPlacement }
+						handleDescriptionChange={ handleDescriptionChange }
 						handleFieldOptionChange={ handleFieldOptionChange }
 					/>
 				) }
@@ -191,6 +211,8 @@ export default function Edit( props ) {
 						attributes={ attributes }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
+						globalDescriptionPlacement={ globalDescriptionPlacement }
+						handleDescriptionChange={ handleDescriptionChange }
 						handleExtraPropsChange={ handleExtraPropsChange }
 						handleFieldOptionChange={ handleFieldOptionChange }
 					/>
@@ -203,6 +225,8 @@ export default function Edit( props ) {
 						attributes={ attributes }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
+						globalDescriptionPlacement={ globalDescriptionPlacement }
+						handleDescriptionChange={ handleDescriptionChange }
 						handleExtraPropsChange={ handleExtraPropsChange }
 						handleFieldOptionChange={ handleFieldOptionChange }
 					/>

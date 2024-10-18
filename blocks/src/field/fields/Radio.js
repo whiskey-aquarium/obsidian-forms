@@ -1,6 +1,7 @@
 // Import internal dependencies.
 import ObsidianFieldLabel from '../components/ObsidianFieldLabel';
 import ObsidianFieldControlsRadio from '../controls/Radio';
+import ObsidianFieldDescription from '../components/ObsidianFieldDescription';
 
 /**
  * Component for rendering form settings.
@@ -18,10 +19,12 @@ const ObsidianFieldRadio = ( {
 	attributes,
 	requiredIndicator,
 	handleLabelChange,
+	globalDescriptionPlacement,
+	handleDescriptionChange,
 	handleExtraPropsChange,
 	handleFieldOptionChange,
 } ) => {
-	const { fieldName, fieldType, fieldOptions, extraProps } = attributes;
+	const { fieldName, fieldDescription, fieldType, fieldOptions, extraProps } = attributes;
 
 	return (
 		<>
@@ -36,6 +39,13 @@ const ObsidianFieldRadio = ( {
 				requiredIndicator={ requiredIndicator }
 				handleLabelChange={ handleLabelChange }
 			/>
+
+			{ fieldDescription && globalDescriptionPlacement === 'top' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 
 			<div
 				className={ `wp-block-obsidian-form-field__radios wp-block-obsidian-form-field__radios--${ extraProps.radioLayout }` }
@@ -62,6 +72,13 @@ const ObsidianFieldRadio = ( {
 					);
 				} ) }
 			</div>
+
+			{ fieldDescription && globalDescriptionPlacement === 'bottom' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 		</>
 	);
 };

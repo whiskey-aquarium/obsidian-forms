@@ -28,6 +28,10 @@
       "type": "string",
       "default": ""
     },
+    "fieldDescription": {
+      "type": "string",
+      "default": ""
+    },
     "fieldWidth": {
       "type": "string",
       "default": ""
