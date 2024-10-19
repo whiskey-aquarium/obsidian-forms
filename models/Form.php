@@ -90,13 +90,15 @@ class Form {
 			'show_in_menu'       => false,
 			'has_archive'        => false,
 			'publicly_queryable' => false,
-			'supports'           => [ 'editor' ],
+			'supports'           => [ 'title', 'editor' ],
 			'show_in_rest'       => true,
 			'capability_type'    => 'post',
 			'template'           => [
-				[ 'obsidian-form/form', [] ],
+				[
+					'obsidian-form/field',
+					[],
+				],
 			],
-			'template_lock'      => 'all',
 		];
 
 		return apply_filters( 'obsidian_forms_post_type_args', $args );
