@@ -21,6 +21,10 @@
       "type": "string",
       "default": ""
     },
+    "formPostId": {
+      "type": "number",
+      "default": 0
+    },
     "formSettings": {
       "type": "object",
       "default": {
