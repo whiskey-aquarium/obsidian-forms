@@ -93,7 +93,7 @@
 	"editorStyle": "file:./index.css",
 	"script": "file:./view.js",
 	"style": "file:./style-index.css",
-	"allowedBlocks": [ "obsidian-form/field" ],
+	"allowedBlocks": [ "obsidian-form/field-group" ],
 	"providesContext": {
 		"obsidian-form/formSettings": "formSettings"
 	},

@@ -1,1 +1,41 @@
-.wp-block-obsidian-form-fields>.block-editor-block-list__layout>.block-list-appender{position:static}.wp-block-obsidian-form-fields>.block-editor-block-list__layout{display:flex;flex-direction:column;gap:10px}.wp-block-obsidian-form-field-group>.block-editor-block-list__layout{display:flex;gap:10px;width:100%}.obsidian-forms-choice{display:flex;width:100%}.obsidian-forms-choice__form-creator,.obsidian-forms-choice__form-selector{flex-grow:1;width:100%}.obsidian-forms-choice__form-creator .button-group button:first-child,.obsidian-forms-choice__form-selector .button-group button:first-child{margin-right:1rem}.obsidian-forms-choice__form-creator .button-group button.is-secondary,.obsidian-forms-choice__form-selector .button-group button.is-secondary{border-radius:2px;box-shadow:inset 0 0 0 1px #ccc}.obsidian-forms-choice__form-selector{margin-left:1rem;padding-left:1rem;border-left:1px solid #ddd}
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./blocks/src/form/editor.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
+.wp-block-obsidian-form-fields > .block-editor-block-list__layout > .block-list-appender {
+  position: static;
+}
+
+.wp-block-obsidian-form-fields > .block-editor-block-list__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wp-block-obsidian-form-field-group > .block-editor-block-list__layout {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.obsidian-forms-choice {
+  display: flex;
+  width: 100%;
+}
+.obsidian-forms-choice__form-creator, .obsidian-forms-choice__form-selector {
+  flex-grow: 1;
+  width: 100%;
+}
+.obsidian-forms-choice__form-creator .button-group button:first-child, .obsidian-forms-choice__form-selector .button-group button:first-child {
+  margin-right: 1rem;
+}
+.obsidian-forms-choice__form-creator .button-group button.is-secondary, .obsidian-forms-choice__form-selector .button-group button.is-secondary {
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px #ccc;
+}
+.obsidian-forms-choice__form-selector {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid #ddd;
+}
+
+/*# sourceMappingURL=index.css.map*/
