@@ -18,6 +18,7 @@ if ( $attributes['isRequired'] ) {
 
 if ( $attributes['formId'] ) {
 	$obsidian_forms_field_class[] = 'obsidian-forms-field__' . $attributes['formId'];
+
 }
 
 if ( $attributes['fieldName'] ) {

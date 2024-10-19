@@ -115,7 +115,7 @@
   "script": "file:./view.js",
   "style": "file:./style-index.css",
   "allowedBlocks": [
-    "obsidian-form/field"
+    "obsidian-form/field-group"
   ],
   "providesContext": {
     "obsidian-form/formSettings": "formSettings"

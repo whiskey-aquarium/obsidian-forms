@@ -26,7 +26,7 @@ export default function Edit( props ) {
 		value: blocks,
 		onInput,
 		onChange,
-		allowedBlocks: ['obsidian-form/field'],
+		allowedBlocks: ['obsidian-form/field-group'],
 		renderAppender: blocks?.length ? undefined : InnerBlocks.ButtonBlockAppender,
 	});
 
@@ -91,7 +91,9 @@ export default function Edit( props ) {
 				method: 'POST',
 				data: { 
 					title: newFormTitle, 
-					content: '<!-- wp:obsidian-form/field {"isRequired":true} /-->',
+					content: `<!-- wp:obsidian-form/field-group -->
+<!-- wp:obsidian-form/field {"isRequired":true} /-->
+<!-- /wp:obsidian-form/field-group -->`,
 					status: 'publish',
 				}
 			});
@@ -117,8 +119,6 @@ export default function Edit( props ) {
 				});
 
 				if (formToCopy?.id) {
-					console.log('Form to copy:', formToCopy);
-
 					const newForm = await apiFetch({
 						path: '/wp/v2/obsidian_form',
 						method: 'POST',
