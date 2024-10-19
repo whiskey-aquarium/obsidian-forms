@@ -79,7 +79,7 @@ final class Admin {
 			'Obsidian Forms Add-ons',
 			'<span style="color:#d454ff">' . esc_html__( 'Add-ons', 'obsidian-forms' ) . '</span>',
 			'manage_options',
-			'obsidian-forms-settings',
+			'obsidian-forms-add-ons',
 			[ $this, 'render_add_ons' ]
 		);
 	}
@@ -97,6 +97,40 @@ final class Admin {
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Obsidian Forms Dashboard', 'obsidian-forms' ); ?></h1>
 			<p><?php esc_html_e( 'Welcome to the Obsidian Forms plugin dashboard.', 'obsidian-forms' ); ?></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Renders the Settings submenu.
+	 *
+	 * @return  void
+	 * @version 0.1.0
+	 *
+	 * @since   0.1.0
+	 */
+	public function render_settings(): void {
+		?>
+		<div class="wrap">
+			<h1><?php esc_html_e( 'Obsidian Forms Settings', 'obsidian-forms' ); ?></h1>
+			<p><?php esc_html_e( 'Settings page description.', 'obsidian-forms' ); ?></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Renders the Add-ons submenu.
+	 *
+	 * @return  void
+	 * @version 0.1.0
+	 *
+	 * @since   0.1.0
+	 */
+	public function render_add_ons(): void {
+		?>
+		<div class="wrap">
+			<h1><?php esc_html_e( 'Obsidian Forms Add-ons', 'obsidian-forms' ); ?></h1>
+			<p><?php esc_html_e( 'Add-ons page description.', 'obsidian-forms' ); ?></p>
 		</div>
 		<?php
 	}

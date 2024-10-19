@@ -67,7 +67,6 @@ $description_placement = $obsidian_forms_form_settings['descriptionPlacement']['
 		<?php endif; ?>
 	</label>
 
-
 	<?php if ( $description_placement === 'top' ) : ?>
 		<div class="wp-block-obsidian-form-field__description">
 			<small>
