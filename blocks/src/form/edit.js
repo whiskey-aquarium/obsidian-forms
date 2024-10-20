@@ -197,6 +197,7 @@ export default function Edit( props ) {
 		<Placeholder
 			icon="feedback"
 			label={__('Obsidian Form', 'obsidian-forms')}
+			className="obsidian-forms-placeholder"
 			instructions={
 				noFormsAvailable
 					? __('Create a new form to get started!', 'obsidian-forms')
