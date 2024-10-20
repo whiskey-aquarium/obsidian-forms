@@ -212,7 +212,7 @@ export default function Edit( props ) {
 						onChange={setNewFormTitle}
 					/>
 					<Button
-						isPrimary
+						variant="primary"
 						onClick={handleCreateNewForm}
 						disabled={!newFormTitle.trim()}
 					>
@@ -231,7 +231,7 @@ export default function Edit( props ) {
 						/>
 						<div className="button-group">
 							<Button
-								isPrimary
+								variant="primary"
 								onClick={handleSelectExistingForm}
 								disabled={!selectedForm || isLoadingForms}
 							>
