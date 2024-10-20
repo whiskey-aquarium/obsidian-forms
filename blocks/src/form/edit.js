@@ -2,7 +2,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { ComboboxControl, Button, Placeholder, TextControl, PanelBody } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { select } from '@wordpress/data';
+import { createNotice } from '@wordpress/notices';
 import { useBlockProps, useInnerBlocksProps, InnerBlocks, RichText, InspectorControls } from '@wordpress/block-editor';
 import { useEntityBlockEditor, useEntityProp } from '@wordpress/core-data';
 import ObsidianFormSettings from './components/ObsidianFormSettings';
@@ -42,18 +42,22 @@ export default function Edit( props ) {
 					parse: false,
 				});
 
-				// Parse the JSON body
 				const forms = await response.json();
 
 				if (forms.length > 0) {
 					allForms = allForms.concat(forms);
-					// Update totalPages based on the header information
 					totalPages = parseInt(response.headers.get('X-WP-TotalPages'), 10);
 					page++;
 				} else {
 					break;
 				}
 			} catch (error) {
+				console.error('Error fetching forms:', error);
+				createNotice(
+					'error',
+					__('Error fetching forms. Please try again.', 'obsidian-forms'),
+					{ isDismissible: true }
+				);
 				break;
 			}
 		}
@@ -85,7 +89,6 @@ export default function Edit( props ) {
 
 	const handleCreateNewForm = async () => {
 		if (newFormTitle.trim()) {
-			// Create a new form using the REST API
 			const createdForm = await apiFetch({
 				path: '/wp/v2/obsidian_form',
 				method: 'POST',
@@ -101,6 +104,12 @@ export default function Edit( props ) {
 			if (createdForm?.id) {
 				setAttributes({ formPostId: createdForm.id });
 				setIsCreatingNew(false);
+			} else {
+				createNotice(
+					'error',
+					__('Error creating form. Please try again.', 'obsidian-forms'),
+					{ isDismissible: true }
+				);
 			}
 		}
 	};
@@ -135,7 +144,11 @@ export default function Edit( props ) {
 				}
 			} catch (error) {
 				console.error('Error copying form:', error);
-				// TODO: Show the error notice in the UI
+				createNotice(
+					'error',
+					__('Error copying form. Please try again.', 'obsidian-forms'),
+					{ isDismissible: true }
+				);
 			}
 		}
 	};
