@@ -8,6 +8,7 @@
 	--of-field-min-width: 50px;
 	--of-field-border-color: #222;
 	--of-field-color: #222;
+	--of-field-error-color: #f00;
 
 	// Label
 	--of-field-label-gap: 5px;
@@ -67,6 +68,13 @@
 
 		svg {
 			width: var(--of-field-input-svg-width);
+		}
+	}
+
+	&.obsidian-forms-field__error {
+
+		.wp-block-obsidian-form-field__label {
+			color: var(--of-field-error-color);
 		}
 	}
 }

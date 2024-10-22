@@ -27,4 +27,10 @@ if ( ! $content ) {
 	<?php endif; ?>
 
 	<?php echo $content; ?>
+
+	<div class="wp-block-obsidian-form-field-group">
+		<div class="wp-block-obsidian-form-field">
+			<button type="submit" id="obsidian-form-submit">Submit</button> <?php // @todo: Add button text option or submit button block. ?>
+		</div>
+	</div>
 </form>

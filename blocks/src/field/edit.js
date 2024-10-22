@@ -108,6 +108,7 @@ export default function Edit( props ) {
 
 	// Set the block props.
 	const blockProps = useBlockProps( {
+		className: `obsidian-forms-field__${ fieldType }`,
 		style: {
 			flex: flexProperty,
 		},
