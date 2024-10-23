@@ -8,7 +8,6 @@
 	--of-field-min-width: 50px;
 	--of-field-border-color: #222;
 	--of-field-color: #222;
-	--of-field-error-color: #f00;
 
 	// Label
 	--of-field-label-gap: 5px;
@@ -43,6 +42,10 @@
 	--of-ts-dropdown-margin: 0;
 	--of-ts-dropdown-option-active-background-color: #f5fafd;
 	--of-ts-dropdown-option-active-color: #222;
+
+	// Errors
+	--of-field-error-color: #f00;
+	--of-field-error-message-font-size: 0.8em;
 }
 
 .wp-block-obsidian-form-field {
@@ -76,6 +79,11 @@
 		.wp-block-obsidian-form-field__label {
 			color: var(--of-field-error-color);
 		}
+	}
+
+	.obsidian-forms-field__error-message {
+		color: var(--of-field-error-color);
+		font-size: var(--of-field-error-message-font-size);
 	}
 }
 
