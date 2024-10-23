@@ -54,7 +54,6 @@ const ObsidianFieldSelect = ( {
 			<select
 				value={ selectedOption }
 				name={ fieldName }
-				className={ `wp-block-obsidian-form-field__input wp-block-obsidian-form-field__input-${ fieldType }` }
 				placeholder={ globalHasPlaceholder && fieldPlaceholder }
 				onChange={ ( event ) =>
 					setSelectedOption( event.target.value )

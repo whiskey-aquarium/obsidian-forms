@@ -42,6 +42,10 @@
 	--of-ts-dropdown-margin: 0;
 	--of-ts-dropdown-option-active-background-color: #f5fafd;
 	--of-ts-dropdown-option-active-color: #222;
+
+	// Errors
+	--of-field-error-color: #f00;
+	--of-field-error-message-font-size: 0.8em;
 }
 
 .wp-block-obsidian-form-field {
@@ -68,6 +72,18 @@
 		svg {
 			width: var(--of-field-input-svg-width);
 		}
+	}
+
+	&.obsidian-forms-field__error {
+
+		.wp-block-obsidian-form-field__label {
+			color: var(--of-field-error-color);
+		}
+	}
+
+	.obsidian-forms-field__error-message {
+		color: var(--of-field-error-color);
+		font-size: var(--of-field-error-message-font-size);
 	}
 }
 
