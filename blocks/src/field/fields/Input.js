@@ -3,6 +3,7 @@ import { useState } from '@wordpress/element';
 
 // Import internal dependencies.
 import ObsidianFieldLabel from '../components/ObsidianFieldLabel';
+import ObsidianFieldDescription from '../components/ObsidianFieldDescription';
 
 /**
  * Component for rendering form settings.
@@ -20,8 +21,10 @@ const ObsidianFieldInput = ( {
 	globalHasPlaceholder,
 	requiredIndicator,
 	handleLabelChange,
+	globalDescriptionPlacement,
+	handleDescriptionChange
 } ) => {
-	const { fieldName, fieldType, fieldPlaceholder } = attributes;
+	const { fieldName, fieldDescription, fieldType, fieldPlaceholder } = attributes;
 
 	const [ fieldValue, setFieldValue ] = useState( '' );
 
@@ -33,6 +36,13 @@ const ObsidianFieldInput = ( {
 				handleLabelChange={ handleLabelChange }
 			/>
 
+			{ fieldDescription && globalDescriptionPlacement === 'top' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
+
 			<input
 				type={ fieldType }
 				value={ fieldValue }
@@ -41,6 +51,13 @@ const ObsidianFieldInput = ( {
 				placeholder={ globalHasPlaceholder && fieldPlaceholder }
 				onChange={ ( event ) => setFieldValue( event.target.value ) }
 			/>
+
+			{ fieldDescription && globalDescriptionPlacement === 'bottom' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 		</>
 	);
 };

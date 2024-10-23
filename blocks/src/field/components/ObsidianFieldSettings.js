@@ -18,9 +18,10 @@ import { fieldTypeOptions } from '../data/FieldTypeOptions';
 const ObsidianFieldSettings = ( {
 	attributes,
 	handleLabelChange,
+	handleDescriptionChange,
 	handleAttributeChange,
 } ) => {
-	const { fieldType, fieldLabel, fieldName, fieldPlaceholder } = attributes;
+	const { fieldType, fieldLabel, fieldName, fieldPlaceholder, fieldDescription } = attributes;
 
 	return (
 		<>
@@ -56,6 +57,12 @@ const ObsidianFieldSettings = ( {
 				onChange={ ( value ) =>
 					handleAttributeChange( value, 'fieldPlaceholder' )
 				}
+			/>
+
+			<TextControl
+				label={ __( 'Field Description', 'obsidian-forms' ) }
+				value={ fieldDescription }
+				onChange={ handleDescriptionChange }
 			/>
 		</>
 	);

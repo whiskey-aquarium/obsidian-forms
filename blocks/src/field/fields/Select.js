@@ -4,6 +4,7 @@ import { useState } from '@wordpress/element';
 // Import internal dependencies.
 import ObsidianFieldLabel from '../components/ObsidianFieldLabel';
 import ObsidianFieldControlsSelect from '../controls/Select';
+import ObsidianFieldDescription from '../components/ObsidianFieldDescription';
 
 /**
  * Component for rendering form settings.
@@ -22,9 +23,11 @@ const ObsidianFieldSelect = ( {
 	globalHasPlaceholder,
 	requiredIndicator,
 	handleLabelChange,
+	globalDescriptionPlacement,
+	handleDescriptionChange,
 	handleFieldOptionChange,
 } ) => {
-	const { fieldName, fieldPlaceholder, fieldOptions } = attributes;
+	const { fieldName, fieldDescription, fieldType, fieldPlaceholder, fieldOptions } = attributes;
 
 	const [ selectedOption, setSelectedOption ] = useState( '' );
 
@@ -40,6 +43,13 @@ const ObsidianFieldSelect = ( {
 				requiredIndicator={ requiredIndicator }
 				handleLabelChange={ handleLabelChange }
 			/>
+
+			{ fieldDescription && globalDescriptionPlacement === 'top' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 
 			<select
 				value={ selectedOption }
@@ -62,6 +72,13 @@ const ObsidianFieldSelect = ( {
 					);
 				} ) }
 			</select>
+
+			{ fieldDescription && globalDescriptionPlacement === 'bottom' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 		</>
 	);
 };

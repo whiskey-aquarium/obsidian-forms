@@ -1,6 +1,7 @@
 // Import internal dependencies.
 import ObsidianFieldLabel from '../components/ObsidianFieldLabel';
 import ObsidianFieldControlsCheckbox from '../controls/Checkbox';
+import ObsidianFieldDescription from '../components/ObsidianFieldDescription';
 
 /**
  * Component for rendering form settings.
@@ -18,10 +19,12 @@ const ObsidianFieldCheckbox = ( {
 	attributes,
 	requiredIndicator,
 	handleLabelChange,
+	globalDescriptionPlacement,
+	handleDescriptionChange,
 	handleExtraPropsChange,
 	handleFieldOptionChange,
 } ) => {
-	const { fieldName, fieldType, fieldOptions, extraProps } = attributes;
+	const { fieldName, fieldDescription, fieldType, fieldOptions, extraProps } = attributes;
 
 	return (
 		<>
@@ -36,6 +39,13 @@ const ObsidianFieldCheckbox = ( {
 				requiredIndicator={ requiredIndicator }
 				handleLabelChange={ handleLabelChange }
 			/>
+
+			{ fieldDescription && globalDescriptionPlacement === 'top' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 
 			<div
 				className={ `wp-block-obsidian-form-field__checkboxes wp-block-obsidian-form-field__checkboxes--${ extraProps.checkboxesLayout }` }
@@ -61,6 +71,13 @@ const ObsidianFieldCheckbox = ( {
 					);
 				} ) }
 			</div>
+
+			{ fieldDescription && globalDescriptionPlacement === 'bottom' && (
+				<ObsidianFieldDescription
+					attributes={ attributes }
+					handleDescriptionChange={ handleDescriptionChange }
+				/>
+			) }
 		</>
 	);
 };
