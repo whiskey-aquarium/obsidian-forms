@@ -6,6 +6,7 @@ import { createNotice } from '@wordpress/notices';
 import { useBlockProps, useInnerBlocksProps, InnerBlocks, RichText, InspectorControls } from '@wordpress/block-editor';
 import { useEntityBlockEditor, useEntityProp } from '@wordpress/core-data';
 import ObsidianFormSettings from './components/ObsidianFormSettings';
+import { getDefaultFormSettings } from './data/FormSettingsMetadata';
 
 export default function Edit( props ) {
 	const { attributes, setAttributes } = props;
@@ -20,6 +21,20 @@ export default function Edit( props ) {
 	const [noFormsAvailable, setNoFormsAvailable] = useState(false);
 	const [blocks, onInput, onChange] = useEntityBlockEditor('postType', 'obsidian_form', { id: formPostId || 0 });
 	const [title, setTitle] = useEntityProp('postType', 'obsidian_form', 'title', formPostId || 0);
+	
+	// Always call useEntityProp, but only use the values when we have a formPostId
+	const [meta, setMeta] = useEntityProp('postType', 'obsidian_form', 'meta', formPostId || 0);
+
+	// Update settings when meta or formPostId changes
+	useEffect(() => {
+		const defaults = getDefaultFormSettings();
+		const settings = formPostId 
+			? { ...defaults, ...(meta?._obsidian_form_settings || {}) }
+			: defaults;
+
+		setAttributes({ formSettings: settings });
+	}, [meta?._obsidian_form_settings, formPostId]);
+
 	const blockProps = useBlockProps({className: 'obsidian-form__editor obsidian-form__editor--ready'});
 
 	const innerBlocksProps = useInnerBlocksProps({}, {
@@ -88,7 +103,7 @@ export default function Edit( props ) {
 	}, [formPostId]);
 
 	const handleCreateNewForm = async () => {
-		if (newFormTitle.trim()) {
+		if (newFormTitle.trim()) {	
 			const createdForm = await apiFetch({
 				path: '/wp/v2/obsidian_form',
 				method: 'POST',
@@ -98,6 +113,9 @@ export default function Edit( props ) {
 <!-- wp:obsidian-form/field {"isRequired":true} /-->
 <!-- /wp:obsidian-form/field-group -->`,
 					status: 'publish',
+					meta: {
+						_obsidian_form_settings: getDefaultFormSettings()
+					}
 				}
 			});
 
@@ -135,6 +153,9 @@ export default function Edit( props ) {
 							title: `${formToCopy.title.rendered} (Copy)`,
 							content: formToCopy.raw_content,
 							status: 'publish',
+							meta: {
+								_obsidian_form_settings: formToCopy.meta?._obsidian_form_settings || getDefaultFormSettings()
+							}
 						},
 					});
 
@@ -154,14 +175,18 @@ export default function Edit( props ) {
 	};
 
 	const handleSettingChange = ( key, value ) => {
+		if (!formPostId || !formSettings || !key) return;
+
 		const newSettings = {
 			...formSettings,
-			[ key ]: {
-				...formSettings[ key ],
-				value,
-			},
+			[key]: value
 		};
-		setAttributes( { formSettings: newSettings } );
+		
+		// Update the meta object
+		setMeta({
+			...meta,
+			_obsidian_form_settings: newSettings,
+		});
 	};
 
 	if (formPostId) {

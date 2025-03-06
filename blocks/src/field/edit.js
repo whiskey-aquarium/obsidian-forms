@@ -8,6 +8,8 @@ import {
 	PanelBody,
 	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { useEntityProp } from '@wordpress/core-data';
 
 // Import internal dependencies.
 import ObsidianFieldToolbar from './components/ObsidianFieldToolbar';
@@ -18,6 +20,7 @@ import ObsidianFieldRadio from './fields/Radio';
 import ObsidianFieldSelect from './fields/Select';
 import ObsidianFieldTextarea from './fields/Textarea';
 import { fieldTypeOptions } from './data/FieldTypeOptions';
+import { getDefaultFormSettings } from '../form/data/FormSettingsMetadata';
 
 /**
  * Edit function for the obsidian form block. Returns markup for the editor.
@@ -36,13 +39,27 @@ export default function Edit( props ) {
 	// Destructure the attributes.
 	const { fieldType, fieldWidth } = attributes;
 
-	// Get the required indicator and global placeholder settings.
-	const requiredIndicator =
-		context[ 'obsidian-form/formSettings' ].requiredIndicator.value;
-	const globalHasPlaceholder =
-		context[ 'obsidian-form/formSettings' ].globalHasPlaceholder.value;
-	const globalDescriptionPlacement =
-		context[ 'obsidian-form/formSettings' ].descriptionPlacement.value;
+	// Get post type and meta if we're editing a form post directly
+	const postType = useSelect(select => select('core/editor').getCurrentPostType(), []);
+	const [meta] = useEntityProp('postType', postType, 'meta');
+
+	// Get form settings from either context or post meta
+	const formSettings = context['obsidian-form/formSettings'] || 
+		(postType === 'obsidian_form' ? meta?._obsidian_form_settings : null) || 
+		{
+			requiredIndicator: '*',
+			globalHasPlaceholder: true,
+			descriptionPlacement: 'bottom'
+		};
+
+	const requiredIndicator = formSettings.requiredIndicator || '*';
+	const globalHasPlaceholder = formSettings.globalHasPlaceholder ?? true;
+	const globalDescriptionPlacement = formSettings.descriptionPlacement || 'bottom';
+
+	// Set the formId from the formSettings
+	if (formSettings.id !== attributes.formId) {
+		setAttributes({ formId: formSettings.id || '' });
+	}
 
 	/**
 	 * Handle label change.
@@ -124,10 +141,6 @@ export default function Edit( props ) {
 		style: {
 			flex: flexProperty,
 		},
-	} );
-
-	setAttributes( {
-		formId: context[ 'obsidian-form/formSettings' ].id.value,
 	} );
 
 	return (
