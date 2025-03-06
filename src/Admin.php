@@ -2,6 +2,8 @@
 
 namespace Obsidian_Forms;
 
+use Obsidian_Forms\Models\Form;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,8 +19,103 @@ final class Admin {
 	 * @since   0.1.0
 	 */
 	public function initialize(): void {
+		add_action( 'init', [ $this, 'register_form_settings_meta' ] );
 		add_action( 'admin_menu', [ $this, 'add_menu' ] );
 		add_action( 'init', [ $this, 'register_form_post_type' ] );
+		add_action( 'init', [ $this, 'inject_form_settings' ] );
+	}
+
+	/**
+	 * Injects form settings into JavaScript when blocks are registered.
+	 *
+	 * @return void
+	 */
+	public function inject_form_settings(): void {
+		$form = new Form();
+		$settings = [
+			'metadata' => $form->get_form_settings_metadata(),
+			'defaults' => $form->get_default_settings(),
+		];
+		
+		wp_register_script(
+			'obsidian-forms-settings',
+			'',
+			['wp-blocks'],
+			'0.1.0',
+			true
+		);
+
+		wp_add_inline_script(
+			'obsidian-forms-settings',
+			sprintf(
+				'window.obsidianForms = window.obsidianForms || {};' .
+				'window.obsidianForms.settings = %s;',
+				wp_json_encode($settings)
+			),
+			'before'
+		);
+
+		wp_enqueue_script('obsidian-forms-settings');
+	}
+
+	/**
+	 * Registers the form settings meta.
+	 *
+	 * @return void
+	 */
+	public function register_form_settings_meta() {
+		$form = new Form();
+		$metadata = $form->get_form_settings_metadata();
+		$properties = [];
+
+		foreach ($metadata as $key => $data) {
+			$schema = ['type' => $this->map_field_type_to_schema_type($data['type'])];
+			
+			if (isset($data['default'])) {
+				$schema['default'] = $data['default'];
+			}
+			
+			if (isset($data['options'])) {
+				$schema['enum'] = array_column($data['options'], 'value');
+			}
+			
+			$properties[$key] = $schema;
+		}
+
+		register_post_meta(
+			'obsidian_form',
+			'_obsidian_form_settings',
+			[
+				'single'        => true,
+				'type'          => 'object',
+				'show_in_rest'  => [
+					'schema' => [
+						'type'       => 'object',
+						'properties' => $properties
+					]
+				],
+				'auth_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Maps form field types to JSON schema types.
+	 *
+	 * @param string $field_type The field type from the form settings.
+	 * @return string The corresponding JSON schema type.
+	 */
+	private function map_field_type_to_schema_type(string $field_type): string {
+		$map = [
+			'string' => 'string',
+			'select' => 'string',
+			'radio' => 'string',
+			'toggle' => 'boolean'
+		];
+
+		return $map[$field_type] ?? 'string';
 	}
 
 	/**

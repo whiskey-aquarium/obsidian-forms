@@ -50,12 +50,104 @@ class Form {
 	}
 
 	/**
-	 * Get the form fields.
+	 * Returns the form fields.
 	 *
 	 * @return array
 	 */
 	public function get_fields(): array {
 		return $this->fields;
+	}
+
+	/**
+	 * Returns the complete form settings metadata including types, options, and defaults.
+	 * This is the single source of truth for form settings.
+	 *
+	 * @return array
+	 */
+	public function get_form_settings_metadata(): array {
+		$settings = [
+			'labelPlacement' => [
+				'label' => __('Field Label Placement', 'obsidian-forms'),
+				'type' => 'select',
+				'default' => 'top',
+				'options' => [
+					['label' => __('Top', 'obsidian-forms'), 'value' => 'top'],
+					['label' => __('Left', 'obsidian-forms'), 'value' => 'left'],
+					['label' => __('Bottom', 'obsidian-forms'), 'value' => 'bottom']
+				]
+			],
+			'descriptionPlacement' => [
+				'label' => __('Field Description Placement', 'obsidian-forms'),
+				'type' => 'radio',
+				'default' => 'bottom',
+				'options' => [
+					['label' => __('Top', 'obsidian-forms'), 'value' => 'top'],
+					['label' => __('Bottom', 'obsidian-forms'), 'value' => 'bottom']
+				]
+			],
+			'globalHasPlaceholder' => [
+				'label' => __('Fields Have Placeholders', 'obsidian-forms'),
+				'type' => 'toggle',
+				'default' => true
+			],
+			'validationPlacement' => [
+				'label' => __('Validation Placement', 'obsidian-forms'),
+				'type' => 'radio',
+				'default' => 'bottom',
+				'options' => [
+					['label' => __('Top', 'obsidian-forms'), 'value' => 'top'],
+					['label' => __('Bottom', 'obsidian-forms'), 'value' => 'bottom']
+				]
+			],
+			'requiredIndicator' => [
+				'label' => __('Required Indicator', 'obsidian-forms'),
+				'type' => 'string',
+				'default' => '*'
+			],
+		];
+
+		return apply_filters('obsidian_forms_settings_metadata', $settings);
+	}
+
+	/**
+	 * Returns the settings for the form block.
+	 * This method now uses get_form_settings_metadata() as its source of truth.
+	 *
+	 * @return array
+	 */
+	public function get_form_settings(): array {
+		$metadata = $this->get_form_settings_metadata();
+		$settings = [];
+
+		foreach ($metadata as $key => $data) {
+			$settings[$key] = [
+				'label' => $data['label'],
+				'type' => $data['type'],
+				'value' => $data['default']
+			];
+
+			if (isset($data['options'])) {
+				$settings[$key]['options'] = $data['options'];
+			}
+		}
+
+		return apply_filters('obsidian_forms_form_settings', $settings);
+	}
+
+	/**
+	 * Returns the default values for all form settings.
+	 *
+	 * @return array
+	 */
+	public function get_default_settings(): array {
+		$metadata = $this->get_form_settings_metadata();
+		$defaults = [];
+
+		foreach ($metadata as $key => $data) {
+			$defaults[$key] = $data['default'];
+		}
+
+		return apply_filters('obsidian_forms_default_settings', $defaults);
 	}
 
 	/**
@@ -90,14 +182,22 @@ class Form {
 			'show_in_menu'       => false,
 			'has_archive'        => false,
 			'publicly_queryable' => false,
-			'supports'           => [ 'title', 'editor' ],
+			'supports'           => [ 'title', 'editor', 'custom-fields' ],
 			'show_in_rest'       => true,
 			'capability_type'    => 'post',
 			'template'           => [
 				[
-					'obsidian-form/field',
+					'obsidian-form/field-group',
 					[],
-				],
+					[
+						[
+							'obsidian-form/field',
+							[
+								'isRequired' => true
+							]
+						]
+					]
+				]
 			],
 		];
 
