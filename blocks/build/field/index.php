@@ -18,6 +18,7 @@ if ( $attributes['isRequired'] ) {
 
 if ( $attributes['formId'] ) {
 	$obsidian_forms_field_class[] = 'obsidian-forms-field__' . $attributes['formId'];
+
 }
 
 if ( $attributes['fieldName'] ) {
@@ -50,8 +51,8 @@ $obsidian_forms_field_args = apply_filters(
 	],
 );
 
-$obsidian_forms_form_settings = $block->context['obsidian-form/formSettings'] ?? false;
-$description_placement = $obsidian_forms_form_settings['descriptionPlacement']['value'] ?? 'top';
+$obsidian_forms_form_settings = $block->context['obsidian-form/formSettings'] ?? [];
+$description_placement = $obsidian_forms_form_settings['descriptionPlacement'] ?? 'bottom';
 ?>
 
 <div <?php echo wp_kses_data( $obsidian_forms_field_args['block_attributes'] ); ?>>

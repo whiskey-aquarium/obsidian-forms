@@ -21,77 +21,19 @@
 			"type": "string",
 			"default": ""
 		},
-		"formSettings": {
-			"type": "object",
-			"default": {
-				"id": {
-					"label": "Form ID",
-					"type": "string",
-					"value": ""
-				},
-				"title": {
-					"label": "Form Title",
-					"type": "string",
-					"value": ""
-				},
-				"className": {
-					"label": "Form Class",
-					"type": "string",
-					"value": ""
-				},
-				"description": {
-					"label": "Form Description",
-					"type": "string",
-					"value": ""
-				},
-				"labelPlacement": {
-					"label": "Field Label Placement",
-					"type": "select",
-					"value": "top",
-					"options": [
-						{ "label": "Top", "value": "top" },
-						{ "label": "Left", "value": "left" },
-						{ "label": "Bottom", "value": "bottom" }
-					]
-				},
-				"descriptionPlacement": {
-					"label": "Field Description Placement",
-					"type": "radio",
-					"value": "bottom",
-					"options": [
-						{ "label": "Top", "value": "top" },
-						{ "label": "Bottom", "value": "bottom" }
-					]
-				},
-				"globalHasPlaceholder": {
-					"label": "Fields Have Placeholders",
-					"type": "toggle",
-					"value": true
-				},
-				"validationPlacement": {
-					"label": "Validation Placement",
-					"type": "radio",
-					"value": "bottom",
-					"options": [
-						{ "label": "Top", "value": "top" },
-						{ "label": "Bottom", "value": "bottom" }
-					]
-				},
-				"requiredIndicator": {
-					"label": "Required Indicator",
-					"type": "string",
-					"value": "*"
-				}
-			}
+		"formPostId": {
+			"type": "number",
+			"default": 0
 		}
 	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"script": "file:./view.js",
-	"style": "file:./style-index.css",
-	"allowedBlocks": [ "obsidian-form/field" ],
 	"providesContext": {
 		"obsidian-form/formSettings": "formSettings"
 	},
+	"editorScript": ["file:./index.js", "obsidian-forms-settings"],
+	"editorStyle": "file:./index.css",
+	"script": "file:./view.js",
+	"style": "file:./style-index.css",
+	"allowedBlocks": [ "obsidian-form/field-group" ],
+	"usesContext": [],
 	"render": "file:./index.php"
 }

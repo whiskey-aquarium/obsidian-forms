@@ -5,6 +5,8 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 
+import { getFormSettingsMetadata } from '../data/FormSettingsMetadata';
+
 /**
  * Component for rendering form settings.
  *
@@ -13,49 +15,53 @@ import {
  */
 const ObsidianFormSettings = ( props ) => {
 	const { formSettings, handleSettingChange } = props;
+	const metadata = getFormSettingsMetadata();
 
 	return (
 		<>
 			{ formSettings &&
 				// Loop through the formSettings object
-				Object.entries( formSettings ).map( ( [ key, settings ] ) => {
+				Object.entries( formSettings ).map( ( [ key, value ] ) => {
+					const fieldMetadata = metadata[key];
+					if (!fieldMetadata) return null;
+
 					// Depending on the 'type', render different controls
-					if ( settings.type === 'select' ) {
+					if ( fieldMetadata.type === 'select' ) {
 						return (
 							<SelectControl
 								key={ key }
-								label={ settings.label }
-								value={ settings.value }
-								options={ settings.options }
-								onChange={ ( value ) =>
-									handleSettingChange( key, value )
+								label={ fieldMetadata.label }
+								value={ value }
+								options={ fieldMetadata.options }
+								onChange={ ( newValue ) =>
+									handleSettingChange( key, newValue )
 								}
 							/>
 						);
 					}
 
-					if ( settings.type === 'radio' ) {
+					if ( fieldMetadata.type === 'radio' ) {
 						return (
 							<RadioControl
 								key={ key }
-								label={ settings.label }
-								selected={ settings.value }
-								options={ settings.options }
-								onChange={ ( value ) =>
-									handleSettingChange( key, value )
+								label={ fieldMetadata.label }
+								selected={ value }
+								options={ fieldMetadata.options }
+								onChange={ ( newValue ) =>
+									handleSettingChange( key, newValue )
 								}
 							/>
 						);
 					}
 
-					if ( settings.type === 'toggle' ) {
+					if ( fieldMetadata.type === 'toggle' ) {
 						return (
 							<ToggleControl
 								key={ key }
-								label={ settings.label }
-								checked={ settings.value }
-								onChange={ ( value ) =>
-									handleSettingChange( key, value )
+								label={ fieldMetadata.label }
+								checked={ value }
+								onChange={ ( newValue ) =>
+									handleSettingChange( key, newValue )
 								}
 							/>
 						);
@@ -64,10 +70,10 @@ const ObsidianFormSettings = ( props ) => {
 					return (
 						<TextControl
 							key={ key }
-							label={ settings.label }
-							value={ settings.value }
-							onChange={ ( value ) =>
-								handleSettingChange( key, value )
+							label={ fieldMetadata.label }
+							value={ value }
+							onChange={ ( newValue ) =>
+								handleSettingChange( key, newValue )
 							}
 						/>
 					);

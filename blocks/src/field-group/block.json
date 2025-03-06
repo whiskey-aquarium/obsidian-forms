@@ -11,11 +11,18 @@
 		"html": false,
 		"align": true
 	},
-	"attributes": {},
+	"attributes": {
+		"obsidian-form/formSettings": {
+			"type": "object"
+		}
+	},
+	"providesContext": {
+		"obsidian-form/formSettings": "obsidian-form/formSettings"
+	},
+	"usesContext": ["obsidian-form/formSettings"],
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"parent": [ "obsidian-form/form" ],
 	"allowedBlocks": [ "obsidian-form/field" ],
 	"render": "file:./index.php"
 }

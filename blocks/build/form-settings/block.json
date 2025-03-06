@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "obsidian-form/form-settings",
+  "title": "Form Settings",
+  "category": "widgets",
+  "icon": "feedback",
+  "description": "Settings panel for Obsidian Forms",
+  "textdomain": "obsidian-forms",
+  "editorScript": "file:./index.js"
+}
