@@ -28,7 +28,6 @@ $obsidian_forms_form_args = apply_filters(
 				'action'     => esc_url( $_SERVER['REQUEST_URI'] ), // set action to current page url by default
 			]
 		),
-
 	],
 );
 

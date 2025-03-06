@@ -21,6 +21,7 @@ $obsidian_forms_form_args = apply_filters(
 	'obsidian_forms_form_args',
 	[
 		'form_settings'    => $form_settings,
+<<<<<<< HEAD
 		'block_attributes' => get_block_wrapper_attributes(
 			[
 				'novalidate' => true,
@@ -29,6 +30,9 @@ $obsidian_forms_form_args = apply_filters(
 			]
 		),
 
+=======
+		'block_attributes' => get_block_wrapper_attributes(),
+>>>>>>> e8072dd9fef76a9eac6fbd8ef761c2c006081340
 	],
 );
 
