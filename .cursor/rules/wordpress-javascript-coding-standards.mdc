@@ -1,6 +1,7 @@
 ---
 description: 
-globs: 
+globs: *.js
+alwaysApply: false
 ---
 - Indent using tabs, not spaces.
 - No whitespace at the end of lines or on blank lines.
