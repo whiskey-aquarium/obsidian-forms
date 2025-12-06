@@ -1,0 +1,20 @@
+/**
+ * Form Settings Editor Styles
+ */
+
+.obsidian-form-settings-panel {
+	.components-base-control {
+		margin-bottom: 16px;
+	}
+
+	.components-base-control__label {
+		font-weight: 500;
+		margin-bottom: 8px;
+	}
+
+	.components-select-control__input,
+	.components-text-control__input {
+		width: 100%;
+	}
+}
+

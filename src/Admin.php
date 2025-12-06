@@ -23,6 +23,7 @@ final class Admin {
 		add_action( 'admin_menu', [ $this, 'add_menu' ] );
 		add_action( 'init', [ $this, 'register_form_post_type' ] );
 		add_action( 'init', [ $this, 'inject_form_settings' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_form_settings_script' ] );
 	}
 
 	/**
@@ -56,6 +57,47 @@ final class Admin {
 		);
 
 		wp_enqueue_script('obsidian-forms-settings');
+	}
+
+	/**
+	 * Enqueues the form settings script for the obsidian_form post type editor.
+	 *
+	 * @return void
+	 */
+	public function enqueue_form_settings_script(): void {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+		if ( ! $screen || 'obsidian_form' !== $screen->post_type ) {
+			return;
+		}
+
+		// Get the asset file for the form-settings block.
+		$asset_file = OBSIDIAN_FORMS_PATH . 'blocks/build/form-settings/index.asset.php';
+
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		$asset = require $asset_file;
+
+		wp_enqueue_script(
+			'obsidian-form-settings-editor',
+			OBSIDIAN_FORMS_URL . 'blocks/build/form-settings/index.js',
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+
+		// Enqueue any associated styles if they exist.
+		$style_file = OBSIDIAN_FORMS_PATH . 'blocks/build/form-settings/index.css';
+		if ( file_exists( $style_file ) ) {
+			wp_enqueue_style(
+				'obsidian-form-settings-editor-style',
+				OBSIDIAN_FORMS_URL . 'blocks/build/form-settings/index.css',
+				array(),
+				$asset['version']
+			);
+		}
 	}
 
 	/**

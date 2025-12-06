@@ -8,8 +8,13 @@
  * @var array    $context            Block context.
  */
 
+// Get form settings from context
+$obsidian_forms_form_settings = $block->context['obsidian-form/formSettings'] ?? [];
+$label_placement = $obsidian_forms_form_settings['labelPlacement'] ?? 'top';
+
 $obsidian_forms_field_class = [
 	'obsidian-forms-field__' . $attributes['fieldType'],
+	'obsidian-forms-field__label-' . $label_placement,
 ];
 
 if ( $attributes['isRequired'] ) {
@@ -51,8 +56,8 @@ $obsidian_forms_field_args = apply_filters(
 	],
 );
 
-$obsidian_forms_form_settings = $block->context['obsidian-form/formSettings'] ?? [];
 $description_placement = $obsidian_forms_form_settings['descriptionPlacement'] ?? 'bottom';
+$required_indicator = $obsidian_forms_form_settings['requiredIndicator'] ?? '*';
 ?>
 
 <div <?php echo wp_kses_data( $obsidian_forms_field_args['block_attributes'] ); ?>>
@@ -63,7 +68,7 @@ $description_placement = $obsidian_forms_form_settings['descriptionPlacement'] ?
 		<?php echo esc_html( $obsidian_forms_field_args['field_label'] ); ?>
 
 		<?php if ( $obsidian_forms_field_args['field_required'] ) : ?>
-			<span>*</span>
+			<span><?php echo esc_html( $required_indicator ); ?></span>
 		<?php endif; ?>
 	</label>
 
