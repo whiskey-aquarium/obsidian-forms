@@ -60,6 +60,9 @@ export default function Edit( props ) {
 	const globalHasPlaceholder = formSettings.globalHasPlaceholder ?? true;
 	const globalDescriptionPlacement =
 		formSettings.descriptionPlacement || 'bottom';
+	const fieldTypeComponent =
+		fieldTypeOptions.find( ( option ) => option.value === fieldType )
+			?.component || 'input';
 
 	// Keep derived attributes out of the render phase. Newer React versions warn
 	// (and may interrupt rendering) when a block updates itself while rendering.
@@ -189,9 +192,7 @@ export default function Edit( props ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'input' && (
+				{ fieldTypeComponent === 'input' && (
 					<ObsidianFieldInput
 						attributes={ attributes }
 						globalHasPlaceholder={ globalHasPlaceholder }
@@ -204,9 +205,7 @@ export default function Edit( props ) {
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'textarea' && (
+				{ fieldTypeComponent === 'textarea' && (
 					<ObsidianFieldTextarea
 						attributes={ attributes }
 						globalHasPlaceholder={ globalHasPlaceholder }
@@ -219,9 +218,7 @@ export default function Edit( props ) {
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'select' && (
+				{ fieldTypeComponent === 'select' && (
 					<ObsidianFieldSelect
 						attributes={ attributes }
 						globalHasPlaceholder={ globalHasPlaceholder }
@@ -235,9 +232,7 @@ export default function Edit( props ) {
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'checkbox' && (
+				{ fieldTypeComponent === 'checkbox' && (
 					<ObsidianFieldCheckbox
 						attributes={ attributes }
 						requiredIndicator={ requiredIndicator }
@@ -251,9 +246,7 @@ export default function Edit( props ) {
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'radio' && (
+				{ fieldTypeComponent === 'radio' && (
 					<ObsidianFieldRadio
 						attributes={ attributes }
 						requiredIndicator={ requiredIndicator }

@@ -3,7 +3,6 @@
 namespace Obsidian_Forms;
 
 // Exit if accessed directly.
-use WP_REST_Request;
 use WP_REST_Response;
 use Obsidian_Forms\Models\Form;
 
@@ -21,8 +20,38 @@ final class Rest {
 	 * @since   0.1.0
 	 */
 	public function initialize(): void {
-		add_action( 'rest_api_init', [ $this, 'add_raw_content_to_rest_response' ] );
+		add_filter( 'rest_pre_dispatch', [ $this, 'authorize_form_routes' ], 10, 3 );
 		add_action( 'rest_api_init', [ $this, 'register_form_settings_endpoints' ] );
+	}
+
+	/**
+	 * Restricts every core REST route for the private form-definition post type.
+	 *
+	 * Core exposes published custom post types through REST even when
+	 * publicly_queryable is false, so the post type capabilities alone do not
+	 * protect form schemas.
+	 *
+	 * @param mixed            $result  Response to replace, if one exists.
+	 * @param \WP_REST_Server  $server  REST server instance.
+	 * @param \WP_REST_Request $request Current request.
+	 * @return mixed
+	 */
+	public function authorize_form_routes( $result, $server, $request ) {
+		unset( $server );
+
+		if ( 0 !== strpos( $request->get_route(), '/wp/v2/obsidian_form' ) ) {
+			return $result;
+		}
+
+		if ( current_user_can( 'manage_options' ) ) {
+			return $result;
+		}
+
+		return new \WP_Error(
+			'obsidian_forms_rest_forbidden',
+			__( 'You are not allowed to access form definitions.', 'obsidian-forms' ),
+			[ 'status' => rest_authorization_required_code() ]
+		);
 	}
 
 	/**
@@ -36,9 +65,9 @@ final class Rest {
 			'/form-settings',
 			[
 				'methods'             => 'GET',
-				'callback'           => [ $this, 'get_form_settings' ],
+				'callback'            => [ $this, 'get_form_settings' ],
 				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
+					return current_user_can( 'manage_options' );
 				},
 			]
 		);
@@ -51,42 +80,12 @@ final class Rest {
 	 */
 	public function get_form_settings(): WP_REST_Response {
 		$form = new Form();
-		
-		return new WP_REST_Response([
-			'metadata' => $form->get_form_settings_metadata(),
-			'defaults' => $form->get_default_settings()
-		]);
-	}
 
-	/**
-	 * Adds the raw content to the rest response for the obsidian_form post type.
-	 *
-	 * @return void
-	 * @version 0.1.0
-	 *
-	 * @since   0.1.0
-	 */
-	public function add_raw_content_to_rest_response() {
-		register_rest_field(
-			'obsidian_form',
-			'raw_content',
+		return new WP_REST_Response(
 			[
-				'get_callback'    => [ $this, 'get_raw_content' ],
-				'update_callback' => null,
-				'schema'          => null,
+				'metadata' => $form->get_form_settings_metadata(),
+				'defaults' => $form->get_default_settings(),
 			]
 		);
-	}
-
-	/**
-	 * Gets the raw content for the obsidian_form post type.
-	 *
-	 * @param array $rest_object The object.
-	 *
-	 * @version 0.1.0
-	 * @since   0.1.0
-	 */
-	public function get_raw_content( array $rest_object ): string {
-		return $rest_object['content']['raw'] ?? '';
 	}
 }

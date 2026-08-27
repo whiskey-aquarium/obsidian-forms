@@ -15,6 +15,7 @@
 }
 
 .obsidian-forms-placeholder {
+
 	.components-placeholder__instructions {
 		display: block !important; // WordPress core override
 	}
@@ -38,6 +39,7 @@
 				display: flex;
 
 				button {
+
 					&:first-child {
 						margin-right: 1rem;
 					}

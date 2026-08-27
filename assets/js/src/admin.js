@@ -1,2 +1,1 @@
-// eslint-disable-next-line no-console
-console.log( 'Obsidian!' );
+// Reserved for future admin behavior.

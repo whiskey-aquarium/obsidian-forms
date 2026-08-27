@@ -35,7 +35,7 @@
 	},
 	"editorScript": [ "file:./index.js", "obsidian-forms-settings" ],
 	"editorStyle": "file:./index.css",
-	"script": "file:./view.js",
+	"viewScript": "file:./view.js",
 	"style": "file:./style-index.css",
 	"allowedBlocks": [ "obsidian-form/field-group" ],
 	"usesContext": [],

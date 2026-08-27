@@ -9,6 +9,27 @@
 }
 
 .wp-block-obsidian-form-form {
+
+	.obsidian-forms-honeypot {
+		position: absolute !important;
+		left: -10000px !important;
+		width: 1px !important;
+		height: 1px !important;
+		overflow: hidden !important;
+	}
+
+	.obsidian-forms-notice {
+		margin-bottom: 1rem;
+		padding: 0.75rem 1rem;
+	}
+
+	.obsidian-forms-notice--success {
+		border-left: 4px solid #008a20;
+	}
+
+	.obsidian-forms-notice--error {
+		border-left: 4px solid #d63638;
+	}
 	padding: var(--of-padding);
 	background-color: var(--of-background-color);
 	border: var(--of-border-width) solid var(--of-border-color);

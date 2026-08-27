@@ -27,6 +27,7 @@ const ObsidianFieldControlsFieldOptions = ( {
 						<Button
 							style={ { marginRight: '10px' } }
 							icon={ dragHandle }
+							label={ __( 'Reorder option', 'obsidian-forms' ) }
 						/>
 					</div>
 
@@ -73,8 +74,9 @@ const ObsidianFieldControlsFieldOptions = ( {
 
 								handleFieldOptionChange( newFieldOptions );
 							} }
-							isPrimary
+							variant="primary"
 							icon={ trash }
+							label={ __( 'Delete option', 'obsidian-forms' ) }
 						/>
 					</div>
 				</div>
@@ -126,7 +128,7 @@ const ObsidianFieldControlsFieldOptions = ( {
 
 								handleFieldOptionChange( newFieldOptions );
 							} }
-							isPrimary
+							variant="primary"
 						>
 							{ __( 'Add option', 'obsidian-forms' ) }
 						</Button>

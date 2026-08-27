@@ -1,5 +1,7 @@
 import TomSelect from 'tom-select';
-import validator from 'validator'; // eslint-disable-line no-unused-vars
+import isEmail from 'validator/lib/isEmail';
+import isMobilePhone from 'validator/lib/isMobilePhone';
+import isURL from 'validator/lib/isURL';
 
 class FormView {
 	/**
@@ -20,8 +22,6 @@ class FormView {
 		this.emails = this.form.querySelectorAll( 'input[type="email"]' ) || [];
 		this.phones = this.form.querySelectorAll( 'input[type="tel"]' ) || [];
 		this.urls = this.form.querySelectorAll( 'input[type="url"]' ) || [];
-		this.submit =
-			this.form.querySelector( '#obsidian-form-submit' ) || null;
 		this.requiredFields = this.form.querySelectorAll(
 			`.${ this.requiredClass }`
 		);
@@ -47,9 +47,7 @@ class FormView {
 	 */
 	formSelectUi() {
 		this.selects.forEach( ( select ) => {
-			new TomSelect( select, {
-				create: true,
-			} );
+			new TomSelect( select, { create: false } );
 		} );
 	}
 
@@ -104,6 +102,10 @@ class FormView {
 
 		if ( errors > 0 ) {
 			event.preventDefault();
+			const firstError = this.form.querySelector(
+				`.${ this.invalidClass } input, .${ this.invalidClass } select, .${ this.invalidClass } textarea`
+			);
+			firstError?.focus();
 		}
 	}
 
@@ -121,7 +123,7 @@ class FormView {
 				return;
 			}
 
-			if ( validator.isEmail( email.value ) || ! email.value ) {
+			if ( isEmail( email.value ) || ! email.value ) {
 				this.setFieldValidationState( email, 'pass' );
 			} else {
 				errors++;
@@ -150,10 +152,7 @@ class FormView {
 				return;
 			}
 
-			if (
-				validator.isMobilePhone( phone.value, 'en-US' ) ||
-				! phone.value
-			) {
+			if ( isMobilePhone( phone.value, 'en-US' ) || ! phone.value ) {
 				this.setFieldValidationState( phone, 'pass' );
 			} else {
 				errors++;
@@ -182,7 +181,7 @@ class FormView {
 				return;
 			}
 
-			if ( validator.isURL( url.value ) || ! url.value ) {
+			if ( isURL( url.value ) || ! url.value ) {
 				this.setFieldValidationState( url, 'pass' );
 			} else {
 				errors++;
@@ -248,6 +247,8 @@ class FormView {
 
 		if ( state === 'fail' ) {
 			parent.classList.add( this.invalidClass );
+			const input = parent.querySelector( 'input, select, textarea' );
+			input?.setAttribute( 'aria-invalid', 'true' );
 
 			if ( ! errorMessage ) {
 				parent.appendChild( this.generateErrorMessage( message ) );
@@ -256,6 +257,8 @@ class FormView {
 			}
 		} else {
 			parent.classList.remove( this.invalidClass );
+			const input = parent.querySelector( 'input, select, textarea' );
+			input?.removeAttribute( 'aria-invalid' );
 
 			if ( errorMessage ) {
 				errorMessage.remove();
@@ -296,6 +299,7 @@ class FormView {
 		const messageContainer = document.createElement( 'div' );
 
 		messageContainer.classList.add( this.errorMessageClass );
+		messageContainer.setAttribute( 'role', 'alert' );
 		messageContainer.textContent = message;
 
 		return messageContainer;

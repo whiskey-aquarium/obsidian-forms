@@ -8,11 +8,13 @@ import ObsidianFieldDescription from '../components/ObsidianFieldDescription';
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                      Props passed to the component.
- * @param {Object}   props.attributes           Attributes passed to the component.
- * @param {boolean}  props.globalHasPlaceholder Whether the form has a placeholder.
- * @param {string}   props.requiredIndicator    The required indicator.
- * @param {Function} props.handleLabelChange    Function to handle label change.
+ * @param {Object}   props                            Props passed to the component.
+ * @param {Object}   props.attributes                 Attributes passed to the component.
+ * @param {boolean}  props.globalHasPlaceholder       Whether the form has a placeholder.
+ * @param {string}   props.requiredIndicator          The required indicator.
+ * @param {Function} props.handleLabelChange          Function to handle label change.
+ * @param {string}   props.globalDescriptionPlacement Global description placement.
+ * @param {Function} props.handleDescriptionChange    Function to handle description change.
  *
  * @return {Object}  The rendered component.
  */
@@ -22,7 +24,7 @@ const ObsidianFieldTextarea = ( {
 	requiredIndicator,
 	globalDescriptionPlacement,
 	handleLabelChange,
-	handleDescriptionChange
+	handleDescriptionChange,
 } ) => {
 	const { fieldName, fieldDescription, fieldPlaceholder } = attributes;
 

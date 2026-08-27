@@ -5,9 +5,6 @@ import {
 	overlayText,
 	chevronDown,
 	check,
-	file,
-	unseen,
-	reset,
 } from '@wordpress/icons';
 
 export const fieldTypeOptions = [
@@ -66,35 +63,6 @@ export const fieldTypeOptions = [
 		label: 'Radio',
 		value: 'radio',
 		component: 'radio',
-	},
-	{
-		label: 'File',
-		value: 'file',
-		component: 'input',
-		icon: file,
-	},
-	{
-		label: 'Submit',
-		value: 'submit',
-		component: 'input',
-		icon: 'button',
-	},
-	{
-		label: 'Reset',
-		value: 'reset',
-		component: 'input',
-		icon: reset,
-	},
-	{
-		label: 'Hidden',
-		value: 'hidden',
-		component: 'input',
-		icon: unseen,
-	},
-	{
-		label: 'Password',
-		value: 'password',
-		component: 'input',
 	},
 	{
 		label: 'Phone',

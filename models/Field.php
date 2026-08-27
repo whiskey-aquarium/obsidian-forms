@@ -81,7 +81,7 @@ class Field {
 	 * @return string The HTML output for the field.
 	 */
 	public function render(): string {
-		$html = '<label for="' . esc_attr( $this->name ) . '">' . esc_html( $this->label ) . '</label>';
+		$html  = '<label for="' . esc_attr( $this->name ) . '">' . esc_html( $this->label ) . '</label>';
 		$html .= '<input type="' . esc_attr( $this->get_input_type() ) . '" name="' . esc_attr( $this->name ) . '" value="' . esc_attr( $this->value ) . '" />';
 
 		return $html;

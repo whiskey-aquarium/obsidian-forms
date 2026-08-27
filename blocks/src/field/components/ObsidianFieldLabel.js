@@ -28,7 +28,7 @@ const ObsidianFieldLabel = ( {
 					value={ fieldLabel }
 					onChange={ handleLabelChange }
 					placeholder={ __( 'Enter Field Label', 'obsidian-forms' ) }
-					tag="label"
+					tagName="span"
 					className="wp-block-obsidian-form-field__label"
 				/>
 				{ isRequired && <span>{ requiredIndicator }</span> }

@@ -66,47 +66,34 @@ class Form {
 	 */
 	public function get_form_settings_metadata(): array {
 		$settings = [
-			'labelPlacement' => [
-				'label' => __('Field Label Placement', 'obsidian-forms'),
-				'type' => 'select',
-				'default' => 'top',
-				'options' => [
-					['label' => __('Top', 'obsidian-forms'), 'value' => 'top'],
-					['label' => __('Left', 'obsidian-forms'), 'value' => 'left'],
-					['label' => __('Bottom', 'obsidian-forms'), 'value' => 'bottom']
-				]
-			],
 			'descriptionPlacement' => [
-				'label' => __('Field Description Placement', 'obsidian-forms'),
-				'type' => 'radio',
+				'label'   => __( 'Field Description Placement', 'obsidian-forms' ),
+				'type'    => 'radio',
 				'default' => 'bottom',
 				'options' => [
-					['label' => __('Top', 'obsidian-forms'), 'value' => 'top'],
-					['label' => __('Bottom', 'obsidian-forms'), 'value' => 'bottom']
-				]
+					[
+						'label' => __( 'Top', 'obsidian-forms' ),
+						'value' => 'top',
+					],
+					[
+						'label' => __( 'Bottom', 'obsidian-forms' ),
+						'value' => 'bottom',
+					],
+				],
 			],
 			'globalHasPlaceholder' => [
-				'label' => __('Fields Have Placeholders', 'obsidian-forms'),
-				'type' => 'toggle',
-				'default' => true
+				'label'   => __( 'Fields Have Placeholders', 'obsidian-forms' ),
+				'type'    => 'toggle',
+				'default' => true,
 			],
-			'validationPlacement' => [
-				'label' => __('Validation Placement', 'obsidian-forms'),
-				'type' => 'radio',
-				'default' => 'bottom',
-				'options' => [
-					['label' => __('Top', 'obsidian-forms'), 'value' => 'top'],
-					['label' => __('Bottom', 'obsidian-forms'), 'value' => 'bottom']
-				]
-			],
-			'requiredIndicator' => [
-				'label' => __('Required Indicator', 'obsidian-forms'),
-				'type' => 'string',
-				'default' => '*'
+			'requiredIndicator'    => [
+				'label'   => __( 'Required Indicator', 'obsidian-forms' ),
+				'type'    => 'string',
+				'default' => '*',
 			],
 		];
 
-		return apply_filters('obsidian_forms_settings_metadata', $settings);
+		return apply_filters( 'obsidian_forms_settings_metadata', $settings );
 	}
 
 	/**
@@ -119,19 +106,19 @@ class Form {
 		$metadata = $this->get_form_settings_metadata();
 		$settings = [];
 
-		foreach ($metadata as $key => $data) {
-			$settings[$key] = [
+		foreach ( $metadata as $key => $data ) {
+			$settings[ $key ] = [
 				'label' => $data['label'],
-				'type' => $data['type'],
-				'value' => $data['default']
+				'type'  => $data['type'],
+				'value' => $data['default'],
 			];
 
-			if (isset($data['options'])) {
-				$settings[$key]['options'] = $data['options'];
+			if ( isset( $data['options'] ) ) {
+				$settings[ $key ]['options'] = $data['options'];
 			}
 		}
 
-		return apply_filters('obsidian_forms_form_settings', $settings);
+		return apply_filters( 'obsidian_forms_form_settings', $settings );
 	}
 
 	/**
@@ -143,11 +130,11 @@ class Form {
 		$metadata = $this->get_form_settings_metadata();
 		$defaults = [];
 
-		foreach ($metadata as $key => $data) {
-			$defaults[$key] = $data['default'];
+		foreach ( $metadata as $key => $data ) {
+			$defaults[ $key ] = $data['default'];
 		}
 
-		return apply_filters('obsidian_forms_default_settings', $defaults);
+		return apply_filters( 'obsidian_forms_default_settings', $defaults );
 	}
 
 	/**
@@ -185,6 +172,17 @@ class Form {
 			'supports'           => [ 'title', 'editor', 'custom-fields' ],
 			'show_in_rest'       => true,
 			'capability_type'    => 'post',
+			'capabilities'       => [
+				'edit_post'          => 'manage_options',
+				'read_post'          => 'manage_options',
+				'delete_post'        => 'manage_options',
+				'edit_posts'         => 'manage_options',
+				'edit_others_posts'  => 'manage_options',
+				'delete_posts'       => 'manage_options',
+				'publish_posts'      => 'manage_options',
+				'read_private_posts' => 'manage_options',
+				'create_posts'       => 'manage_options',
+			],
 			'template'           => [
 				[
 					'obsidian-form/field-group',
@@ -193,11 +191,11 @@ class Form {
 						[
 							'obsidian-form/field',
 							[
-								'isRequired' => true
-							]
-						]
-					]
-				]
+								'isRequired' => true,
+							],
+						],
+					],
+				],
 			],
 		];
 
