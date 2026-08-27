@@ -24,12 +24,16 @@
 		"formPostId": {
 			"type": "number",
 			"default": 0
+		},
+		"formSettings": {
+			"type": "object",
+			"default": {}
 		}
 	},
 	"providesContext": {
 		"obsidian-form/formSettings": "formSettings"
 	},
-	"editorScript": ["file:./index.js", "obsidian-forms-settings"],
+	"editorScript": [ "file:./index.js", "obsidian-forms-settings" ],
 	"editorStyle": "file:./index.css",
 	"script": "file:./view.js",
 	"style": "file:./style-index.css",

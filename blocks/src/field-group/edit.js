@@ -1,47 +1,62 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { select, dispatch } from '@wordpress/data';
+import { dispatch } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { Icon } from '@wordpress/components';
 import { plusCircleFilled } from '@wordpress/icons';
 
 /**
  * Edit function for the field group block.
  *
- * @param {Object} props Props passed to the edit component.
+ * @param {Object}   props               Props passed to the edit component.
+ * @param {Object}   props.attributes    Block attributes.
+ * @param {Function} props.setAttributes Updates block attributes.
+ * @param {Object}   props.context       Context inherited from parent blocks.
+ * @param {string}   props.clientId      The block client ID.
  * @return {Object} The rendered edit component.
  */
-export default function Edit({ attributes, setAttributes, context, clientId }) {
+export default function Edit( {
+	attributes,
+	setAttributes,
+	context,
+	clientId,
+} ) {
 	const insertFieldBlock = () => {
-		const block = createBlock('obsidian-form/field');
-		dispatch('core/block-editor').insertBlock(block, undefined, clientId);
+		const block = createBlock( 'obsidian-form/field' );
+		dispatch( 'core/block-editor' ).insertBlock(
+			block,
+			undefined,
+			clientId
+		);
 	};
 
 	const blockProps = useBlockProps();
-	const innerBlocksProps = useInnerBlocksProps(
-		blockProps,
-		{
-			allowedBlocks: ['obsidian-form/field'],
-			template: [['obsidian-form/field']],
-			renderAppender: () => (
-				<Icon
-					icon={plusCircleFilled}
-					className="wp-block-obsidian-form-field-group__add-field"
-					onClick={insertFieldBlock}
-				/>
-			),
-		}
-	);
+	const formSettings = context[ 'obsidian-form/formSettings' ];
+	const storedFormSettings = attributes[ 'obsidian-form/formSettings' ];
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
+		allowedBlocks: [ 'obsidian-form/field' ],
+		template: [ [ 'obsidian-form/field' ] ],
+		renderAppender: () => (
+			<Icon
+				icon={ plusCircleFilled }
+				className="wp-block-obsidian-form-field-group__add-field"
+				onClick={ insertFieldBlock }
+			/>
+		),
+	} );
 
-	// Update the form settings attribute when context changes
-	if (context['obsidian-form/formSettings'] !== attributes['obsidian-form/formSettings']) {
-		setAttributes({
-			'obsidian-form/formSettings': context['obsidian-form/formSettings']
-		});
-	}
+	// Keep context in sync without updating the block during its render phase.
+	useEffect( () => {
+		if ( formSettings !== storedFormSettings ) {
+			setAttributes( {
+				'obsidian-form/formSettings': formSettings,
+			} );
+		}
+	}, [ formSettings, setAttributes, storedFormSettings ] );
 
 	return (
-		<div {...blockProps}>
-			<div {...innerBlocksProps} />
+		<div { ...blockProps }>
+			<div { ...innerBlocksProps } />
 		</div>
 	);
 }
