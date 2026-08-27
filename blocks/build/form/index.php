@@ -45,12 +45,8 @@ $obsidian_forms_form_args = apply_filters(
 	[
 		'form_settings'    => $obsidian_forms_form_settings,
 		'form_post'        => $obsidian_forms_form_post,
-		'block_attributes' => get_block_wrapper_attributes(
-			[
-				'method' => 'post',
-				'action' => admin_url( 'admin-post.php' ),
-			]
-		),
+		'block_attributes' => get_block_wrapper_attributes(),
+		'form_action'      => admin_url( 'admin-post.php' ),
 	],
 );
 
@@ -59,7 +55,11 @@ if ( ! $obsidian_forms_content ) {
 }
 ?>
 
-<form <?php echo wp_kses_data( $obsidian_forms_form_args['block_attributes'] ); ?>>
+<form
+	<?php echo wp_kses_data( $obsidian_forms_form_args['block_attributes'] ); ?>
+	method="post"
+	action="<?php echo esc_url( $obsidian_forms_form_args['form_action'] ); ?>"
+>
 	<input type="hidden" name="action" value="obsidian_forms_submit">
 	<input type="hidden" name="obsidian_form_id" value="<?php echo esc_attr( $obsidian_forms_form_post_id ); ?>">
 	<input type="hidden" name="obsidian_form_redirect" value="<?php echo esc_url( remove_query_arg( 'obsidian_form_status' ) ); ?>">
