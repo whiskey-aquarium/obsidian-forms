@@ -91,6 +91,6 @@ class Obsidian_Forms {
 		( new Admin() )->initialize();
 		( new Entry() )->initialize();
 		( new Rest() )->initialize();
-		( new Submission() )->initialize();
+		( new Form_Submission() )->initialize();
 	}
 }

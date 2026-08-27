@@ -63,7 +63,7 @@ class Form {
 
 		$form = get_post( $id );
 
-		if ( empty( $form ) ) {
+		if ( ! $form instanceof \WP_Post || 'obsidian_form' !== $form->post_type ) {
 			return;
 		}
 
@@ -89,25 +89,6 @@ class Form {
 	 */
 	public function get_form_settings_metadata(): array {
 		$settings = [
-			'labelPlacement'            => [
-				'label'   => __( 'Field Label Placement', 'obsidian-forms' ),
-				'type'    => 'select',
-				'default' => 'top',
-				'options' => [
-					[
-						'label' => __( 'Top', 'obsidian-forms' ),
-						'value' => 'top',
-					],
-					[
-						'label' => __( 'Left', 'obsidian-forms' ),
-						'value' => 'left',
-					],
-					[
-						'label' => __( 'Bottom', 'obsidian-forms' ),
-						'value' => 'bottom',
-					],
-				],
-			],
 			'descriptionPlacement'      => [
 				'label'   => __( 'Field Description Placement', 'obsidian-forms' ),
 				'type'    => 'radio',
@@ -127,21 +108,6 @@ class Form {
 				'label'   => __( 'Fields Have Placeholders', 'obsidian-forms' ),
 				'type'    => 'toggle',
 				'default' => true,
-			],
-			'validationPlacement'       => [
-				'label'   => __( 'Validation Placement', 'obsidian-forms' ),
-				'type'    => 'radio',
-				'default' => 'bottom',
-				'options' => [
-					[
-						'label' => __( 'Top', 'obsidian-forms' ),
-						'value' => 'top',
-					],
-					[
-						'label' => __( 'Bottom', 'obsidian-forms' ),
-						'value' => 'bottom',
-					],
-				],
 			],
 			'requiredIndicator'         => [
 				'label'   => __( 'Required Indicator', 'obsidian-forms' ),
@@ -269,6 +235,17 @@ class Form {
 			'supports'           => [ 'title', 'editor', 'custom-fields' ],
 			'show_in_rest'       => true,
 			'capability_type'    => 'post',
+			'capabilities'       => [
+				'edit_post'          => 'manage_options',
+				'read_post'          => 'manage_options',
+				'delete_post'        => 'manage_options',
+				'edit_posts'         => 'manage_options',
+				'edit_others_posts'  => 'manage_options',
+				'delete_posts'       => 'manage_options',
+				'publish_posts'      => 'manage_options',
+				'read_private_posts' => 'manage_options',
+				'create_posts'       => 'manage_options',
+			],
 			'template'           => [
 				[
 					'obsidian-form/field-group',

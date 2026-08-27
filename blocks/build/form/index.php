@@ -9,6 +9,8 @@
  */
 
 // Resolve the reusable form and render its blocks with the form settings context.
+use Obsidian_Forms\Models\Form;
+
 $obsidian_forms_form_post_id  = absint( $attributes['formPostId'] ?? 0 );
 $obsidian_forms_form_post     = $obsidian_forms_form_post_id ? get_post( $obsidian_forms_form_post_id ) : null;
 $obsidian_forms_form_settings = [];
@@ -20,10 +22,12 @@ if (
 	'obsidian_form' === $obsidian_forms_form_post->post_type &&
 	( 'publish' === $obsidian_forms_form_post->post_status || current_user_can( 'manage_options' ) )
 ) {
+	$obsidian_forms_model          = new Form( $obsidian_forms_form_post_id );
+	$obsidian_forms_form_settings  = $obsidian_forms_model->get_settings();
 	$obsidian_forms_saved_settings = get_post_meta( $obsidian_forms_form_post_id, '_obsidian_form_settings', true );
 
 	if ( is_array( $obsidian_forms_saved_settings ) ) {
-		$obsidian_forms_form_settings = $obsidian_forms_saved_settings;
+		$obsidian_forms_form_settings = array_merge( $obsidian_forms_form_settings, $obsidian_forms_saved_settings );
 	}
 
 	$obsidian_forms_content = '';
@@ -77,16 +81,16 @@ if ( ! $obsidian_forms_content ) {
 	$obsidian_forms_status = sanitize_key( wp_unslash( $_GET['obsidian_form_status'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only result display.
 	if ( 'success' === $obsidian_forms_status ) :
 		?>
-		<div class="obsidian-forms-notice obsidian-forms-notice--success" role="status"><?php esc_html_e( 'Thanks! Your form was submitted.', 'obsidian-forms' ); ?></div>
+		<div class="obsidian-forms-notice obsidian-forms-notice--success" role="status"><?php echo esc_html( $obsidian_forms_form_settings['successMessage'] ?? __( 'Thanks! Your form was submitted.', 'obsidian-forms' ) ); ?></div>
 	<?php elseif ( $obsidian_forms_status ) : ?>
-		<div class="obsidian-forms-notice obsidian-forms-notice--error" role="alert"><?php esc_html_e( 'The form could not be submitted. Check your entries and try again.', 'obsidian-forms' ); ?></div>
+		<div class="obsidian-forms-notice obsidian-forms-notice--error" role="alert"><?php echo esc_html( $obsidian_forms_form_settings['errorMessage'] ?? __( 'The form could not be submitted. Check your entries and try again.', 'obsidian-forms' ) ); ?></div>
 	<?php endif; ?>
 
 	<?php echo $obsidian_forms_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block markup. ?>
 
 	<div class="wp-block-obsidian-form-field-group">
 		<div class="wp-block-obsidian-form-field">
-			<button type="submit" class="obsidian-form-submit"><?php esc_html_e( 'Submit', 'obsidian-forms' ); ?></button> <?php // @todo: Add button text option or submit button block. ?>
+			<button type="submit" class="obsidian-form-submit"><?php echo esc_html( $obsidian_forms_form_settings['submitButtonText'] ?? __( 'Submit', 'obsidian-forms' ) ); ?></button>
 		</div>
 	</div>
 </form>

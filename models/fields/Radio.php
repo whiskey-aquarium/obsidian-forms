@@ -36,9 +36,9 @@ class Radio extends Field {
 	 * @return string The HTML for the radio element.
 	 */
 	protected function render_input( string $placeholder = '' ): string {
-		$options = $this->get_attribute( 'fieldOptions', [] );
+		$options     = $this->get_attribute( 'fieldOptions', [] );
 		$extra_props = $this->get_attribute( 'extraProps', [] );
-		$layout = $extra_props['radioLayout'] ?? 'stacked';
+		$layout      = $extra_props['radioLayout'] ?? 'stacked';
 
 		if ( empty( $options ) ) {
 			return '';
@@ -47,8 +47,8 @@ class Radio extends Field {
 		$html = '<div class="wp-block-obsidian-form-field__radios wp-block-obsidian-form-field__radios--' . esc_attr( $layout ) . '">';
 
 		foreach ( $options as $option ) {
-			$value = $option['value'] ?? '';
-			$label = $option['label'] ?? '';
+			$value   = $option['value'] ?? '';
+			$label   = $option['label'] ?? '';
 			$checked = ( $value === $this->value ) ? ' checked' : '';
 
 			$html .= '<div class="wp-block-obsidian-form-field__radio">';
@@ -88,7 +88,7 @@ class Radio extends Field {
 		// Validate that the value is in the options list.
 		$options = $this->get_attribute( 'fieldOptions', [] );
 
-		if ( empty( $options ) ) {
+		if ( '' === $value || empty( $options ) ) {
 			return true;
 		}
 
@@ -103,4 +103,3 @@ class Radio extends Field {
 		return true;
 	}
 }
-

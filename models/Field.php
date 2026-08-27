@@ -113,12 +113,12 @@ class Field {
 	 * Get a specific attribute.
 	 *
 	 * @param string $key     Attribute key.
-	 * @param mixed  $default Default value if not set.
+	 * @param mixed  $fallback Fallback value if not set.
 	 *
 	 * @return mixed
 	 */
-	public function get_attribute( string $key, $default = null ) {
-		return $this->attributes[ $key ] ?? $default;
+	public function get_attribute( string $key, $fallback = null ) {
+		return $this->attributes[ $key ] ?? $fallback;
 	}
 
 	/**
@@ -179,7 +179,7 @@ class Field {
 
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( implode( ' ', $field_classes ) ); ?>"<?php echo $field_style; ?>>
+		<div class="<?php echo esc_attr( implode( ' ', $field_classes ) ); ?>"<?php echo $field_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built exclusively from an escaped numeric/style attribute above. ?>>
 			<label for="<?php echo esc_attr( $this->name ); ?>" class="wp-block-obsidian-form-field__label">
 				<?php echo esc_html( $this->label ); ?>
 				<?php if ( $is_required ) : ?>
@@ -193,7 +193,7 @@ class Field {
 				</div>
 			<?php endif; ?>
 
-			<?php echo $this->render_input( $field_placeholder ); ?>
+			<?php echo $this->render_input( $field_placeholder ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Field model renderers escape every dynamic attribute and value. ?>
 
 			<?php if ( 'bottom' === $description_placement && ! empty( $field_description ) ) : ?>
 				<div class="wp-block-obsidian-form-field__description">
@@ -244,7 +244,7 @@ class Field {
 		$this->errors = [];
 
 		foreach ( $this->validation_rules as $rule ) {
-			if ( 'required' === $rule && empty( $value ) ) {
+			if ( 'required' === $rule && ( '' === $value || [] === $value ) ) {
 				$this->add_error( __( 'This field is required.', 'obsidian-forms' ) );
 
 				return false;

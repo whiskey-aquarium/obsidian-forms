@@ -61,4 +61,3 @@ class Tel extends Field {
 		return true;
 	}
 }
-

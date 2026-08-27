@@ -59,6 +59,10 @@ if ( file_exists( OBSIDIAN_FORMS_PATH . 'vendor/autoload.php' ) ) {
 				$file = OBSIDIAN_FORMS_PATH . 'models/' . substr( $relative_path, strlen( 'Models/' ) );
 			}
 
+			if ( 0 === strpos( $relative_path, 'Models/Fields/' ) ) {
+				$file = OBSIDIAN_FORMS_PATH . 'models/fields/' . substr( $relative_path, strlen( 'Models/Fields/' ) );
+			}
+
 			if ( file_exists( $file ) ) {
 				require_once $file;
 			}

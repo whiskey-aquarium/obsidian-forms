@@ -61,11 +61,12 @@ Settings metadata (field types, options, defaults) is defined in:
 - **JavaScript**: Injected via `window.obsidianForms.settings` in `src/Admin.php` → `inject_form_settings()`
 
 ### Available Settings
-- `labelPlacement`: Where field labels appear (top, left, bottom)
 - `descriptionPlacement`: Where field descriptions appear (top, bottom)
 - `globalHasPlaceholder`: Whether fields have placeholders by default
-- `validationPlacement`: Where validation messages appear
 - `requiredIndicator`: Character/symbol for required fields (default: `*`)
+- `submitButtonText`, `successMessage`, and `errorMessage`: Submission UI text
+- `redirectUrl`: Optional same-site success redirect
+- `emailNotificationsEnabled`, `emailRecipient`, and `emailSubject`: Optional best-effort notification settings
 
 ### Propagation Flow
 1. **Saved in**: `_obsidian_form_settings` post meta
@@ -91,6 +92,8 @@ Settings metadata (field types, options, defaults) is defined in:
   - Enqueues form-settings script for post type editor
 - `src/Blocks.php` - Registers all blocks from `blocks/build/`
 - `src/Rest.php` - REST API customizations
+- `src/Form_Submission.php` - Validates, rate-limits, stores, and optionally emails submissions
+- `src/Entry.php` - Private WordPress-native entry storage and admin review screens
 - `models/Form.php` - Form model:
   - Defines post type arguments
   - Contains form settings metadata (single source of truth)
@@ -177,4 +180,4 @@ When editing `obsidian_form` post type directly:
 - Forms are rendered server-side via PHP templates
 - Block editor shows live preview using React components
 - All user input must be sanitized and validated
-- Form submissions will be handled by future implementation
+- Valid submissions are stored as private `obsidian_entry` posts before optional email delivery
