@@ -89,6 +89,7 @@ class Obsidian_Forms {
 	public function initialize(): void {
 		( new Blocks() )->initialize();
 		( new Admin() )->initialize();
+		( new Entry() )->initialize();
 		( new Rest() )->initialize();
 		( new Submission() )->initialize();
 	}

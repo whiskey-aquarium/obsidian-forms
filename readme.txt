@@ -13,7 +13,7 @@ A block-editor form builder for reusable WordPress forms.
 
 Obsidian Forms lets administrators create reusable forms from native blocks and embed them in posts and pages. Editing a shared form updates every embed. Forms can also be copied before editing when an independent version is needed.
 
-This is an early beta. Valid submissions are delivered to the WordPress administration email address by default.
+This is an early beta. Valid submissions are stored privately in the Entries screen. Email delivery to the WordPress administration address is also attempted by default, but a local mail failure does not prevent a stored submission from succeeding.
 
 == Installation ==
 

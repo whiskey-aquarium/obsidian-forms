@@ -89,6 +89,12 @@ final class Submission {
 			$this->redirect( $redirect, 'validation' );
 		}
 
+		$entry_id = Entry::store( $form_id, $fields, $values );
+
+		if ( is_wp_error( $entry_id ) ) {
+			$this->redirect( $redirect, 'storage' );
+		}
+
 		$recipient = apply_filters( 'obsidian_forms_notification_recipient', get_option( 'admin_email' ), $form_id, $values );
 		$subject   = sprintf(
 			/* translators: %s: form title. */
@@ -113,8 +119,24 @@ final class Submission {
 		 */
 		do_action( 'obsidian_forms_valid_submission', $form_id, $values );
 
-		$sent = is_email( $recipient ) && wp_mail( $recipient, $subject, $message );
-		$this->redirect( $redirect, $sent ? 'success' : 'delivery' );
+		$email_status = 'disabled';
+
+		if ( is_email( $recipient ) ) {
+			$email_status = wp_mail( $recipient, $subject, $message ) ? 'sent' : 'failed';
+		}
+
+		update_post_meta( $entry_id, '_obsidian_email_status', $email_status );
+
+		/**
+		 * Fires after a valid submission is stored.
+		 *
+		 * @param int   $entry_id Entry post ID.
+		 * @param int   $form_id  Form post ID.
+		 * @param array $values   Sanitized field values.
+		 */
+		do_action( 'obsidian_forms_entry_stored', $entry_id, $form_id, $values );
+
+		$this->redirect( $redirect, 'success' );
 	}
 
 	/**

@@ -35,7 +35,8 @@ npm run plugin-zip
 
 - Forms are reusable entities. Editing a linked form updates every embed.
 - Copying a form creates an independent reusable form.
-- Valid submissions are emailed to the WordPress administration email address by default.
-- Developers can change the notification recipient with the `obsidian_forms_notification_recipient` filter and process sanitized submissions with the `obsidian_forms_valid_submission` action.
+- Valid submissions are stored privately under Obsidian Forms → Entries.
+- Email to the WordPress administration address is attempted by default, but mail delivery does not determine submission success.
+- Developers can change or disable the notification recipient with the `obsidian_forms_notification_recipient` filter and process sanitized submissions with the `obsidian_forms_valid_submission` and `obsidian_forms_entry_stored` actions.
 
-File uploads, entry storage, conditional logic, and third-party delivery integrations are not included in this beta.
+File uploads, conditional logic, and third-party delivery integrations are not included in this beta.
