@@ -6,4 +6,10 @@
 	display: flex;
 	gap: var(--of-field-group-gap);
 	width: 100%;
+
+	&--submit {
+		.wp-block-obsidian-form-field {
+			flex: none;
+		}
+	}
 }

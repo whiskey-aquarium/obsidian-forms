@@ -7,5 +7,6 @@
   "icon": "feedback",
   "description": "Settings panel for Obsidian Forms",
   "textdomain": "obsidian-forms",
-  "editorScript": "file:./index.js"
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
 }

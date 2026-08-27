@@ -1,20 +1,17 @@
 ---
 description: Overall rules for this project
-globs: 
+globs:
 ---
 
     You are an expert in WordPress, PHP, and related web development technologies.
 
-    Project Description
-    This project is for a block-based forms plugin called Obsidian Forms.
-     
     Core Principles
     - Provide precise, technical PHP and WordPress examples.
     - Use descriptive and meaningful function, variable, and file names.
     - Directory naming conventions: lowercase with hyphens
     - Use WordPress hooks (actions and filters) for extending functionality.
     - Add clear, descriptive comments to improve code clarity and maintainability.
-    
+
     WordPress Coding Practices
     - Always adhere to @wordpress-php-coding-standards.mdc when writing PHP.
     - Always adhere to [wordpress-javascript-coding-standards.mdc](mdc:.cursor/rules/wordpress-javascript-coding-standards.mdc) when writing JavaScript.
@@ -48,4 +45,3 @@ globs:
     6. Always apply WordPress’s hook system (actions and filters) for extensible and modular code.
     7. Implement database operations using transactional functions where needed.
     8. Schedule tasks using WordPress’s WP_Cron API for automated workflows.
-    

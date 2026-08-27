@@ -32,7 +32,6 @@ globs: *.php
 - Use `get_option()` and `update_option()` for storing/retrieving options.
 - Do not use `extract()` due to security concerns.
 - Prefix function names, class names, and global variables to avoid conflicts.
-- Use `__( 'Text', 'obsidian-forms' )` or `_e( 'Text', 'obsidian-forms' )` for translatable strings.
 - Use `esc_html__()`, `esc_attr__()`, `esc_html_e()`, and `esc_attr_e()` for escaping translatable strings.
 - Do not use `wp_die()` for fatal errors; use `wp_send_json_error()`, `wp_redirect()`, or `wp_error()`.
 - Always use `add_action()` and `add_filter()` with namespaced callbacks when possible.
