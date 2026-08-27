@@ -1,0 +1,180 @@
+---
+description: Obsidian Forms plugin architecture and core concepts
+globs:
+---
+
+# Obsidian Forms Architecture
+
+## Plugin Overview
+
+Obsidian Forms is a block-based WordPress form builder that leverages the WordPress block editor (Gutenberg) to create and manage forms. The plugin allows users to create reusable forms that can be embedded on multiple pages.
+
+## Core Architecture: Dual Block + Post Type System
+
+**Critical Concept**: Obsidian Forms uses a unique dual system where form blocks and custom post types work together:
+
+1. **Form Block (`obsidian-form/form`)**: When inserted into a post/page, this block doesn't store the form structure directly. Instead, it references an `obsidian_form` custom post type.
+
+2. **Custom Post Type (`obsidian_form`)**: The actual form structure (field groups and fields) is stored in the post content of this custom post type.
+
+3. **Reusability**: This separation allows the same form to be used on multiple pages. When you insert a form block, you either:
+   - Create a new `obsidian_form` post
+   - Select an existing `obsidian_form` post
+   - Copy an existing `obsidian_form` post
+
+4. **Two Editing Modes**:
+   - **Block Editor Mode**: Edit the form while it's inserted in a regular post/page
+   - **Post Type Editor Mode**: Edit the form directly by navigating to the `obsidian_form` post in the admin
+   - Both modes should provide identical functionality and settings access
+
+## Block Hierarchy
+
+```
+obsidian-form/form
+├── Stores formPostId (references obsidian_form post)
+├── Uses useEntityBlockEditor to edit the post content
+├── Provides obsidian-form/formSettings context to children
+│
+├── obsidian-form/field-group (multiple allowed)
+│   ├── Receives formSettings from parent context
+│   ├── Provides formSettings context to children
+│   ├── When editing obsidian_form post type directly, loads settings from post meta
+│   │
+│   └── obsidian-form/field (multiple allowed)
+│       ├── Individual form fields (text, email, select, etc.)
+│       └── Uses formSettings from context for display options
+
+obsidian-form/form-settings
+└── Sidebar plugin (not a visible block)
+└── Only appears when editing obsidian_form post type
+└── Updates _obsidian_form_settings post meta
+```
+
+## Form Settings System
+
+### Storage
+Form settings are stored in the `_obsidian_form_settings` post meta field on `obsidian_form` posts. This is a JSON object containing all form-level settings.
+
+### Definition
+Settings metadata (field types, options, defaults) is defined in:
+- **PHP**: `models/Form.php` → `get_form_settings_metadata()`
+- **JavaScript**: Injected via `window.obsidianForms.settings` in `src/Admin.php` → `inject_form_settings()`
+
+### Available Settings
+- `labelPlacement`: Where field labels appear (top, left, bottom)
+- `descriptionPlacement`: Where field descriptions appear (top, bottom)
+- `globalHasPlaceholder`: Whether fields have placeholders by default
+- `validationPlacement`: Where validation messages appear
+- `requiredIndicator`: Character/symbol for required fields (default: `*`)
+
+### Propagation Flow
+1. **Saved in**: `_obsidian_form_settings` post meta
+2. **Block Editor Mode**: Form block reads meta → stores in `formSettings` attribute → provides via context
+3. **Post Type Editor Mode**: Form settings plugin reads meta → updates field-group blocks → provides via context
+4. **Child Blocks**: Field blocks receive settings via `obsidian-form/formSettings` context
+5. **Frontend**: Settings applied via PHP render templates
+
+### Context System
+- **Provider**: `obsidian-form/form` or `obsidian-form/field-group` (when editing post type)
+- **Context Key**: `obsidian-form/formSettings`
+- **Consumers**: `obsidian-form/field-group` and `obsidian-form/field`
+
+## Key Files & Directories
+
+### PHP Classes (namespace: `Obsidian_Forms\`)
+- `obsidian-forms.php` - Main plugin file, bootstraps the plugin
+- `src/Obsidian_Forms.php` - Main plugin class (singleton)
+- `src/Admin.php` - Admin functionality:
+  - Registers `obsidian_form` custom post type
+  - Registers form settings meta
+  - Injects settings into JavaScript
+  - Enqueues form-settings script for post type editor
+- `src/Blocks.php` - Registers all blocks from `blocks/build/`
+- `src/Rest.php` - REST API customizations
+- `models/Form.php` - Form model:
+  - Defines post type arguments
+  - Contains form settings metadata (single source of truth)
+  - Provides default settings
+
+### Block Source Files (`blocks/src/`)
+- `form/` - Main form block
+  - `edit.js` - Uses `useEntityBlockEditor` to edit `obsidian_form` post content
+  - `components/ObsidianFormSettings.js` - Renders settings controls
+  - `data/FormSettingsMetadata.js` - JavaScript helpers for settings
+  
+- `field-group/` - Groups fields together
+  - `edit.js` - Handles context from parent or post meta
+  - Fields are laid out horizontally within a group
+  
+- `field/` - Individual form field
+  - `edit.js` - Main edit component
+  - `fields/` - Field type components (Input, Textarea, Select, etc.)
+  - `components/` - Field settings and controls
+  - `index.php` - Frontend render template (uses context settings)
+  
+- `form-settings/` - Sidebar plugin
+  - `index.js` - Registers plugin with `registerPlugin`
+  - Only shows when `postType === 'obsidian_form'`
+  - Updates post meta and propagates to field-group blocks
+
+### Build System
+- **Source**: `blocks/src/`
+- **Built**: `blocks/build/` (ignored in git)
+- **Build Command**: `npm run build`
+- **Watch Command**: `npm start`
+- Build creates separate bundles for each block with asset files
+
+## Technical Implementation Details
+
+### How Form Block Edits Post Content
+The form block uses `useEntityBlockEditor` from `@wordpress/core-data`:
+
+```javascript
+const [blocks, onInput, onChange] = useEntityBlockEditor('postType', 'obsidian_form', { id: formPostId });
+```
+
+This provides:
+- `blocks`: The actual block structure from the post content
+- `onInput`: Handler for temporary changes
+- `onChange`: Handler for saved changes
+
+### Settings Propagation in Post Type Editor
+When editing `obsidian_form` post type directly:
+
+1. `form-settings` plugin loads and shows in sidebar
+2. User changes a setting (e.g., label placement)
+3. Setting saved to `_obsidian_form_settings` post meta via `useEntityProp`
+4. `useEffect` in `form-settings/index.js` detects change
+5. All `field-group` blocks updated via `updateBlockAttributes`
+6. Field groups receive updated `obsidian-form/formSettings` attribute
+7. Field groups provide context to child field blocks
+8. Field blocks re-render with new settings
+
+### Why Two Editing Modes Need Special Handling
+- **Block Editor Mode**: Natural context flow (form → field-group → field)
+- **Post Type Editor Mode**: No parent form block, so field-group must:
+  - Check if editing `obsidian_form` post type
+  - Load settings from post meta if no parent context
+  - Provide context to children
+
+## Common Patterns
+
+### Adding a New Form Setting
+1. Add to `models/Form.php` → `get_form_settings_metadata()`
+2. Create control in `blocks/src/form/components/ObsidianFormSettings.js`
+3. Use in field blocks via context: `context['obsidian-form/formSettings'].yourSetting`
+4. Apply in frontend: `blocks/src/field/index.php`
+
+### Creating a New Field Type
+1. Create component in `blocks/src/field/fields/YourField.js`
+2. Add to field type options in `blocks/src/field/data/FieldTypeOptions.js`
+3. Add render logic in `blocks/src/field/edit.js`
+4. Add frontend render in `blocks/src/field/index.php`
+
+## Important Notes
+
+- The `obsidian_form` post type is not publicly queryable
+- Forms are rendered server-side via PHP templates
+- Block editor shows live preview using React components
+- All user input must be sanitized and validated
+- Form submissions will be handled by future implementation

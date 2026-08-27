@@ -37,6 +37,11 @@ class FormView {
 			this.formSelectUi();
 		}
 
+		// Store original button text.
+		if ( this.submit ) {
+			this.submit.dataset.originalText = this.submit.textContent;
+		}
+
 		this.form.addEventListener( 'submit', this.validateForm.bind( this ) );
 	}
 
@@ -58,7 +63,7 @@ class FormView {
 	 *
 	 * @param {Event} event
 	 *
-	 * @return {void}
+	 * @return {boolean} True if valid, false otherwise.
 	 */
 	validateForm( event ) {
 		let errors = 0;
@@ -104,7 +109,178 @@ class FormView {
 
 		if ( errors > 0 ) {
 			event.preventDefault();
+			return false;
 		}
+
+		// Handle AJAX submission if enabled.
+		if ( this.form.dataset.ajax === 'true' ) {
+			event.preventDefault();
+			this.submitViaAjax();
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Submit form via AJAX.
+	 *
+	 * @return {void}
+	 */
+	submitViaAjax() {
+		// Get form data.
+		const formData = new FormData( this.form );
+
+		// Add action for REST endpoint.
+		formData.append( 'action', 'obsidian_form_submit' );
+
+		// Disable submit button.
+		if ( this.submit ) {
+			this.submit.disabled = true;
+			this.submit.textContent = 'Submitting...';
+		}
+
+		// Clear previous messages.
+		this.clearMessages();
+
+		// Get REST nonce from the hidden field in the form.
+		const nonceField = this.form.querySelector(
+			'#obsidian_form_rest_nonce'
+		);
+		const nonce = nonceField ? nonceField.value : '';
+
+		// Get REST URL.
+		const restUrl = '/wp-json/obsidian-forms/v1/submit';
+
+		// Make AJAX request.
+		fetch( restUrl, {
+			method: 'POST',
+			body: formData,
+			headers: {
+				'X-WP-Nonce': nonce,
+			},
+		} )
+			.then( ( response ) => {
+				return response.json();
+			} )
+			.then( ( data ) => {
+				if ( data.success ) {
+					this.handleSuccess( data.data );
+				} else {
+					this.handleError( data.data );
+				}
+			} )
+			.catch( ( error ) => {
+				console.error( 'Form submission error:', error );
+				this.handleError( {
+					message: 'An unexpected error occurred. Please try again.',
+				} );
+			} )
+			.finally( () => {
+				// Re-enable submit button.
+				if ( this.submit ) {
+					this.submit.disabled = false;
+					this.submit.textContent = this.submit.dataset.originalText || 'Submit';
+				}
+			} );
+	}
+
+	/**
+	 * Handle successful form submission.
+	 *
+	 * @param {Object} data Response data.
+	 *
+	 * @return {void}
+	 */
+	handleSuccess( data ) {
+		const messageContainer = this.form.querySelector(
+			'.obsidian-form-message-container'
+		);
+
+		if ( messageContainer ) {
+			messageContainer.innerHTML = `<div class="obsidian-form-message obsidian-form-message--success" role="alert"><p>${
+				data.message || 'Thank you! Your form has been submitted successfully.'
+			}</p></div>`;
+		}
+
+		// Reset form.
+		this.form.reset();
+
+		// Scroll to message.
+		messageContainer?.scrollIntoView( {
+			behavior: 'smooth',
+			block: 'nearest',
+		} );
+
+		// Check for redirect.
+		if ( data.redirect_url ) {
+			setTimeout( () => {
+				window.location.href = data.redirect_url;
+			}, 1500 );
+		}
+	}
+
+	/**
+	 * Handle form submission error.
+	 *
+	 * @param {Object} data Error data.
+	 *
+	 * @return {void}
+	 */
+	handleError( data ) {
+		const messageContainer = this.form.querySelector(
+			'.obsidian-form-message-container'
+		);
+
+		if ( messageContainer ) {
+			const errorMessage =
+				data.message ||
+				'There was an error submitting your form. Please try again.';
+			messageContainer.innerHTML = `<div class="obsidian-form-message obsidian-form-message--error" role="alert"><p>${ errorMessage }</p></div>`;
+		}
+
+		// Display field-specific errors.
+		if ( data.errors ) {
+			Object.keys( data.errors ).forEach( ( fieldName ) => {
+				const field = this.form.querySelector(
+					`[name="${ fieldName }"]`
+				);
+
+				if ( field ) {
+					this.setFieldValidationState(
+						field,
+						'fail',
+						data.errors[ fieldName ]
+					);
+				}
+			} );
+		}
+
+		// Scroll to message.
+		messageContainer?.scrollIntoView( {
+			behavior: 'smooth',
+			block: 'nearest',
+		} );
+	}
+
+	/**
+	 * Clear all messages.
+	 *
+	 * @return {void}
+	 */
+	clearMessages() {
+		const messageContainer = this.form.querySelector(
+			'.obsidian-form-message-container'
+		);
+
+		if ( messageContainer ) {
+			messageContainer.innerHTML = '';
+		}
+
+		// Clear field errors.
+		this.form.querySelectorAll( '.' + this.invalidClass ).forEach( ( field ) => {
+			this.setFieldValidationState( field, 'pass' );
+		} );
 	}
 
 	/**

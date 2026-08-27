@@ -1,1 +1,1 @@
-:root{--of-field-group-gap: 10px}.wp-block-obsidian-form-field-group{display:flex;gap:var(--of-field-group-gap);width:100%}
+:root{--of-field-group-gap: 10px}.wp-block-obsidian-form-field-group{display:flex;gap:var(--of-field-group-gap);width:100%}.wp-block-obsidian-form-field-group--submit .wp-block-obsidian-form-field{flex:none}

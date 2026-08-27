@@ -32,6 +32,7 @@ if ( ! function_exists( 'get_plugin_data' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
+define( 'OBSIDIAN_FORMS_FILE', __FILE__ );
 define( 'OBSIDIAN_FORMS_METADATA', get_plugin_data( __FILE__, false, false ) );
 define( 'OBSIDIAN_FORMS_BASENAME', plugin_basename( __FILE__ ) );
 define( 'OBSIDIAN_FORMS_PATH', plugin_dir_path( __FILE__ ) );
