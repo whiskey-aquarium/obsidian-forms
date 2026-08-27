@@ -32,16 +32,16 @@ final class Admin {
 	 * @return void
 	 */
 	public function inject_form_settings(): void {
-		$form = new Form();
+		$form     = new Form();
 		$settings = [
 			'metadata' => $form->get_form_settings_metadata(),
 			'defaults' => $form->get_default_settings(),
 		];
-		
+
 		wp_register_script(
 			'obsidian-forms-settings',
 			'',
-			['wp-blocks'],
+			[ 'wp-blocks' ],
 			'0.1.0',
 			true
 		);
@@ -51,12 +51,12 @@ final class Admin {
 			sprintf(
 				'window.obsidianForms = window.obsidianForms || {};' .
 				'window.obsidianForms.settings = %s;',
-				wp_json_encode($settings)
+				wp_json_encode( $settings )
 			),
 			'before'
 		);
 
-		wp_enqueue_script('obsidian-forms-settings');
+		wp_enqueue_script( 'obsidian-forms-settings' );
 	}
 
 	/**
@@ -94,7 +94,7 @@ final class Admin {
 			wp_enqueue_style(
 				'obsidian-form-settings-editor-style',
 				OBSIDIAN_FORMS_URL . 'blocks/build/form-settings/index.css',
-				array(),
+				[],
 				$asset['version']
 			);
 		}
@@ -106,22 +106,22 @@ final class Admin {
 	 * @return void
 	 */
 	public function register_form_settings_meta() {
-		$form = new Form();
-		$metadata = $form->get_form_settings_metadata();
+		$form       = new Form();
+		$metadata   = $form->get_form_settings_metadata();
 		$properties = [];
 
-		foreach ($metadata as $key => $data) {
-			$schema = ['type' => $this->map_field_type_to_schema_type($data['type'])];
-			
-			if (isset($data['default'])) {
+		foreach ( $metadata as $key => $data ) {
+			$schema = [ 'type' => $this->map_field_type_to_schema_type( $data['type'] ) ];
+
+			if ( isset( $data['default'] ) ) {
 				$schema['default'] = $data['default'];
 			}
-			
-			if (isset($data['options'])) {
-				$schema['enum'] = array_column($data['options'], 'value');
+
+			if ( isset( $data['options'] ) ) {
+				$schema['enum'] = array_column( $data['options'], 'value' );
 			}
-			
-			$properties[$key] = $schema;
+
+			$properties[ $key ] = $schema;
 		}
 
 		register_post_meta(
@@ -133,8 +133,8 @@ final class Admin {
 				'show_in_rest'  => [
 					'schema' => [
 						'type'       => 'object',
-						'properties' => $properties
-					]
+						'properties' => $properties,
+					],
 				],
 				'auth_callback' => function () {
 					return current_user_can( 'edit_posts' );
@@ -149,15 +149,15 @@ final class Admin {
 	 * @param string $field_type The field type from the form settings.
 	 * @return string The corresponding JSON schema type.
 	 */
-	private function map_field_type_to_schema_type(string $field_type): string {
+	private function map_field_type_to_schema_type( string $field_type ): string {
 		$map = [
 			'string' => 'string',
 			'select' => 'string',
-			'radio' => 'string',
-			'toggle' => 'boolean'
+			'radio'  => 'string',
+			'toggle' => 'boolean',
 		];
 
-		return $map[$field_type] ?? 'string';
+		return $map[ $field_type ] ?? 'string';
 	}
 
 	/**

@@ -90,5 +90,7 @@ class Obsidian_Forms {
 		( new Blocks() )->initialize();
 		( new Admin() )->initialize();
 		( new Rest() )->initialize();
+		( new Database() )->initialize();
+		( new Form_Submission() )->initialize();
 	}
 }

@@ -60,5 +60,4 @@ final class Blocks {
 
 		return $screen && 'obsidian_form' === $screen->post_type;
 	}
-
 }
