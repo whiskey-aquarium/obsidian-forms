@@ -3,11 +3,12 @@
   "apiVersion": 3,
   "name": "obsidian-form/form",
   "version": "0.1.0",
-  "title": "Obsidian Form",
+  "title": "Form (Obsidian)",
   "category": "widgets",
   "icon": "feedback",
   "description": "An Obsidian Form block.",
   "keywords": [
+    "form",
     "contact form",
     "form builder",
     "submissions"
