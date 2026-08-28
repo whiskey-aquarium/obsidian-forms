@@ -50,4 +50,3 @@ class Hidden extends Field {
 		return sanitize_text_field( $value );
 	}
 }
-

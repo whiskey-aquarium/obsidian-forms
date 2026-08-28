@@ -8,10 +8,11 @@ import { fieldTypeOptions } from '../data/FieldTypeOptions';
 /**
  * Component for rendering form settings.
  *
- * @param {Object}   props                       Props passed to the component.
- * @param {Object}   props.attributes            Attributes passed to the component.
- * @param {Function} props.handleLabelChange     Function to handle label change.
- * @param {Function} props.handleAttributeChange Function to handle attribute change.
+ * @param {Object}   props                         Props passed to the component.
+ * @param {Object}   props.attributes              Attributes passed to the component.
+ * @param {Function} props.handleLabelChange       Function to handle label change.
+ * @param {Function} props.handleDescriptionChange Function to handle description change.
+ * @param {Function} props.handleAttributeChange   Function to handle attribute change.
  *
  * @return {Object} The rendered component.
  */
@@ -21,7 +22,13 @@ const ObsidianFieldSettings = ( {
 	handleDescriptionChange,
 	handleAttributeChange,
 } ) => {
-	const { fieldType, fieldLabel, fieldName, fieldPlaceholder, fieldDescription } = attributes;
+	const {
+		fieldType,
+		fieldLabel,
+		fieldName,
+		fieldPlaceholder,
+		fieldDescription,
+	} = attributes;
 
 	return (
 		<>

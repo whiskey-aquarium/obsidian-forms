@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="obsidian-forms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<description>Custom ruleset for Obsidian Forms.</description>
+	<arg name="extensions" value="php" />
 
 	<!-- Exclude 3rd-party files -->
 	<exclude-pattern>*/vendor/*</exclude-pattern>

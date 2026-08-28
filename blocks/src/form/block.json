@@ -3,10 +3,11 @@
 	"apiVersion": 3,
 	"name": "obsidian-form/form",
 	"version": "0.1.0",
-	"title": "Obsidian Form",
+	"title": "Form (Obsidian)",
 	"category": "widgets",
 	"icon": "feedback",
 	"description": "An Obsidian Form block.",
+	"keywords": [ "form", "contact form", "form builder", "submissions" ],
 	"supports": {
 		"html": false,
 		"align": true,
@@ -33,9 +34,9 @@
 	"providesContext": {
 		"obsidian-form/formSettings": "formSettings"
 	},
-	"editorScript": ["file:./index.js", "obsidian-forms-settings"],
+	"editorScript": [ "file:./index.js", "obsidian-forms-settings" ],
 	"editorStyle": "file:./index.css",
-	"script": "file:./view.js",
+	"viewScript": "file:./view.js",
 	"style": "file:./style-index.css",
 	"allowedBlocks": [ "obsidian-form/field-group" ],
 	"usesContext": [],

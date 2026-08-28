@@ -61,4 +61,3 @@ class Url extends Field {
 		return true;
 	}
 }
-

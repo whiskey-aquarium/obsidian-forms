@@ -46,7 +46,7 @@ class Select extends Field {
 
 		foreach ( $options as $option ) {
 			$selected = ( isset( $option['value'] ) && $option['value'] === $this->value ) ? ' selected' : '';
-			$html .= '<option value="' . esc_attr( $option['value'] ?? '' ) . '"' . $selected . '>' . esc_html( $option['label'] ?? '' ) . '</option>';
+			$html    .= '<option value="' . esc_attr( $option['value'] ?? '' ) . '"' . $selected . '>' . esc_html( $option['label'] ?? '' ) . '</option>';
 		}
 
 		$html .= '</select>';
@@ -80,7 +80,7 @@ class Select extends Field {
 		// Validate that the value is in the options list.
 		$options = $this->get_attribute( 'fieldOptions', [] );
 
-		if ( empty( $options ) ) {
+		if ( '' === $value || empty( $options ) ) {
 			return true;
 		}
 
@@ -95,4 +95,3 @@ class Select extends Field {
 		return true;
 	}
 }
-

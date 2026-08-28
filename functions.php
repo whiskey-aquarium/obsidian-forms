@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 use Obsidian_Forms\Obsidian_Forms;
 
 if ( ! function_exists( 'obsidian_forms_get_plugin_instance' ) ) {

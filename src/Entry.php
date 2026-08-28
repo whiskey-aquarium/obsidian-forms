@@ -2,361 +2,329 @@
 
 namespace Obsidian_Forms;
 
-use Obsidian_Forms\Models\Form;
-use WP_Error;
-
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Model for working with form entries.
- *
- * @since   0.1.0
- * @version 0.1.0
+ * Stores submissions and provides the private Entries admin screens.
  */
-class Entry {
-
+final class Entry {
 	/**
-	 * Entry ID.
-	 *
-	 * @var int
-	 */
-	protected int $id = 0;
-
-	/**
-	 * Entry data.
-	 *
-	 * @var array
-	 */
-	protected array $data = [];
-
-	/**
-	 * Entry meta data.
-	 *
-	 * @var array
-	 */
-	protected array $meta = [];
-
-	/**
-	 * Constructor.
-	 *
-	 * @param int $id Entry ID (optional).
-	 */
-	public function __construct( int $id = 0 ) {
-		if ( $id > 0 ) {
-			$this->id = $id;
-			$this->load_entry( $id );
-		}
-	}
-
-	/**
-	 * Create a new entry.
-	 *
-	 * @param int   $form_id The form ID.
-	 * @param array $data    The submitted data.
-	 *
-	 * @return int|WP_Error Entry ID on success, WP_Error on failure.
-	 */
-	public function create( int $form_id, array $data ) {
-		global $wpdb;
-
-		$entries_table = Database::get_entries_table();
-
-		// Get IP address and user agent.
-		$ip_address = $this->get_ip_address();
-		$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ) : '';
-
-		// Get current user ID if logged in.
-		$user_id = get_current_user_id();
-
-		// Insert entry.
-		$result = $wpdb->insert(
-			$entries_table,
-			[
-				'form_id'    => $form_id,
-				'status'     => 'unread',
-				'ip_address' => $ip_address,
-				'user_agent' => $user_agent,
-				'user_id'    => $user_id > 0 ? $user_id : null,
-			],
-			[ '%d', '%s', '%s', '%s', '%d' ]
-		);
-
-		if ( false === $result ) {
-			return new WP_Error( 'db_error', __( 'Failed to create entry.', 'obsidian-forms' ) );
-		}
-
-		$entry_id = $wpdb->insert_id;
-
-		// Save entry meta.
-		$this->save_entry_meta( $entry_id, $form_id, $data );
-
-		$this->id = $entry_id;
-
-		return $entry_id;
-	}
-
-	/**
-	 * Save entry meta data.
-	 *
-	 * @param int   $entry_id The entry ID.
-	 * @param int   $form_id  The form ID.
-	 * @param array $data     The submitted data.
+	 * Registers the entry post type and admin integrations.
 	 *
 	 * @return void
 	 */
-	protected function save_entry_meta( int $entry_id, int $form_id, array $data ): void {
-		global $wpdb;
+	public function initialize(): void {
+		add_action( 'init', [ $this, 'register_post_type' ] );
+		add_action( 'admin_menu', [ $this, 'add_menu' ], 20 );
+		add_action( 'add_meta_boxes_obsidian_entry', [ $this, 'configure_edit_screen' ] );
+		add_action( 'restrict_manage_posts', [ $this, 'render_form_filter' ] );
+		add_action( 'pre_get_posts', [ $this, 'filter_entries' ] );
+		add_filter( 'manage_obsidian_entry_posts_columns', [ $this, 'columns' ] );
+		add_action( 'manage_obsidian_entry_posts_custom_column', [ $this, 'render_column' ], 10, 2 );
+		add_filter( 'post_row_actions', [ $this, 'row_actions' ], 10, 2 );
+		add_filter( 'bulk_actions-edit-obsidian_entry', [ $this, 'bulk_actions' ] );
+		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_block_editor' ], 10, 2 );
+	}
 
-		$entry_meta_table = Database::get_entry_meta_table();
-
-		// Get form fields to map labels and types.
-		$form = new Form( $form_id );
-		$fields = $form->get_fields();
-
-		// Create a map of field names to field objects.
-		$field_map = [];
+	/**
+	 * Stores one validated submission.
+	 *
+	 * @param int   $form_id Source form ID.
+	 * @param array $fields  Form field definitions.
+	 * @param array $values  Sanitized submitted values.
+	 * @return int|\WP_Error Entry ID or error.
+	 */
+	public static function store( int $form_id, array $fields, array $values ) {
+		$payload = [];
 
 		foreach ( $fields as $field ) {
-			$field_name = $field->get_attribute( 'fieldName', '' );
+			$name = sanitize_key( $field['fieldName'] ?? '' );
 
-			if ( ! empty( $field_name ) ) {
-				$field_map[ $field_name ] = $field;
-			}
-		}
-
-		// Save each field value.
-		foreach ( $data as $field_name => $field_value ) {
-			// Skip non-field data.
-			if ( in_array( $field_name, [ 'obsidian_form_id', 'obsidian_form_nonce', 'obsidian_form_rest_nonce', 'action' ], true ) ) {
+			if ( ! $name || ! array_key_exists( $name, $values ) ) {
 				continue;
 			}
 
-			// Get field info.
-			$field = $field_map[ $field_name ] ?? null;
-			$field_label = $field ? $field->get_attribute( 'fieldLabel', $field_name ) : $field_name;
-			$field_type = $field ? $field->get_attribute( 'fieldType', 'text' ) : 'text';
-
-			// Sanitize value.
-			if ( $field ) {
-				$field_value = $field->sanitize( $field_value );
-			} else {
-				$field_value = sanitize_text_field( $field_value );
-			}
-
-			// Serialize arrays.
-			if ( is_array( $field_value ) ) {
-				$field_value = maybe_serialize( $field_value );
-			}
-
-			// Insert meta.
-			$wpdb->insert(
-				$entry_meta_table,
-				[
-					'entry_id'    => $entry_id,
-					'field_name'  => $field_name,
-					'field_label' => $field_label,
-					'field_type'  => $field_type,
-					'field_value' => $field_value,
-				],
-				[ '%d', '%s', '%s', '%s', '%s' ]
-			);
+			$payload[] = [
+				'name'  => $name,
+				'label' => sanitize_text_field( $field['fieldLabel'] ?? $name ),
+				'type'  => sanitize_key( $field['fieldType'] ?? 'text' ),
+				'value' => $values[ $name ],
+			];
 		}
+
+		return wp_insert_post(
+			[
+				'post_type'    => 'obsidian_entry',
+				'post_status'  => 'private',
+				'post_parent'  => $form_id,
+				'post_title'   => sprintf(
+					/* translators: 1: form title, 2: submission date and time. */
+					__( '%1$s — %2$s', 'obsidian-forms' ),
+					get_the_title( $form_id ),
+					current_time( 'mysql' )
+				),
+				'post_content' => wp_slash( wp_json_encode( $payload ) ),
+				'meta_input'   => [
+					'_obsidian_form_id'      => $form_id,
+					'_obsidian_email_status' => 'pending',
+				],
+			],
+			true
+		);
 	}
 
 	/**
-	 * Load entry data.
-	 *
-	 * @param int $entry_id The entry ID.
+	 * Registers the private entry post type.
 	 *
 	 * @return void
 	 */
-	protected function load_entry( int $entry_id ): void {
-		global $wpdb;
-
-		$entries_table = Database::get_entries_table();
-		$entry_meta_table = Database::get_entry_meta_table();
-
-		// Get entry data.
-		$entry = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM {$entries_table} WHERE id = %d", $entry_id ),
-			ARRAY_A
+	public function register_post_type(): void {
+		register_post_type(
+			'obsidian_entry',
+			[
+				'labels'              => [
+					'name'               => __( 'Entries', 'obsidian-forms' ),
+					'singular_name'      => __( 'Entry', 'obsidian-forms' ),
+					'all_items'          => __( 'Entries', 'obsidian-forms' ),
+					'edit_item'          => __( 'View Entry', 'obsidian-forms' ),
+					'search_items'       => __( 'Search Entries', 'obsidian-forms' ),
+					'not_found'          => __( 'No entries found.', 'obsidian-forms' ),
+					'not_found_in_trash' => __( 'No entries found in Trash.', 'obsidian-forms' ),
+				],
+				'public'              => false,
+				'show_ui'             => true,
+				'show_in_menu'        => false,
+				'show_in_rest'        => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'supports'            => false,
+				'capabilities'        => [
+					'edit_post'           => 'manage_options',
+					'read_post'           => 'manage_options',
+					'delete_post'         => 'manage_options',
+					'edit_posts'          => 'manage_options',
+					'edit_others_posts'   => 'manage_options',
+					'delete_posts'        => 'manage_options',
+					'delete_others_posts' => 'manage_options',
+					'publish_posts'       => 'do_not_allow',
+					'read_private_posts'  => 'manage_options',
+					'create_posts'        => 'do_not_allow',
+				],
+			]
 		);
-
-		if ( $entry ) {
-			$this->data = $entry;
-		}
-
-		// Get entry meta.
-		$meta = $wpdb->get_results(
-			$wpdb->prepare( "SELECT * FROM {$entry_meta_table} WHERE entry_id = %d", $entry_id ),
-			ARRAY_A
-		);
-
-		if ( $meta ) {
-			foreach ( $meta as $meta_row ) {
-				$this->meta[ $meta_row['field_name'] ] = [
-					'label' => $meta_row['field_label'],
-					'type'  => $meta_row['field_type'],
-					'value' => maybe_unserialize( $meta_row['field_value'] ),
-				];
-			}
-		}
 	}
 
 	/**
-	 * Get entry by ID.
+	 * Adds Entries beneath the plugin menu.
 	 *
-	 * @param int $entry_id The entry ID.
-	 *
-	 * @return array|null Entry data with meta, or null if not found.
+	 * @return void
 	 */
-	public function get_entry( int $entry_id ): ?array {
-		$entry = new self( $entry_id );
+	public function add_menu(): void {
+		add_submenu_page(
+			'obsidian-forms',
+			__( 'Entries', 'obsidian-forms' ),
+			__( 'Entries', 'obsidian-forms' ),
+			'manage_options',
+			'edit.php?post_type=obsidian_entry',
+			null,
+			3
+		);
+	}
 
-		if ( empty( $entry->data ) ) {
-			return null;
-		}
+	/**
+	 * Configures the read-only entry detail screen.
+	 *
+	 * @return void
+	 */
+	public function configure_edit_screen(): void {
+		remove_meta_box( 'submitdiv', 'obsidian_entry', 'side' );
+		add_meta_box(
+			'obsidian-entry-details',
+			__( 'Submission Details', 'obsidian-forms' ),
+			[ $this, 'render_details' ],
+			'obsidian_entry',
+			'normal',
+			'high'
+		);
+	}
 
+	/**
+	 * Renders safely escaped entry details.
+	 *
+	 * @param \WP_Post $post Entry post.
+	 * @return void
+	 */
+	public function render_details( \WP_Post $post ): void {
+		$form    = get_post( $post->post_parent );
+		$payload = json_decode( $post->post_content, true );
+		$payload = is_array( $payload ) ? $payload : [];
+		?>
+		<p>
+			<strong><?php esc_html_e( 'Form:', 'obsidian-forms' ); ?></strong>
+			<?php if ( $form instanceof \WP_Post && current_user_can( 'edit_post', $form->ID ) ) : ?>
+				<a href="<?php echo esc_url( get_edit_post_link( $form->ID ) ); ?>"><?php echo esc_html( get_the_title( $form ) ); ?></a>
+			<?php else : ?>
+				<?php echo esc_html( $form instanceof \WP_Post ? get_the_title( $form ) : __( 'Deleted form', 'obsidian-forms' ) ); ?>
+			<?php endif; ?>
+		</p>
+		<p><strong><?php esc_html_e( 'Submitted:', 'obsidian-forms' ); ?></strong> <?php echo esc_html( get_the_date( 'F j, Y g:i a', $post ) ); ?></p>
+		<table class="widefat striped">
+			<tbody>
+			<?php foreach ( $payload as $field ) : ?>
+				<tr>
+					<th scope="row" style="width:25%"><?php echo esc_html( $field['label'] ?? $field['name'] ?? '' ); ?></th>
+					<td><?php echo nl2br( esc_html( is_array( $field['value'] ?? '' ) ? implode( ', ', $field['value'] ) : $field['value'] ?? '' ) ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Defines entry list columns.
+	 *
+	 * @param array $columns Existing columns.
+	 * @return array
+	 */
+	public function columns( array $columns ): array {
 		return [
-			'entry' => $entry->data,
-			'meta'  => $entry->meta,
+			'cb'             => $columns['cb'],
+			'obsidian_entry' => __( 'Entry', 'obsidian-forms' ),
+			'obsidian_form'  => __( 'Form', 'obsidian-forms' ),
+			'email_status'   => __( 'Email', 'obsidian-forms' ),
+			'submitted'      => __( 'Submitted', 'obsidian-forms' ),
 		];
 	}
 
 	/**
-	 * Update entry status.
+	 * Renders entry list column values.
 	 *
-	 * @param int    $entry_id The entry ID.
-	 * @param string $status   The new status.
-	 *
-	 * @return bool True on success, false on failure.
+	 * @param string $column  Column key.
+	 * @param int    $post_id Entry ID.
+	 * @return void
 	 */
-	public function update_status( int $entry_id, string $status ): bool {
-		global $wpdb;
-
-		$entries_table = Database::get_entries_table();
-
-		$result = $wpdb->update(
-			$entries_table,
-			[ 'status' => $status ],
-			[ 'id' => $entry_id ],
-			[ '%s' ],
-			[ '%d' ]
-		);
-
-		return false !== $result;
-	}
-
-	/**
-	 * Delete an entry and its meta.
-	 *
-	 * @param int $entry_id The entry ID.
-	 *
-	 * @return bool True on success, false on failure.
-	 */
-	public function delete( int $entry_id ): bool {
-		global $wpdb;
-
-		$entries_table = Database::get_entries_table();
-		$entry_meta_table = Database::get_entry_meta_table();
-
-		// Delete entry meta.
-		$wpdb->delete(
-			$entry_meta_table,
-			[ 'entry_id' => $entry_id ],
-			[ '%d' ]
-		);
-
-		// Delete entry.
-		$result = $wpdb->delete(
-			$entries_table,
-			[ 'id' => $entry_id ],
-			[ '%d' ]
-		);
-
-		return false !== $result;
-	}
-
-	/**
-	 * Get entries for a form.
-	 *
-	 * @param int   $form_id The form ID.
-	 * @param array $args    Query arguments.
-	 *
-	 * @return array Array of entries.
-	 */
-	public function get_entries( int $form_id, array $args = [] ): array {
-		global $wpdb;
-
-		$entries_table = Database::get_entries_table();
-
-		// Parse arguments.
-		$defaults = [
-			'status'  => '',
-			'limit'   => 20,
-			'offset'  => 0,
-			'orderby' => 'created_at',
-			'order'   => 'DESC',
-		];
-
-		$args = wp_parse_args( $args, $defaults );
-
-		// Build query.
-		$where = $wpdb->prepare( 'WHERE form_id = %d', $form_id );
-
-		if ( ! empty( $args['status'] ) ) {
-			$where .= $wpdb->prepare( ' AND status = %s', $args['status'] );
+	public function render_column( string $column, int $post_id ): void {
+		if ( 'obsidian_entry' === $column ) {
+			printf(
+				'<strong><a href="%1$s">%2$s</a></strong>',
+				esc_url( get_edit_post_link( $post_id ) ),
+				/* translators: %d: entry ID. */
+				esc_html( sprintf( __( 'Entry #%d', 'obsidian-forms' ), $post_id ) )
+			);
 		}
 
-		$orderby = sanitize_sql_orderby( $args['orderby'] . ' ' . $args['order'] );
-		$limit = absint( $args['limit'] );
-		$offset = absint( $args['offset'] );
-
-		$query = "SELECT * FROM {$entries_table} {$where} ORDER BY {$orderby} LIMIT {$limit} OFFSET {$offset}";
-
-		$entries = $wpdb->get_results( $query, ARRAY_A );
-
-		return $entries ? $entries : [];
-	}
-
-	/**
-	 * Get entry data.
-	 *
-	 * @return array
-	 */
-	public function get_data(): array {
-		return $this->data;
-	}
-
-	/**
-	 * Get entry meta.
-	 *
-	 * @return array
-	 */
-	public function get_meta(): array {
-		return $this->meta;
-	}
-
-	/**
-	 * Get the user's IP address.
-	 *
-	 * @return string
-	 */
-	protected function get_ip_address(): string {
-		$ip = '';
-
-		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-			$ip = $_SERVER['REMOTE_ADDR'];
+		if ( 'obsidian_form' === $column ) {
+			$form_id = (int) wp_get_post_parent_id( $post_id );
+			$title   = $form_id ? get_the_title( $form_id ) : '';
+			echo $form_id ? esc_html( $title ? $title : __( 'Deleted form', 'obsidian-forms' ) ) : '&mdash;';
 		}
 
-		return sanitize_text_field( $ip );
+		if ( 'email_status' === $column ) {
+			$status = sanitize_key( get_post_meta( $post_id, '_obsidian_email_status', true ) );
+			$labels = [
+				'sent'     => __( 'Sent', 'obsidian-forms' ),
+				'failed'   => __( 'Failed', 'obsidian-forms' ),
+				'disabled' => __( 'Disabled', 'obsidian-forms' ),
+				'pending'  => __( 'Pending', 'obsidian-forms' ),
+			];
+			echo esc_html( $labels[ $status ] ?? __( 'Unknown', 'obsidian-forms' ) );
+		}
+
+		if ( 'submitted' === $column ) {
+			echo esc_html( get_the_date( 'F j, Y g:i a', $post_id ) );
+		}
+	}
+
+	/**
+	 * Replaces Edit wording with View for entries.
+	 *
+	 * @param array    $actions Row actions.
+	 * @param \WP_Post $post    Current post.
+	 * @return array
+	 */
+	public function row_actions( array $actions, \WP_Post $post ): array {
+		if ( 'obsidian_entry' === $post->post_type && isset( $actions['edit'] ) ) {
+			$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( get_edit_post_link( $post ) ), esc_html__( 'View', 'obsidian-forms' ) );
+			unset( $actions['inline hide-if-no-js'] );
+			unset( $actions['inline'] );
+		}
+
+		return $actions;
+	}
+
+	/**
+	 * Removes bulk editing while retaining bulk trash actions.
+	 *
+	 * @param array $actions Bulk actions.
+	 * @return array
+	 */
+	public function bulk_actions( array $actions ): array {
+		unset( $actions['edit'] );
+
+		return $actions;
+	}
+
+	/**
+	 * Renders a source-form filter on the entry list.
+	 *
+	 * @param string $post_type Current post type.
+	 * @return void
+	 */
+	public function render_form_filter( string $post_type ): void {
+		if ( 'obsidian_entry' !== $post_type ) {
+			return;
+		}
+
+		$selected = absint( $_GET['obsidian_form_id'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only list filter.
+		$forms    = get_posts(
+			[
+				'post_type'      => 'obsidian_form',
+				'post_status'    => [ 'publish', 'draft', 'private' ],
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			]
+		);
+		?>
+		<label class="screen-reader-text" for="obsidian-form-filter"><?php esc_html_e( 'Filter by form', 'obsidian-forms' ); ?></label>
+		<select id="obsidian-form-filter" name="obsidian_form_id">
+			<option value=""><?php esc_html_e( 'All forms', 'obsidian-forms' ); ?></option>
+			<?php foreach ( $forms as $form ) : ?>
+				<option value="<?php echo esc_attr( $form->ID ); ?>" <?php selected( $selected, $form->ID ); ?>><?php echo esc_html( get_the_title( $form ) ); ?></option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Applies the source-form entry filter.
+	 *
+	 * @param \WP_Query $query Current query.
+	 * @return void
+	 */
+	public function filter_entries( \WP_Query $query ): void {
+		if ( ! is_admin() || ! $query->is_main_query() || 'obsidian_entry' !== $query->get( 'post_type' ) ) {
+			return;
+		}
+
+		$form_id = absint( $_GET['obsidian_form_id'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only list filter.
+
+		if ( $form_id ) {
+			$query->set( 'post_parent', $form_id );
+		}
+	}
+
+	/**
+	 * Uses the classic read-only screen for entries.
+	 *
+	 * @param bool   $use_block_editor Current decision.
+	 * @param string $post_type        Post type.
+	 * @return bool
+	 */
+	public function disable_block_editor( bool $use_block_editor, string $post_type ): bool {
+		return 'obsidian_entry' === $post_type ? false : $use_block_editor;
 	}
 }
-

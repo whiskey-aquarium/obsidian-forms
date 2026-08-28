@@ -11,7 +11,7 @@
 $obsidian_forms_field_group_block_wrapper_attributes = [];
 
 if ( count( $block->parsed_block['innerBlocks'] ) > 1 ) {
-	$obsidian_forms_field_group_block_wrapper_attributes['style'] = '--of-field-flex: ' . 100/count( $block->parsed_block['innerBlocks'] ) . '%';
+	$obsidian_forms_field_group_block_wrapper_attributes['style'] = '--of-field-flex: ' . 100 / count( $block->parsed_block['innerBlocks'] ) . '%';
 }
 
 $obsidian_forms_field_group_args = apply_filters(
@@ -27,5 +27,5 @@ if ( ! $content ) {
 ?>
 
 <div <?php echo wp_kses_data( $obsidian_forms_field_group_args['block_attributes'] ); ?>>
-	<?php echo $content; ?>
+	<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered inner block markup. ?>
 </div>

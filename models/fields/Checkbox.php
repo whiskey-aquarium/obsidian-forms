@@ -36,9 +36,9 @@ class Checkbox extends Field {
 	 * @return string The HTML for the checkbox element.
 	 */
 	protected function render_input( string $placeholder = '' ): string {
-		$options = $this->get_attribute( 'fieldOptions', [] );
+		$options     = $this->get_attribute( 'fieldOptions', [] );
 		$extra_props = $this->get_attribute( 'extraProps', [] );
-		$layout = $extra_props['checkboxesLayout'] ?? 'stacked';
+		$layout      = $extra_props['checkboxesLayout'] ?? 'stacked';
 
 		if ( empty( $options ) ) {
 			return '';
@@ -47,8 +47,8 @@ class Checkbox extends Field {
 		$html = '<div class="wp-block-obsidian-form-field__checkboxes wp-block-obsidian-form-field__checkboxes--' . esc_attr( $layout ) . '">';
 
 		foreach ( $options as $option ) {
-			$value = $option['value'] ?? '';
-			$label = $option['label'] ?? '';
+			$value   = $option['value'] ?? '';
+			$label   = $option['label'] ?? '';
 			$checked = is_array( $this->value ) && in_array( $value, $this->value, true ) ? ' checked' : '';
 
 			$html .= '<div class="wp-block-obsidian-form-field__checkbox">';
@@ -97,4 +97,3 @@ class Checkbox extends Field {
 		return true;
 	}
 }
-

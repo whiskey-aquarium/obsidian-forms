@@ -22,8 +22,10 @@ const ObsidianFormSettings = ( props ) => {
 			{ formSettings &&
 				// Loop through the formSettings object
 				Object.entries( formSettings ).map( ( [ key, value ] ) => {
-					const fieldMetadata = metadata[key];
-					if (!fieldMetadata) return null;
+					const fieldMetadata = metadata[ key ];
+					if ( ! fieldMetadata ) {
+						return null;
+					}
 
 					// Depending on the 'type', render different controls
 					if ( fieldMetadata.type === 'select' ) {

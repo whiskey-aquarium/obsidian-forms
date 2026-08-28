@@ -60,7 +60,8 @@
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "usesContext": [
-    "obsidian-form/formSettings"
+    "obsidian-form/formSettings",
+    "obsidian-form/idPrefix"
   ],
   "render": "file:./index.php"
 }

@@ -1,31 +1,39 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { select, dispatch } from '@wordpress/data';
-import { useSelect } from '@wordpress/data';
-import { useEntityProp } from '@wordpress/core-data';
+import { dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { Button } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import { plusCircleFilled } from '@wordpress/icons';
 
 /**
  * Edit function for the field group block.
  *
- * @param {Object} props Props passed to the edit component.
+ * @param {Object}   props               Props passed to the edit component.
+ * @param {Object}   props.attributes    Block attributes.
+ * @param {Function} props.setAttributes Updates block attributes.
+ * @param {Object}   props.context       Context inherited from parent blocks.
+ * @param {string}   props.clientId      The block client ID.
  * @return {Object} The rendered edit component.
  */
-export default function Edit( { attributes, setAttributes, context, clientId } ) {
+export default function Edit( {
+	attributes,
+	setAttributes,
+	context,
+	clientId,
+} ) {
 	const insertFieldBlock = () => {
 		const block = createBlock( 'obsidian-form/field' );
-		dispatch( 'core/block-editor' ).insertBlock( block, undefined, clientId );
+		dispatch( 'core/block-editor' ).insertBlock(
+			block,
+			undefined,
+			clientId
+		);
 	};
 
-	const postType = useSelect( ( select ) => select( 'core/editor' ).getCurrentPostType(), [] );
-	const postId = useSelect( ( select ) => select( 'core/editor' ).getCurrentPostId(), [] );
-
-	// Always call useEntityProp but only use the value if we're editing an obsidian_form
-	const [ meta ] = useEntityProp( 'postType', 'obsidian_form', 'meta', postId || 0 );
-
 	const blockProps = useBlockProps();
+	const formSettings = context[ 'obsidian-form/formSettings' ];
+	const storedFormSettings = attributes[ 'obsidian-form/formSettings' ];
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		allowedBlocks: [ 'obsidian-form/field' ],
 		template: [ [ 'obsidian-form/field' ] ],
@@ -34,29 +42,19 @@ export default function Edit( { attributes, setAttributes, context, clientId } )
 				icon={ plusCircleFilled }
 				onClick={ insertFieldBlock }
 				className="wp-block-obsidian-form-field-group__add-field"
-				label="Add field"
+				label={ __( 'Add field', 'obsidian-forms' ) }
 			/>
 		),
 	} );
 
-	// Update the form settings attribute when context changes (from parent form block)
+	// Keep context in sync without updating the block during its render phase.
 	useEffect( () => {
-		if ( context[ 'obsidian-form/formSettings' ] && context[ 'obsidian-form/formSettings' ] !== attributes[ 'obsidian-form/formSettings' ] ) {
+		if ( formSettings !== storedFormSettings ) {
 			setAttributes( {
-				'obsidian-form/formSettings': context[ 'obsidian-form/formSettings' ],
+				'obsidian-form/formSettings': formSettings,
 			} );
 		}
-	}, [ context[ 'obsidian-form/formSettings' ], attributes[ 'obsidian-form/formSettings' ], setAttributes ] );
-
-	// When editing obsidian_form post type and there's no parent context,
-	// initialize from post meta
-	useEffect( () => {
-		if ( postType === 'obsidian_form' && ! context[ 'obsidian-form/formSettings' ] && meta?._obsidian_form_settings ) {
-			setAttributes( {
-				'obsidian-form/formSettings': meta._obsidian_form_settings,
-			} );
-		}
-	}, [ postType, context, meta?._obsidian_form_settings, setAttributes ] );
+	}, [ formSettings, setAttributes, storedFormSettings ] );
 
 	return (
 		<div { ...blockProps }>

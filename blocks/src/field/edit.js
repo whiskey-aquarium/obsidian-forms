@@ -20,7 +20,7 @@ import ObsidianFieldRadio from './fields/Radio';
 import ObsidianFieldSelect from './fields/Select';
 import ObsidianFieldTextarea from './fields/Textarea';
 import { fieldTypeOptions } from './data/FieldTypeOptions';
-import { getDefaultFormSettings } from '../form/data/FormSettingsMetadata';
+import { useEffect } from '@wordpress/element';
 
 /**
  * Edit function for the obsidian form block. Returns markup for the editor.
@@ -40,26 +40,39 @@ export default function Edit( props ) {
 	const { fieldType, fieldWidth } = attributes;
 
 	// Get post type and meta if we're editing a form post directly
-	const postType = useSelect(select => select('core/editor').getCurrentPostType(), []);
-	const [meta] = useEntityProp('postType', postType, 'meta');
+	const postType = useSelect(
+		( select ) => select( 'core/editor' ).getCurrentPostType(),
+		[]
+	);
+	const [ meta ] = useEntityProp( 'postType', postType, 'meta' );
 
 	// Get form settings from either context or post meta
-	const formSettings = context['obsidian-form/formSettings'] || 
-		(postType === 'obsidian_form' ? meta?._obsidian_form_settings : null) || 
-		{
+	const formSettings = context[ 'obsidian-form/formSettings' ] ||
+		( postType === 'obsidian_form'
+			? meta?._obsidian_form_settings
+			: null ) || {
 			requiredIndicator: '*',
 			globalHasPlaceholder: true,
-			descriptionPlacement: 'bottom'
+			descriptionPlacement: 'bottom',
 		};
 
 	const requiredIndicator = formSettings.requiredIndicator || '*';
 	const globalHasPlaceholder = formSettings.globalHasPlaceholder ?? true;
-	const globalDescriptionPlacement = formSettings.descriptionPlacement || 'bottom';
+	const globalDescriptionPlacement =
+		formSettings.descriptionPlacement || 'bottom';
+	const fieldTypeComponent =
+		fieldTypeOptions.find( ( option ) => option.value === fieldType )
+			?.component || 'input';
 
-	// Set the formId from the formSettings
-	if (formSettings.id !== attributes.formId) {
-		setAttributes({ formId: formSettings.id || '' });
-	}
+	// Keep derived attributes out of the render phase. Newer React versions warn
+	// (and may interrupt rendering) when a block updates itself while rendering.
+	useEffect( () => {
+		const formId = formSettings.id || '';
+
+		if ( formId !== attributes.formId ) {
+			setAttributes( { formId } );
+		}
+	}, [ attributes.formId, formSettings.id, setAttributes ] );
 
 	/**
 	 * Handle label change.
@@ -77,8 +90,9 @@ export default function Edit( props ) {
 			// Strip special characters and replace spaces with underscores.
 			fieldName: value
 				.toLowerCase()
-				.replace( /[^a-zA-Z0-9]/g, '' )
-				.replace( /\s+/g, '_' ),
+				.trim()
+				.replace( /\s+/g, '_' )
+				.replace( /[^a-z0-9_-]/g, '' ),
 		} );
 	};
 
@@ -97,7 +111,7 @@ export default function Edit( props ) {
 	/**
 	 * Handle description change.
 	 *
-	 * @param {string} value     The new value.
+	 * @param {string} value The new value.
 	 *
 	 * @return {void}
 	 */
@@ -178,68 +192,68 @@ export default function Edit( props ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'input' && (
+				{ fieldTypeComponent === 'input' && (
 					<ObsidianFieldInput
 						attributes={ attributes }
 						globalHasPlaceholder={ globalHasPlaceholder }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
-						globalDescriptionPlacement={ globalDescriptionPlacement }
+						globalDescriptionPlacement={
+							globalDescriptionPlacement
+						}
 						handleDescriptionChange={ handleDescriptionChange }
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'textarea' && (
+				{ fieldTypeComponent === 'textarea' && (
 					<ObsidianFieldTextarea
 						attributes={ attributes }
 						globalHasPlaceholder={ globalHasPlaceholder }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
-						globalDescriptionPlacement={ globalDescriptionPlacement }
+						globalDescriptionPlacement={
+							globalDescriptionPlacement
+						}
 						handleDescriptionChange={ handleDescriptionChange }
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'select' && (
+				{ fieldTypeComponent === 'select' && (
 					<ObsidianFieldSelect
 						attributes={ attributes }
 						globalHasPlaceholder={ globalHasPlaceholder }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
-						globalDescriptionPlacement={ globalDescriptionPlacement }
+						globalDescriptionPlacement={
+							globalDescriptionPlacement
+						}
 						handleDescriptionChange={ handleDescriptionChange }
 						handleFieldOptionChange={ handleFieldOptionChange }
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'checkbox' && (
+				{ fieldTypeComponent === 'checkbox' && (
 					<ObsidianFieldCheckbox
 						attributes={ attributes }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
-						globalDescriptionPlacement={ globalDescriptionPlacement }
+						globalDescriptionPlacement={
+							globalDescriptionPlacement
+						}
 						handleDescriptionChange={ handleDescriptionChange }
 						handleExtraPropsChange={ handleExtraPropsChange }
 						handleFieldOptionChange={ handleFieldOptionChange }
 					/>
 				) }
 
-				{ fieldTypeOptions.filter(
-					( option ) => option.value === fieldType
-				)[ 0 ].component === 'radio' && (
+				{ fieldTypeComponent === 'radio' && (
 					<ObsidianFieldRadio
 						attributes={ attributes }
 						requiredIndicator={ requiredIndicator }
 						handleLabelChange={ handleLabelChange }
-						globalDescriptionPlacement={ globalDescriptionPlacement }
+						globalDescriptionPlacement={
+							globalDescriptionPlacement
+						}
 						handleDescriptionChange={ handleDescriptionChange }
 						handleExtraPropsChange={ handleExtraPropsChange }
 						handleFieldOptionChange={ handleFieldOptionChange }

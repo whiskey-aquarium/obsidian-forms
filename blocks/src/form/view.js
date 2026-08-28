@@ -1,5 +1,7 @@
 import TomSelect from 'tom-select';
-import validator from 'validator'; // eslint-disable-line no-unused-vars
+import isEmail from 'validator/lib/isEmail';
+import isMobilePhone from 'validator/lib/isMobilePhone';
+import isURL from 'validator/lib/isURL';
 
 class FormView {
 	/**
@@ -20,8 +22,6 @@ class FormView {
 		this.emails = this.form.querySelectorAll( 'input[type="email"]' ) || [];
 		this.phones = this.form.querySelectorAll( 'input[type="tel"]' ) || [];
 		this.urls = this.form.querySelectorAll( 'input[type="url"]' ) || [];
-		this.submit =
-			this.form.querySelector( '#obsidian-form-submit' ) || null;
 		this.requiredFields = this.form.querySelectorAll(
 			`.${ this.requiredClass }`
 		);
@@ -37,11 +37,6 @@ class FormView {
 			this.formSelectUi();
 		}
 
-		// Store original button text.
-		if ( this.submit ) {
-			this.submit.dataset.originalText = this.submit.textContent;
-		}
-
 		this.form.addEventListener( 'submit', this.validateForm.bind( this ) );
 	}
 
@@ -52,9 +47,7 @@ class FormView {
 	 */
 	formSelectUi() {
 		this.selects.forEach( ( select ) => {
-			new TomSelect( select, {
-				create: true,
-			} );
+			new TomSelect( select, { create: false } );
 		} );
 	}
 
@@ -63,7 +56,7 @@ class FormView {
 	 *
 	 * @param {Event} event
 	 *
-	 * @return {boolean} True if valid, false otherwise.
+	 * @return {void}
 	 */
 	validateForm( event ) {
 		let errors = 0;
@@ -109,178 +102,11 @@ class FormView {
 
 		if ( errors > 0 ) {
 			event.preventDefault();
-			return false;
+			const firstError = this.form.querySelector(
+				`.${ this.invalidClass } input, .${ this.invalidClass } select, .${ this.invalidClass } textarea`
+			);
+			firstError?.focus();
 		}
-
-		// Handle AJAX submission if enabled.
-		if ( this.form.dataset.ajax === 'true' ) {
-			event.preventDefault();
-			this.submitViaAjax();
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Submit form via AJAX.
-	 *
-	 * @return {void}
-	 */
-	submitViaAjax() {
-		// Get form data.
-		const formData = new FormData( this.form );
-
-		// Add action for REST endpoint.
-		formData.append( 'action', 'obsidian_form_submit' );
-
-		// Disable submit button.
-		if ( this.submit ) {
-			this.submit.disabled = true;
-			this.submit.textContent = 'Submitting...';
-		}
-
-		// Clear previous messages.
-		this.clearMessages();
-
-		// Get REST nonce from the hidden field in the form.
-		const nonceField = this.form.querySelector(
-			'#obsidian_form_rest_nonce'
-		);
-		const nonce = nonceField ? nonceField.value : '';
-
-		// Get REST URL.
-		const restUrl = '/wp-json/obsidian-forms/v1/submit';
-
-		// Make AJAX request.
-		fetch( restUrl, {
-			method: 'POST',
-			body: formData,
-			headers: {
-				'X-WP-Nonce': nonce,
-			},
-		} )
-			.then( ( response ) => {
-				return response.json();
-			} )
-			.then( ( data ) => {
-				if ( data.success ) {
-					this.handleSuccess( data.data );
-				} else {
-					this.handleError( data.data );
-				}
-			} )
-			.catch( ( error ) => {
-				console.error( 'Form submission error:', error );
-				this.handleError( {
-					message: 'An unexpected error occurred. Please try again.',
-				} );
-			} )
-			.finally( () => {
-				// Re-enable submit button.
-				if ( this.submit ) {
-					this.submit.disabled = false;
-					this.submit.textContent = this.submit.dataset.originalText || 'Submit';
-				}
-			} );
-	}
-
-	/**
-	 * Handle successful form submission.
-	 *
-	 * @param {Object} data Response data.
-	 *
-	 * @return {void}
-	 */
-	handleSuccess( data ) {
-		const messageContainer = this.form.querySelector(
-			'.obsidian-form-message-container'
-		);
-
-		if ( messageContainer ) {
-			messageContainer.innerHTML = `<div class="obsidian-form-message obsidian-form-message--success" role="alert"><p>${
-				data.message || 'Thank you! Your form has been submitted successfully.'
-			}</p></div>`;
-		}
-
-		// Reset form.
-		this.form.reset();
-
-		// Scroll to message.
-		messageContainer?.scrollIntoView( {
-			behavior: 'smooth',
-			block: 'nearest',
-		} );
-
-		// Check for redirect.
-		if ( data.redirect_url ) {
-			setTimeout( () => {
-				window.location.href = data.redirect_url;
-			}, 1500 );
-		}
-	}
-
-	/**
-	 * Handle form submission error.
-	 *
-	 * @param {Object} data Error data.
-	 *
-	 * @return {void}
-	 */
-	handleError( data ) {
-		const messageContainer = this.form.querySelector(
-			'.obsidian-form-message-container'
-		);
-
-		if ( messageContainer ) {
-			const errorMessage =
-				data.message ||
-				'There was an error submitting your form. Please try again.';
-			messageContainer.innerHTML = `<div class="obsidian-form-message obsidian-form-message--error" role="alert"><p>${ errorMessage }</p></div>`;
-		}
-
-		// Display field-specific errors.
-		if ( data.errors ) {
-			Object.keys( data.errors ).forEach( ( fieldName ) => {
-				const field = this.form.querySelector(
-					`[name="${ fieldName }"]`
-				);
-
-				if ( field ) {
-					this.setFieldValidationState(
-						field,
-						'fail',
-						data.errors[ fieldName ]
-					);
-				}
-			} );
-		}
-
-		// Scroll to message.
-		messageContainer?.scrollIntoView( {
-			behavior: 'smooth',
-			block: 'nearest',
-		} );
-	}
-
-	/**
-	 * Clear all messages.
-	 *
-	 * @return {void}
-	 */
-	clearMessages() {
-		const messageContainer = this.form.querySelector(
-			'.obsidian-form-message-container'
-		);
-
-		if ( messageContainer ) {
-			messageContainer.innerHTML = '';
-		}
-
-		// Clear field errors.
-		this.form.querySelectorAll( '.' + this.invalidClass ).forEach( ( field ) => {
-			this.setFieldValidationState( field, 'pass' );
-		} );
 	}
 
 	/**
@@ -297,7 +123,7 @@ class FormView {
 				return;
 			}
 
-			if ( validator.isEmail( email.value ) || ! email.value ) {
+			if ( isEmail( email.value ) || ! email.value ) {
 				this.setFieldValidationState( email, 'pass' );
 			} else {
 				errors++;
@@ -326,10 +152,7 @@ class FormView {
 				return;
 			}
 
-			if (
-				validator.isMobilePhone( phone.value, 'en-US' ) ||
-				! phone.value
-			) {
+			if ( isMobilePhone( phone.value, 'en-US' ) || ! phone.value ) {
 				this.setFieldValidationState( phone, 'pass' );
 			} else {
 				errors++;
@@ -358,7 +181,7 @@ class FormView {
 				return;
 			}
 
-			if ( validator.isURL( url.value ) || ! url.value ) {
+			if ( isURL( url.value ) || ! url.value ) {
 				this.setFieldValidationState( url, 'pass' );
 			} else {
 				errors++;
@@ -424,6 +247,8 @@ class FormView {
 
 		if ( state === 'fail' ) {
 			parent.classList.add( this.invalidClass );
+			const input = parent.querySelector( 'input, select, textarea' );
+			input?.setAttribute( 'aria-invalid', 'true' );
 
 			if ( ! errorMessage ) {
 				parent.appendChild( this.generateErrorMessage( message ) );
@@ -432,6 +257,8 @@ class FormView {
 			}
 		} else {
 			parent.classList.remove( this.invalidClass );
+			const input = parent.querySelector( 'input, select, textarea' );
+			input?.removeAttribute( 'aria-invalid' );
 
 			if ( errorMessage ) {
 				errorMessage.remove();
@@ -472,6 +299,7 @@ class FormView {
 		const messageContainer = document.createElement( 'div' );
 
 		messageContainer.classList.add( this.errorMessageClass );
+		messageContainer.setAttribute( 'role', 'alert' );
 		messageContainer.textContent = message;
 
 		return messageContainer;

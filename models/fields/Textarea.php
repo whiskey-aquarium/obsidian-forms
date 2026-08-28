@@ -52,4 +52,3 @@ class Textarea extends Field {
 		return sanitize_textarea_field( $value );
 	}
 }
-
