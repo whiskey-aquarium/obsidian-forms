@@ -21,6 +21,7 @@ import {
 } from '@wordpress/block-editor';
 import ObsidianFormSettings from './components/ObsidianFormSettings';
 import { getDefaultFormSettings } from './data/FormSettingsMetadata';
+import { obsidianFormsIcon } from './icon';
 
 function SelectedFormEditor( { formPostId, formSettings, setAttributes } ) {
 	const [ blocks, onInput, onChange ] = useEntityBlockEditor(
@@ -231,7 +232,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<Placeholder
-			icon="feedback"
+			icon={ obsidianFormsIcon }
 			label={ __( 'Obsidian Form', 'obsidian-forms' ) }
 			className="obsidian-forms-placeholder"
 			instructions={ __(

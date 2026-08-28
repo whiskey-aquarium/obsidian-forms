@@ -127,7 +127,9 @@ final class Entry {
 			__( 'Entries', 'obsidian-forms' ),
 			__( 'Entries', 'obsidian-forms' ),
 			'manage_options',
-			'edit.php?post_type=obsidian_entry'
+			'edit.php?post_type=obsidian_entry',
+			null,
+			3
 		);
 	}
 

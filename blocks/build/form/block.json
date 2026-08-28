@@ -7,6 +7,11 @@
   "category": "widgets",
   "icon": "feedback",
   "description": "An Obsidian Form block.",
+  "keywords": [
+    "contact form",
+    "form builder",
+    "submissions"
+  ],
   "supports": {
     "html": false,
     "align": true,
