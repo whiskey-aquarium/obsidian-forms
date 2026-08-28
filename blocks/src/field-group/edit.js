@@ -2,7 +2,8 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
-import { Icon } from '@wordpress/components';
+import { Button } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import { plusCircleFilled } from '@wordpress/icons';
 
 /**
@@ -37,10 +38,11 @@ export default function Edit( {
 		allowedBlocks: [ 'obsidian-form/field' ],
 		template: [ [ 'obsidian-form/field' ] ],
 		renderAppender: () => (
-			<Icon
+			<Button
 				icon={ plusCircleFilled }
-				className="wp-block-obsidian-form-field-group__add-field"
 				onClick={ insertFieldBlock }
+				className="wp-block-obsidian-form-field-group__add-field"
+				label={ __( 'Add field', 'obsidian-forms' ) }
 			/>
 		),
 	} );
